@@ -67,6 +67,8 @@ At the start of each response, determine and report only the current phase, the 
 
 Do not infer approval. Approval must be explicit.
 
+This explicit-approval requirement applies to exactly one transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. Every other phase transition — a Dory phase reporting its verdict back to Hank, moving from comprehension to clarity to critic to readiness, and successive critic rounds — proceeds automatically once the relevant sub-agent returns its result. Do not pause for user confirmation at these internal transitions; only stop early if a gate fails, isolation cannot be certified, or Step 6's escalation conditions are met.
+
 # Phase 1: Hank Surveys the Tank
 
 ## Step 1: Load and verify context
@@ -412,7 +414,7 @@ List only unresolved, material items. Separate blockers from non-blocking notes.
 
 ## Next action
 
-Specify exactly one next workflow action. Never jump across an unpassed gate.
+Specify exactly one next workflow action, then take it immediately in the same turn unless it is the Step 7 human-approval checkpoint. Never jump across an unpassed gate.
 
 # Failure recovery
 
