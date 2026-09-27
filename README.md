@@ -142,4 +142,4 @@ The method's core discipline is simple to state and easy to skip under time pres
 
 ## License
 
-[MIT](./LICENSE). © 2026 ajaxdude. Use, copy, modify, and redistribute freely, including in commercial and closed-source projects, provided the copyright notice is retained.
+[MIT](./LICENSE). © 2026 CostePartners.com. Use, copy, modify, and redistribute freely, including in commercial and closed-source projects, provided the copyright notice is retained.
