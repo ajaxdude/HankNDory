@@ -233,6 +233,12 @@ Record each independent review with:
 - document changes made;
 - remaining non-blocking notes.
 
+## Plain-speech pass
+
+Before ending Phase 2, reread every prose section: Problem, Technical plan, the narrative parts of Architecture and flows, Alternatives considered, Risks and mitigations, and Rollout, migration, and rollback. Rewrite whatever `reference/plain-speech-checklist.md` in this skill flags. Leave Detailed implementation's file-by-file entries, Referenced files, and the Decision log terse and structured; do not compress them into prose.
+
+This is a standing editing habit, not a gate: do it and continue in the same turn. Do not pause for confirmation, and do not treat it as satisfied by asserting it was done. The rewritten prose is the evidence.
+
 # Phase 3: Ask Dory
 
 A Dory phase must behave as if it has just met the plan for the first time, with zero access to the Hank conversation. Use only the design document and files it explicitly references. Do not silently fill gaps from prior chat context.
@@ -282,7 +288,8 @@ Assume the role of an expert technical reviewer. Search for:
 - observability, supportability, capacity, performance, and cost issues;
 - rollout, migration, compatibility, and test gaps;
 - contradictions between the proposal and referenced files;
-- omitted alternatives or decisions likely to be relitigated.
+- omitted alternatives or decisions likely to be relitigated;
+- vague or inflated prose masking a missing mechanism (see `reference/plain-speech-checklist.md`).
 
 Classify each finding as `blocking`, `important`, or `nit`. Include evidence, impact, and a concrete document fix. Do not inflate severity.
 

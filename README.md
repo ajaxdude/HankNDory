@@ -59,7 +59,7 @@ flowchart TD
 ```
 
 1. **Phase 1 — Hank surveys the tank.** Load and verify real repository context, enforce a strict no-code rule during discovery, apply an explicit "sycophant challenge" (state the strongest counter-argument, find the weakest evidence), then propose a first technical approach before asking the user for one.
-2. **Phase 2 — Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, architecture, alternatives considered, detailed implementation, risks, rollout, and a running `Dory validation record`.
+2. **Phase 2 — Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, architecture, alternatives considered, detailed implementation, risks, rollout, and a running `Dory validation record`. Before handing off to Dory, Hank runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
 3. **Phase 3 — Ask Dory.** Run comprehension, critic, and readiness checks in isolated sessions, each against the document alone. Any failure sends the work back to Hank with a specific, actionable gap list.
 4. **Phase 4 — Implement with guardrails.** Only after human approval: implement the smallest coherent units from the approved plan, with tests alongside every change, stopping immediately if reality contradicts the design rather than improvising around it. Finish with a severe but constructive "mean" code review against the approved design.
 
@@ -126,12 +126,14 @@ HankNDory/
     ├── agents/
     │   └── ui_metadata.yaml
     └── reference/
-        └── design-doc-template.md
+        ├── design-doc-template.md
+        └── plain-speech-checklist.md
 ```
 
 - **`hankndory/SKILL.md`** — the method itself: rules, modes, the four-phase lifecycle, the design document structure, and the failure-recovery guidance the agent follows.
 - **`hankndory/agents/ui_metadata.yaml`** — display metadata (name, one-line description) used by tooling that surfaces installed skills in a UI.
 - **`hankndory/reference/design-doc-template.md`** — the canonical starting template for every design document the Hank phase produces, with per-section guidance comments.
+- **`hankndory/reference/plain-speech-checklist.md`** — the checklist Hank applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
 - **`hankndory/`** is deliberately nested one level below the repository root (rather than living at the root itself) because `gh skill` and several other skill-discovery tools only scan for `*/SKILL.md`, not a `SKILL.md` at the very top of a repository.
 
 ## Why this matters in practice
