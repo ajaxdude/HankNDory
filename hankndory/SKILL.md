@@ -2,16 +2,18 @@
 name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. enforce explicit no-code gates and treat the validated design document as the source of truth.
 license: MIT
+metadata:
+  version: "1.4"
 ---
 
-# HankNDory: The Hank & Dory Method
+# HankNDory 1.4: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document — Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own — Dory has no memory of the Hank conversation and must trust only what is written down. Write code only after every required gate passes.
 
 ## Core rules
 
 1. Treat the design document as source code and the authoritative record of the feature.
-2. Keep the Hank phase and every Dory phase logically isolated: run each Dory phase in a separate session, never as a continuation of the Hank conversation. A Dory phase may use only the design document and files explicitly referenced by it.
+2. Keep the Hank phase and every Dory phase logically isolated. Run each Dory phase in a fresh conversation that starts with no history, never as a continuation of the Hank conversation. A sub-agent or a new chat in the same checkout counts; a new worktree, clone, or machine is not required. A Dory phase may use only the design document and files explicitly referenced by it.
 3. Do not write production code before the implementation gate passes.
 4. Ask hard questions, challenge assumptions, and explain reasoning. Do not merely agree.
 5. Separate facts verified from repository files from assumptions, proposals, and open questions.
@@ -33,7 +35,7 @@ Choose one mode from the user's request and current repository state:
 - **implementation**: implement only from a validated and approved design document.
 - **mean-review**: perform a severe but actionable code review against the approved design.
 - **bootstrap-context**: create a hierarchy of repository README files through bottom-up recursive summarization.
-- **full-voyage**: orchestrate all applicable phases in order.
+- **full-voyage**: orchestrate all applicable phases in order, running the Dory gates in batches as described in "Dispatch Dory reviews."
 
 If the user asks to code but no validated design exists, do not implement. Explain the missing gate and begin or recommend `new-feature-hank`.
 
@@ -65,9 +67,11 @@ At the start of each response, determine and report only the current phase, the 
 - `review-revisions-required`
 - `complete`
 
+When one batch fails more than one gate, record the earlier gate's state: `comprehension-failed` takes precedence over `critic-revisions-required`.
+
 Do not infer approval. Approval must be explicit.
 
-This explicit-approval requirement applies to exactly one transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. Every other phase transition — a Dory phase reporting its verdict back to Hank, moving from comprehension to clarity to critic to readiness, and successive critic rounds — proceeds automatically once the relevant sub-agent returns its result. Do not pause for user confirmation at these internal transitions; only stop early if a gate fails, isolation cannot be certified, or Step 6's escalation conditions are met.
+This explicit-approval requirement applies to exactly one transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions; only stop early if a gate fails, isolation cannot be certified, or Step 6's escalation conditions are met.
 
 # Phase 1: Hank Surveys the Tank
 
@@ -226,7 +230,7 @@ Record each independent review with:
 
 - review type;
 - document version reviewed;
-- date or run identifier if available;
+- date, batch, or run identifier if available;
 - inputs provided;
 - verdict;
 - blocking findings;
@@ -243,9 +247,50 @@ This is a standing editing habit, not a gate: do it and continue in the same tur
 
 A Dory phase must behave as if it has just met the plan for the first time, with zero access to the Hank conversation. Use only the design document and files it explicitly references. Do not silently fill gaps from prior chat context.
 
-Run every Dory phase in a new session or conversation, never as a continuation of the Hank phase or an earlier Dory phase; a single ongoing conversation cannot honestly certify its own amnesia. If the available tooling cannot start a new session, say so and record the isolation gate as not certified rather than asserting it passed.
+Run every Dory phase in a fresh conversation, never as a continuation of the Hank phase or an earlier Dory phase; a single ongoing conversation cannot honestly certify its own amnesia. If the available tooling cannot start a fresh conversation, say so and record the isolation gate as not certified rather than asserting it passed.
 
 Before returning a verdict, answer one self-audit question in the output: "What did this verdict rely on that is not in the design document or its referenced files?" A non-empty answer means the gate fails; add that information to the document explicitly and rerun a fresh Dory phase.
+
+## Dispatch Dory reviews
+
+Isolation depends on what a reviewer has seen, so it requires a fresh conversation that starts with no history. It does not require a new worktree, clone, or machine. Dory phases change no files, so they can share one checkout. A new environment per review adds setup and handoff time without making the review any more independent.
+
+### Choose where each reviewer runs
+
+Use the first option the tooling supports:
+
+1. a sub-agent that receives only the kickoff prompt below;
+2. a new chat session in the checkout Hank is using;
+3. a new worktree or clone, only when that checkout cannot stay unchanged until the review returns, or when the reviewer must run on another machine.
+
+Never start a reviewer by forking or resuming the Hank conversation, or by handing it a summary of that conversation. A fork copies the history the review must be free of. Run each reviewer on a model at least as capable as Hank's, at the same or higher reasoning effort. Read-only tool access is fine. A lighter model or lower effort is not, because it trades review quality for speed.
+
+### Freeze the document
+
+Before starting a batch, make sure `Status` names the current version. Do not edit the design document or any referenced file until every review in the batch has returned. If a reviewer reports a different version from the one it was given, discard its verdict and rerun it.
+
+### Write the kickoff prompt
+
+Give each reviewer only:
+
+- the mode and step to run, for example `dory-critic`, Step 6;
+- the design document's path and version;
+- an instruction to read that document and only the files in its `Referenced files` section, to change nothing, and to follow this skill's instructions for that step;
+- any operating limits the user set, such as machines or commands that are off limits;
+- what to return: the step's required output and verdict, the document version it read, the files it read, the HankNDory version it followed, and its answer to the self-audit question above.
+
+If the reviewer cannot load this skill, paste the Phase 3 text above this section and the text of its step into the prompt. That text is instructions, not design context. Never add design content: no decisions, hints, summaries, or expected verdicts.
+
+### Run the gates in batches
+
+Steps 5 and 5b run in one reviewer, because Step 5b rewrites Step 5's explanation. Step 6 reads the same frozen version and does not need Step 5's result, so the two reviewers can run at the same time.
+
+1. Start the Step 5/5b reviewer and a Step 6 critic round together.
+2. Wait for every review in the batch. Fix all of their findings in one Hank revision, and bump the version.
+3. Start the next batch with only the gates still open. Step 5/5b stays open until it passes. Step 6 stays open until its stopping condition holds for a critic round on the version that passed Step 5/5b or a later one.
+4. Once both gates have closed, start Step 7 on the current version.
+
+If more than one reviewer runs the same gate as a cross-check, start them together on the same version. The gate passes only if all of them pass it. Before starting a replacement reviewer, confirm the first one failed or stalled; otherwise wait for it. If the tooling can run only one reviewer at a time, run each batch's reviews back to back and still revise once per batch.
 
 ## Step 5: Comprehension test
 
@@ -293,9 +338,11 @@ Assume the role of an expert technical reviewer. Search for:
 
 Classify each finding as `blocking`, `important`, or `nit`. Include evidence, impact, and a concrete document fix. Do not inflate severity.
 
-Repeat independent critic reviews until there are no blocking findings and new feedback is consistently non-material, up to three rounds. If a fourth round would still be needed, or two reviews disagree on whether the same finding is blocking, stop iterating and escalate the specific disputed finding and both positions to the user instead.
+Repeat independent critic reviews until there are no blocking findings and new feedback is consistently non-material, up to three rounds. A critic round that ran in the same batch as a failed Step 5/5b does not count toward the three, because the document it reviewed was about to change. If a fourth round would still be needed, or two reviews disagree on whether the same finding is blocking, stop iterating and escalate the specific disputed finding and both positions to the user instead.
 
 ## Step 7: Implementation-readiness test
+
+Start this step only once Steps 5, 5b, and 6 have closed (see "Run the gates in batches"). Review the current version.
 
 Evaluate whether an experienced engineer, with only the design and referenced files, can implement the feature correctly on the first pass.
 
@@ -405,6 +452,7 @@ Adapt detail to the active mode, but always provide:
 
 ## Phase status
 
+- HankNDory version
 - Mode
 - Change classification (trivial or standard) and why
 - Current gate
@@ -430,7 +478,7 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - If the repository is too large, switch to `bootstrap-context` or narrow to the relevant subsystem.
 - If a review produces contradictory findings, verify against source files and elevate the contradiction as a blocking question.
 - If a session loses context, restart from the design document and its referenced files rather than reconstructing history from memory.
-- If a genuinely separate session cannot be started for a Dory phase, say so and record that gate as not certified rather than asserting isolation.
+- If a fresh conversation cannot be started for a Dory phase, say so and record that gate as not certified rather than asserting isolation.
 - If validation repeatedly fails, reduce scope, split the feature, or strengthen the current-system and detailed-implementation sections.
 
 # Behaviors to avoid
@@ -446,5 +494,8 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Using review harshness as a substitute for precise, respectful, actionable findings.
 - Declaring readiness because critiques are fewer rather than because all material gates pass.
 - Continuing implementation after discovering a material design defect.
-- Certifying a Dory phase's isolation without actually running it in a separate session.
+- Certifying a Dory phase's isolation without actually running it in a fresh conversation.
 - Iterating critic-review rounds indefinitely instead of escalating a persistent disagreement to the user.
+- Putting Hank-phase decisions, hints, or summaries into a Dory kickoff prompt.
+- Running a Dory reviewer on a lighter model or lower reasoning effort than Hank to save time.
+- Giving each Dory phase its own worktree, or running Step 5/5b and Step 6 one after the other, when the tooling allows a lighter or concurrent run.

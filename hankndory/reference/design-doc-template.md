@@ -110,7 +110,7 @@
 <!-- One entry per independent review:
      - review type (comprehension | critic | readiness)
      - document version reviewed (from "Status" above)
-     - date or run identifier if available
+     - date, batch, or run identifier if available
      - inputs provided
      - verdict(s) — a comprehension entry records both the content verdict
        (Step 5) and the clarity verdict (Step 5b)
