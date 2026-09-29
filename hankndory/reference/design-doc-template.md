@@ -1,8 +1,12 @@
 # <Feature name>
 
-<!-- Replace <Feature name> and every bracketed or commented placeholder below.
-     Keep every heading even when a section is briefly "Not applicable" with a
-     stated reason. Do not delete a heading to avoid writing it. -->
+<!-- Replace <Feature name> and every bracketed or commented placeholder in
+     this template. Keep every heading even when a section is briefly "Not
+     applicable" with a stated reason. Do not delete a heading to avoid
+     writing it.
+     Create the sibling history file at the same time, for example
+     <feature-name>.history.md next to this document. "Keep history out of
+     the rules" in SKILL.md says what goes in it. -->
 
 ## Status
 
@@ -10,7 +14,8 @@
      change classification (trivial or standard) from "Size the change before
      choosing a gate set," with the reason for that classification.
      Add one line per substantive revision since the document was last
-     reviewed, formatted `vN — YYYY-MM-DD — <what changed>`. Bump the version
+     reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older
+     lines to the history file. Bump the version
      whenever a Dory phase or human reviewer needs to know what is new; do not
      bump it for typo fixes. -->
 
@@ -107,13 +112,15 @@
 
 ## Dory validation record
 
-<!-- One entry per independent review:
-     - review type (comprehension | critic | readiness)
-     - document version reviewed (from "Status" above)
+<!-- One line per independent review: review type (comprehension | critic |
+     readiness), the version it reviewed, and its verdict. A comprehension
+     line gives both the content verdict (Step 5) and the clarity verdict
+     (Step 5b). Record the full entry in the history file:
+     - review type
+     - document version and commit reviewed
      - date, batch, or run identifier if available
      - inputs provided
-     - verdict(s) — a comprehension entry records both the content verdict
-       (Step 5) and the clarity verdict (Step 5b)
+     - verdict(s)
      - blocking findings
      - document changes made
      - remaining non-blocking notes -->

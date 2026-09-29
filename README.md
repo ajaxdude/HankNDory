@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with an AI coding agent, named for two Pixar characters: Dory, from *Finding Nemo*, and Hank, from its sequel, *Finding Dory*.**
 
-This is version 1.4. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 1.5. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -32,7 +32,7 @@ Hank plans like his freedom depends on it: nothing proceeds until the plan accou
 
 ### Dory, the validation phase(s)
 
-Dory is the opposite of Hank by design: she has **no memory of the Hank conversation at all**. Every Dory phase must run in a fresh conversation with no history (never a continuation of the design conversation) because a single ongoing conversation cannot honestly certify its own amnesia. A sub-agent or a new chat in the same checkout is enough. She needs a blank memory. She does not need a new copy of the repository. A Dory phase is handed nothing but the design document and the files it explicitly references, and must succeed or fail using only that.
+Dory is the opposite of Hank by design: she has **no memory of the Hank conversation at all**. Every Dory phase must run in a fresh conversation with no history (never a continuation of the design conversation) because a single ongoing conversation cannot honestly certify its own amnesia. A sub-agent or a new chat in the same checkout is enough, as long as it starts with nothing from the design session. She needs a blank memory. She does not need a new copy of the repository. A Dory phase is handed nothing but the design document and the files it explicitly references, and must succeed or fail using only that.
 
 There are three independent Dory checks, each a hard gate:
 
@@ -42,7 +42,7 @@ There are three independent Dory checks, each a hard gate:
 | **Critic** | Does the design have faulty assumptions, missing edge cases, contract or lifecycle gaps, or unresolved risks, reviewed adversarially? |
 | **Readiness** | Does the document contain everything an implementer needs to build it correctly on the first pass, with no outstanding material questions? |
 
-Comprehension and critic run at the same time against the same frozen version of the document, because neither needs the other's result. Readiness runs last, once both have passed.
+Comprehension and critic run at the same time, both reading the same commit of the document, because neither needs the other's result. Readiness runs last, once both have passed. Before a batch reviews a new version, Hank runs his own checks on it once: a mechanical scan and, once there is an earlier reviewed commit to compare with, a diff check that asks whether the revision brought back an old defect, contradicted unchanged text, or quietly changed an obligation. He fixes what they find, then starts the batch, to keep mistakes a fix just added away from reviewers.
 
 If any Dory phase fails, work returns to Hank to fix the document, never to patch understanding verbally and move on. Only after every gate passes, and a human explicitly approves, does implementation begin.
 
@@ -56,7 +56,7 @@ flowchart TD
     C -->|critic: blocking findings| A
     C -->|both pass| R{Readiness}
     R -->|NOT READY| A
-    R -->|READY| D[Human approval]
+    R -->|READY, no later revision| D[Human approval]
     D --> E[Phase 4: Implement with guardrails<br/>smallest coherent changes,<br/>tests alongside every change]
     E --> F[Mean code review<br/>severe, concrete, actionable]
     F -->|defects found| E
@@ -64,9 +64,9 @@ flowchart TD
 ```
 
 1. **Phase 1: Hank surveys the tank.** Load and verify real repository context, enforce a strict no-code rule during discovery, apply an explicit "sycophant challenge" (state the strongest counter-argument, find the weakest evidence), then propose a first technical approach before asking the user for one.
-2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, architecture, alternatives considered, detailed implementation, risks, rollout, and a running `Dory validation record`. Before handing off to Dory, Hank runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
-3. **Phase 3: Ask Dory.** Run the comprehension and critic checks at the same time, each in its own fresh conversation against the same frozen version of the document. Run readiness once both pass. Any failure sends the work back to Hank with a specific, actionable gap list, and Hank fixes everything from one batch in a single revision.
-4. **Phase 4: Implement with guardrails.** Only after human approval: implement the smallest coherent units from the approved plan, with tests alongside every change, stopping immediately if reality contradicts the design rather than improvising around it. Finish with a severe but constructive "mean" code review against the approved design.
+2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, architecture, alternatives considered, detailed implementation, risks, rollout, and a one-line-per-review `Dory validation record`. Each rule is written once and referred to by name everywhere else, and the revision and review history lives in a separate history file, while decisions and rejected alternatives stay in the design. Before handing off to Dory, Hank runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
+3. **Phase 3: Ask Dory.** Run the comprehension and critic checks at the same time, each in its own fresh conversation, both reading the same commit of the document, after one pass of Hank's own checks (`reference/hank-checks.md`). Run readiness once both pass. Any failure sends the work back to Hank with a specific, actionable gap list, and Hank fixes everything from one batch in a single revision.
+4. **Phase 4: Implement with guardrails.** Only after human approval: implement the smallest coherent units from the approved plan, with tests alongside every change, stopping immediately if reality contradicts the design rather than improvising around it. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
 
 A **bootstrap-context** mode is also available for onboarding an existing, under-documented codebase: it recursively generates and rolls up `README.md` files from the leaves of the source tree upward, so a later Hank phase has real material to load instead of starting cold.
 
@@ -99,7 +99,7 @@ gh skill install ajaxdude/HankNDory
 
 Pass `--agent <host> --scope <user|project>` to target a specific agent/location instead of the interactive prompt, e.g. `gh skill install ajaxdude/HankNDory --agent claude-code --scope user`.
 
-Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v1.4`, or pass `--pin v1.4`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
+Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v1.5`, or pass `--pin v1.5`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
 
 ### Manual install, by agent
 
@@ -137,6 +137,7 @@ HankNDory/
     │   └── ui_metadata.yaml
     └── reference/
         ├── design-doc-template.md
+        ├── hank-checks.md
         └── plain-speech-checklist.md
 ```
 
@@ -144,6 +145,7 @@ HankNDory/
 - **`hankndory/SKILL.md`**: the method itself, covering rules, modes, the four-phase lifecycle, the design document structure, and the failure-recovery guidance the agent follows.
 - **`hankndory/agents/ui_metadata.yaml`**: display metadata (name, one-line description) used by tooling that surfaces installed skills in a UI.
 - **`hankndory/reference/design-doc-template.md`**: the canonical starting template for every design document the Hank phase produces, with per-section guidance comments.
+- **`hankndory/reference/hank-checks.md`**: the mechanical scan and the diff check Hank runs once on each new version before Dory reviews it.
 - **`hankndory/reference/plain-speech-checklist.md`**: the checklist Hank applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
 - **`hankndory/`** is deliberately nested one level below the repository root (rather than living at the root itself) because `gh skill` and several other skill-discovery tools only scan for `*/SKILL.md`, not a `SKILL.md` at the very top of a repository.
 
