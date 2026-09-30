@@ -3,7 +3,7 @@
 <!-- Replace <Feature name> and every bracketed or commented placeholder in
      this template. Keep every heading even when a section is briefly "Not
      applicable" with a stated reason. Do not delete a heading to avoid
-     writing it.
+     writing it. Keep the document within the "Length limit" in SKILL.md.
      Create the sibling history file at the same time, for example
      <feature-name>.history.md next to this document. "Keep history out of
      the rules" in SKILL.md says what goes in it. -->
@@ -11,8 +11,10 @@
 ## Status
 
 <!-- Current workflow state from "Maintain workflow state" in SKILL.md, and the
-     change classification (trivial or standard) from "Size the change before
-     choosing a gate set," with the reason for that classification.
+     change classification from "Size the change before choosing a gate set,"
+     with the reason for it.
+     Target date for human approval, review budget, time spent so far, and
+     critic rounds used, as "Status" in SKILL.md describes.
      Add one line per substantive revision since the document was last
      reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older
      lines to the history file. Bump the version
@@ -63,13 +65,13 @@
 
 ## Detailed implementation
 
-<!-- The most concrete section. For every file to create, modify, or delete:
-     exact path; change type; current responsibility; intended change;
-     rationale; interfaces or dependencies affected; tests to add or update;
-     migration, compatibility, and operational notes.
-     Then give an ordered implementation sequence with dependencies and
-     checkpoints. Mark any unverified path "(proposed, unverified)" until
-     repository inspection confirms it. -->
+<!-- The promises the code must keep, not the code. For each component: its
+     responsibility; the contracts it must keep (interfaces, schemas,
+     invariants, error behavior); the areas expected to change, naming a file
+     only where a contract lives in it. Then the build order, with
+     dependencies and checkpoints. File-by-file changes go in the
+     implementation log and the code review, not here. Mark any unverified path
+     "(proposed, unverified)" until repository inspection confirms it. -->
 
 ## Testing and evaluation
 

@@ -6,7 +6,7 @@ Adapted from [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/
 
 Prose sections: Problem, Technical plan, the narrative parts of Architecture and flows, Alternatives considered, Risks and mitigations, and Rollout, migration, and rollback.
 
-Not Detailed implementation's file-by-file entries, Referenced files, the Decision log, or the Dory validation record. Keep those terse, structured, and list-based. Forcing them into paragraph prose would make the document harder to implement from, not easier.
+Not Detailed implementation's component entries, Referenced files, the Decision log, or the Dory validation record. Keep those terse, structured, and list-based. Forcing them into paragraph prose would make the document harder to implement from, not easier.
 
 ## Process
 
@@ -46,4 +46,4 @@ Not Detailed implementation's file-by-file entries, Referenced files, the Decisi
 ## What never to touch
 
 - Citations, file paths, version numbers, and code identifiers: never alter these while editing the prose around them.
-- Detailed implementation's file entries, Referenced files, the Decision log, and the Dory validation record: these stay terse and structured, per "Where this applies" above.
+- Detailed implementation's component entries, Referenced files, the Decision log, and the Dory validation record stay terse and structured, per "Where this applies".

@@ -3,26 +3,26 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. enforce explicit no-code gates and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "1.5"
+  version: "1.6"
 ---
 
-# HankNDory 1.5: The Hank & Dory Method
+# HankNDory 1.6: The Hank & Dory Method
 
-Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document — Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own — Dory has no memory of the Hank conversation and must trust only what is written down. Write code only after every required gate passes.
+Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. Write production code only after every required gate passes.
 
 ## Core rules
 
-1. Treat the design document as source code and the authoritative record of the feature.
+1. Treat the design document like source code, versioned and reviewed, and as the authoritative record of the feature.
 2. Keep the Hank phase and every Dory phase logically isolated. Run each Dory phase in a fresh conversation that starts with no history, never as a continuation of the Hank conversation. A sub-agent or a new chat in the same checkout counts; a new worktree, clone, or machine is not required. A Dory phase may use only the design document and files explicitly referenced by it.
 3. Do not write production code before the implementation gate passes.
 4. Ask hard questions, challenge assumptions, and explain reasoning. Do not merely agree.
 5. Separate facts verified from repository files from assumptions, proposals, and open questions.
-6. Never claim a gate passed if material ambiguity, missing context, unresolved decisions, or unverified file references remain.
+6. Never claim a gate passed if blocking findings, missing context, unresolved decisions, or unverified file references remain.
 7. Require human approval before implementation when a reviewer is available. If the user is working alone, explicitly record that human review was skipped by user judgment.
 8. Preserve decisions and rejected alternatives in the design document so later sessions do not reopen settled questions without new evidence.
 9. Inspect referenced files before making claims about the current system. Do not invent paths, APIs, schemas, dependencies, or behavior.
-10. If implementation discoveries invalidate the design, stop coding and return to the Hank phase. Update and revalidate the document before continuing.
-11. Classify every requested change as trivial or standard before choosing a mode. Apply the full method whenever the classification is uncertain or the change touches public interfaces, data, security, migrations, or cross-team contracts.
+10. Building does not restart the design. Handle each implementation discovery as Step 8 describes, and revise only the part of the design whose promises it breaks.
+11. Size every request before choosing a mode, as "Size the change before choosing a gate set" describes, and use the lightest method that fits.
 
 ## Determine the requested operating mode
 
@@ -33,24 +33,29 @@ Choose one mode from the user's request and current repository state:
 - **dory-critic**: adversarially review the design for omissions, faulty assumptions, edge cases, risks, and ambiguity.
 - **dory-readiness**: decide whether the design contains everything needed for a first-pass implementation.
 - **implementation**: implement only from a validated and approved design document.
-- **mean-review**: perform a severe but actionable code review against the approved design.
-- **bootstrap-context**: create a hierarchy of repository README files through bottom-up recursive summarization.
+- **mean-review**: perform a severe but actionable code review against the approved design or a one-off operation's checklist.
+- **bootstrap-context**: create a hierarchy of repository README files through bottom-up recursive summarization, following `reference/bootstrap-context.md`.
 - **full-voyage**: orchestrate all applicable phases in order, running the Dory gates in batches as described in "Dispatch Dory reviews."
 
-If the user asks to code but no validated design exists, do not implement. Explain the missing gate and begin or recommend `new-feature-hank`.
+If the user asks to code a standard change but no validated design exists, do not implement. Explain the missing gate and begin or recommend `new-feature-hank`.
 
 ## Size the change before choosing a gate set
 
-Before starting a mode, classify the requested change:
+Before starting a mode, classify the requested work and use the lightest tier that fits:
 
-- **Trivial**: a small, local, reversible change with no effect on public interfaces, data, security, migrations, cross-team contracts, or shared behavior — for example a copy fix, a log message, a constant, or an isolated single-file bug fix with an obvious repair.
+- **Trivial**: a small, local, reversible code change with no effect on user or production data, security, or shared behavior, and nothing under "Always standard", for example a copy fix, a log message, a constant, or an isolated single-file bug fix with an obvious repair.
+- **One-off**: an operation that runs once, leaves no code to maintain, and has nothing under "Always standard", for example a download, a conversion, a test run, a publish, or a one-time cleanup.
 - **Standard**: everything else, including any change whose blast radius is unclear.
+
+**Always standard**: work that touches public APIs or schemas, authentication or authorization, migrations or deletions of user or production data, billing, security boundaries, or cross-team or cross-repository contracts. Deleting files the user explicitly approved deleting, or the project's own generated or temporary files, is not on this list unless those files hold user or production data.
 
 For a trivial change, skip the full Hank/Dory cycle: make the change directly, add or update tests, and record in the commit or PR what was changed and why full design rigor was unnecessary. Still perform the mean code review (Step 9) before calling it done.
 
+For a one-off operation, skip the design method. Fill in a copy of `reference/one-off-checklist.md` in this skill, a one-page checklist of steps, checks, stop conditions, and undo. Run the mean code review (Step 9) on any script it uses before that script runs, then work through the checklist. If the operation turns out to leave code to maintain or to need anything under "Always standard", stop and reclassify it.
+
 For a standard change, run the full method starting at `new-feature-hank`.
 
-Always classify as standard, never trivial, when the change touches public APIs or schemas, authentication or authorization, data migrations or deletions, billing, security boundaries, or cross-team or cross-repository contracts. When size is genuinely ambiguous, ask the user before downgrading rigor. Record the classification and its reason in the design document's `Status` section, or in the implementation log for a trivial change.
+When the size is uncertain, treat the work as standard, or ask the user before choosing a lighter tier. Record the classification and its reason in the design document's `Status` section, in the implementation log for a trivial change, or in the checklist for a one-off operation.
 
 ## Maintain workflow state
 
@@ -71,9 +76,9 @@ When one batch fails more than one gate, record the earlier gate's state: `compr
 
 Do not infer approval. Approval must be explicit.
 
-This explicit-approval requirement applies to exactly one transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions; only stop early if a gate fails, isolation cannot be certified, or Step 6's escalation conditions are met.
+Human approval gates exactly one state transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions; only stop early if a gate fails, isolation cannot be certified, or another rule in this skill says to ask the user.
 
-This version of the skill applies to new design documents, and to an existing document from its next substantive revision. Adopting it never by itself reopens a gate, invalidates a verdict, or voids an approval.
+This version applies in full to new design documents. A design started under an earlier version keeps its document as written. From its next step it follows this version's review and building rules, counting the critic rounds it has already used. Adopting this version never by itself reopens a gate, invalidates a verdict, or voids an approval.
 
 # Phase 1: Hank Surveys the Tank
 
@@ -99,9 +104,9 @@ For a greenfield project, record that no existing-system bootstrap is required a
 
 During discovery and design discussion:
 
-- Do not create or edit production code.
+- Do not create or edit production code. A throwaway spike under Step 3b is not production code.
 - Do not generate implementation-ready functions, classes, patches, or commands that would bypass design.
-- Allow only short pseudocode when prose cannot communicate the idea clearly.
+- Outside a Step 3b spike, allow only short pseudocode when prose cannot communicate the idea clearly.
 - Ask clarifying questions in small, prioritized batches.
 - Challenge goals, scope, constraints, assumptions, success criteria, migration needs, failure modes, and operational impact.
 - Distinguish must-haves from preferences and future extensions.
@@ -131,6 +136,17 @@ Act as a critical collaborator:
 5. Explain why each major recommendation follows from verified constraints.
 
 If the conversation becomes agreeable without adding scrutiny, explicitly reset into critic mode. Never use hostility toward the user; be demanding about the design, evidence, and reasoning.
+
+## Step 3b: Test the riskiest assumption first
+
+Before writing a long design, ask whether a cheap, real test could settle the assumption with the weakest evidence, such as whether a library supports a needed feature or a tool works on the target platform. If one could, run it as a spike:
+
+- set a time limit before starting, and stop when it runs out;
+- keep the spike's code out of the production codebase, never merge it, and throw it away when done;
+- stay within the user's operating limits, and ask first if the test needs anything they have not allowed;
+- record the question, how it was tested, and the result in the design document as evidence, with enough detail to judge the result without the spike code.
+
+If no cheap test exists, keep the assumption as an open question or a risk and continue.
 
 ## Step 4: Propose the first technical approach
 
@@ -183,9 +199,13 @@ Start every new design document from `reference/design-doc-template.md` in this 
 ## Human approval
 ```
 
+### Length limit
+
+Keep the design document under 3,000 words, not counting the Referenced files list. Every Dory reviewer and the human approver read the whole document, so each extra page adds time to every round. If the design cannot fit, split the feature, or record in Status the user's explicit OK for a longer document. A design started under an earlier version of this skill has no length limit.
+
 ### Status
 
-State the current workflow state from "Maintain workflow state" and the change classification from "Size the change before choosing a gate set." Add one line per substantive revision since the document was last reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older lines to the history file. Bump the version whenever a Dory phase or human reviewer needs to know what changed; do not bump it for typo fixes. Each entry in the "Dory validation record" must state which version it reviewed.
+State the current workflow state from "Maintain workflow state" and the change classification from "Size the change before choosing a gate set." Record a target date for human approval and a review budget in hours or cost, set with the user, or proposed by Hank when the user has none. Keep a running count of the time spent and the critic rounds used, and escalate to the user as soon as review passes the target date or uses up the budget. Add one line per substantive revision since the document was last reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older lines to the history file. Bump the version whenever a Dory phase or human reviewer needs to know what changed; do not bump it for typo fixes. Each entry in the "Dory validation record" must state which version it reviewed.
 
 ### Problem
 
@@ -209,18 +229,13 @@ Never erase rejected alternatives merely because a preferred design was chosen.
 
 ### Detailed implementation
 
-Make this the most concrete section. Enumerate every file to create, modify, or delete. For each file specify:
+State the promises the code must keep, not the code. For each component, give:
 
-- exact path;
-- change type;
-- current responsibility;
-- intended change;
-- rationale;
-- interfaces or dependencies affected;
-- tests to add or update;
-- migration, compatibility, and operational notes.
+- its responsibility;
+- the contracts it must keep: interfaces, schemas, invariants, and error behavior;
+- the areas expected to change, such as modules or directories, naming a file only where a contract lives in it.
 
-Then provide an ordered implementation sequence with dependencies and checkpoints. Do not invent a file path. Mark a path as proposed until repository inspection verifies it.
+Then give the build order, with dependencies and checkpoints. Do not list every file change; that detail belongs in the implementation log and the code review. Do not invent a path. Mark a path as proposed until repository inspection verifies it.
 
 ### Referenced files
 
@@ -249,7 +264,7 @@ State each rule, limit, or number in exactly one place, and refer to it everywhe
 
 ## Plain-speech pass
 
-Before ending Phase 2, reread every prose section: Problem, Technical plan, the narrative parts of Architecture and flows, Alternatives considered, Risks and mitigations, and Rollout, migration, and rollback. Rewrite whatever `reference/plain-speech-checklist.md` in this skill flags. Leave Detailed implementation's file-by-file entries, Referenced files, and the Decision log terse and structured; do not compress them into prose.
+Before ending Phase 2, reread every prose section: Problem, Technical plan, the narrative parts of Architecture and flows, Alternatives considered, Risks and mitigations, and Rollout, migration, and rollback. Rewrite whatever `reference/plain-speech-checklist.md` in this skill flags. Leave Detailed implementation's component entries, Referenced files, and the Decision log terse and structured; do not compress them into prose.
 
 This is a standing editing habit, not a gate: do it and continue in the same turn. Do not pause for confirmation, and do not treat it as satisfied by asserting it was done. The rewritten prose is the evidence.
 
@@ -287,6 +302,7 @@ Give each reviewer only:
 - the design document's path, version, and commit;
 - an instruction to read that document and only the files in its `Referenced files` section, at that commit, to change nothing, and to follow this skill's instructions for that step;
 - any operating limits the user set, such as machines or commands that are off limits;
+- for a scoped critic round, the last commit a batch reviewed, and an instruction to critique only the sections changed since that commit, reading the rest of the document for context;
 - what to return: the step's required output and verdict, the document version and commit it read, the files it read, the HankNDory version it followed, whether its starting context showed checkpoints, history, or session files from before this prompt, and its answer to the Phase 3 self-audit question.
 
 If the reviewer cannot load this skill, paste Phase 3's opening paragraphs and the text of its step into the prompt. That text is instructions, not design context. Never add design content: no decisions, hints, summaries, or expected verdicts.
@@ -295,12 +311,12 @@ If the reviewer cannot load this skill, paste Phase 3's opening paragraphs and t
 
 Steps 5 and 5b run in one reviewer, because Step 5b rewrites Step 5's explanation. Step 6 reads the same frozen version and does not need Step 5's result, so the two reviewers can run at the same time.
 
-Before a batch reviews a version that no earlier batch has reviewed, Step 7's batches included, run Hank's checks on it once: the pre-flight scan and, once an earlier batch has reviewed a commit, the diff check, both described in `reference/hank-checks.md`. Commit that version as a candidate and give the checks that commit. Fix what they find, and start the batch on the commit that includes those fixes without rerunning the checks. They are one pass, not a gate, so never loop them until they come back clean. Any other check Hank runs that reads the whole document runs alongside the batch instead, on the batch's commit and never before it, and its findings join the reviewers' findings. A check that errors out or stalls holds nothing back and counts as returned. Stop it if it is still running, start the batch or write the batch's revision without it, and record the gap in the history file.
+Before a batch reviews a version that no earlier batch has reviewed, Step 7's batches included, run Hank's checks on it once: the pre-flight scan and, once an earlier batch has reviewed a commit, the diff check, both described in `reference/hank-checks.md`. Commit that version as a candidate and give the checks that commit. Fix what they find, and start the batch on the commit that includes those fixes without rerunning the checks. They are one pass, not a gate, so never loop them until they come back clean. Any other check Hank runs that reads the whole document runs alongside the batch instead, on the batch's commit and never before it, and its findings join the reviewers' findings. A check that errors out or stalls holds nothing back and counts as returned. Stop it if it is still running, start the batch or write the batch's revision without it, and record the gap in the history file. If it cannot be stopped and returns later, record what it found as non-blocking notes in the history file.
 
 1. Start the Step 5/5b reviewer and a Step 6 critic round together.
-2. Wait for every review in the batch, and gather the findings of any whole-document check running alongside it once that check returns. Fix all of their findings in one Hank revision, and bump the version. If Hank's checks or reviewers find that two revisions in a row brought back the defect class they were written to fix, restructure the document in this revision instead of patching that text again, for example by moving history into the history file or by splitting the document.
-3. Start the next batch with only the gates still open. Step 5/5b stays open until it passes. Step 6 stays open until its stopping condition holds for a critic round on the version that passed Step 5/5b or a later one.
-4. Once both gates have closed, start Step 7 on the current version. Only a `READY` version that no revision followed goes to human approval. After a `READY`, revise only for material findings from a whole-document check in its batch, and leave the rest as non-blocking notes in the history file. If you revised, run Step 7 again on the new version. If Step 7 would need to review a fourth version before approval, escalate its open findings to the user instead.
+2. Wait for every review in the batch, and gather the findings of any whole-document check running alongside it once that check returns. Fix all of their findings except those Step 6 makes optional, in one Hank revision, and bump the version. If Hank's checks or reviewers find that two revisions in a row brought back the defect class they were written to fix, restructure the document in this revision instead of patching that text again, for example by moving history into the history file or by splitting the document.
+3. Start the next batch with only the gates still open. Step 5/5b stays open until it passes. Step 6 stays open until it closes as Step 6 describes.
+4. Once both gates have closed, start Step 7 on the current version. Only a `READY` version that no revision followed goes to human approval. After a `READY`, revise only for blocking findings, as Step 6 defines them, from a whole-document check in its batch, and leave the rest as non-blocking notes in the history file. If you revised, run Step 7 again on the new version. If Step 7 would need to review a fourth version before approval, escalate its open findings to the user instead.
 
 If more than one reviewer runs the same gate as a cross-check, start them together on the same commit. The gate passes only if all of them pass it. Before starting a replacement reviewer, confirm the first one failed or stalled; otherwise wait for it. If the tooling can run only one reviewer at a time, run the batch's reviews and then any whole-document check back to back, and still revise once per batch.
 
@@ -311,7 +327,7 @@ Read the design document and every referenced file needed for comprehension. The
 1. the problem and intended outcome;
 2. how the relevant current system works;
 3. the proposed solution and end-to-end flow;
-4. the files expected to change and why;
+4. the components, the contracts they must keep, and the areas expected to change;
 5. success criteria, limits, and key risks.
 
 Return one verdict:
@@ -348,9 +364,11 @@ Assume the role of an expert technical reviewer. Search for:
 - omitted alternatives or decisions likely to be relitigated;
 - vague or inflated prose masking a missing mechanism (see `reference/plain-speech-checklist.md`).
 
-Classify each finding as `blocking`, `important`, or `nit`. Include evidence, impact, and a concrete document fix. Do not inflate severity.
+Classify each finding as `blocking`, `important`, or `nit`. A finding is blocking only if, left as it is, the design would lead an implementer to build the wrong thing, break a requirement or contract, or create a security, privacy, or data-loss risk. Include evidence, impact, and a concrete document fix. Do not inflate severity.
 
-Repeat independent critic reviews until there are no blocking findings and new feedback is consistently non-material, up to three rounds. A critic round that ran in the same batch as a failed Step 5/5b does not count toward the three, because the document it reviewed was about to change. Restructuring or splitting the document does not reset the count. If a fourth round would still be needed, or two reviews disagree on whether the same finding is blocking, stop iterating and escalate the specific disputed finding and both positions to the user instead.
+A critic round with no blocking findings closes Step 6, even if Step 5/5b failed in the same batch. Hank fixes its important findings once, in the next revision, and a diff check verifies them; they start no new critic round. Nits are optional. During design, only a round with blocking findings leads to another critic round, which may be scoped to the fix.
+
+A design document gets three critic rounds in its whole life, counting scoped rounds and rounds after a return from building. Restructuring or splitting the document does not reset the count, and each document a split produces keeps the count so far. When a fourth round would be needed, or two reviews disagree on whether the same finding is blocking, escalate the open or disputed blocking findings to the user, with both positions for a dispute. Run another critic round only with the user's explicit OK.
 
 ## Step 7: Implementation-readiness test
 
@@ -361,12 +379,13 @@ Evaluate whether an experienced engineer, with only the design and referenced fi
 Check that:
 
 - every requirement maps to a design element and test;
-- every planned file change is enumerated and justified;
+- every component states its contracts and the areas expected to change;
 - interfaces, schemas, invariants, and error behavior are precise;
-- dependencies and implementation order are clear;
+- dependencies and the build order are clear;
 - rollout, migration, rollback, and observability are actionable;
 - no material question requires private context from the Hank phase;
-- acceptance criteria are objectively testable.
+- acceptance criteria are objectively testable;
+- the document is within the "Length limit".
 
 Return one verdict:
 
@@ -382,24 +401,20 @@ After `READY`, require human review and explicit approval. Record approval statu
 Proceed only when the design is marked `approved-for-implementation`.
 
 1. Read the full design and all referenced files relevant to the next implementation unit.
-2. Follow the specified order and file plan.
+2. Follow the build order and keep every contract.
 3. Make the smallest coherent change that satisfies the design.
 4. Add or update tests alongside each change.
 5. Run relevant formatters, linters, type checks, unit tests, integration tests, and build checks available in the repository.
 6. Compare the implementation against every acceptance criterion.
-7. Maintain a concise implementation log mapping completed changes to document sections and files.
-8. Stop and return to design if:
-   - a referenced assumption is false;
-   - an unplanned file or interface must materially change;
-   - a requirement is contradictory;
-   - a new security, migration, or operational risk appears;
-   - the design leaves a consequential choice to the implementer.
-
-Do not improvise around a broken design. Update the design, rerun the affected Dory gates, obtain approval, and then resume.
+7. Keep a concise implementation log outside the design document, mapping each change to the files it touched and the design section it serves.
+8. Sort each discovery by whether it keeps the design's promises: its contracts, invariants, security and privacy rules, user-visible behavior, and scope.
+   - If it keeps them, decide, add one line to the implementation log, and continue. The code review covers it.
+   - If it breaks one, pause the work that depends on it and revise only that part of the design. Run Hank's checks on the revision and one critic round scoped to it, and resume once a critic round on it has no blocking findings. Rerun Steps 5, 5b, and 7 only if the revision changes the Problem, the Goals, or the overall approach.
+   - Ask the user only when the revision changes the scope, an approved contract, or the risk, and wait for their answer before building on it.
 
 ## Step 9: Perform the mean code review
 
-Review the code severely but professionally. Compare it against the approved design and repository conventions. Find concrete defects rather than generating insults.
+Review the code severely but professionally. Compare it against the approved design, or a one-off operation's checklist, and repository conventions. Find concrete defects rather than generating insults.
 
 Inspect:
 
@@ -412,51 +427,12 @@ Inspect:
 - performance and capacity regressions;
 - compatibility and migration risks;
 - brittle or inadequate tests;
-- divergence from the approved file plan;
+- broken contracts, and changes outside the areas the design expected that no implementation-log line explains;
 - comments where intent, invariant, tradeoff, or non-obvious logic is not self-evident.
 
 Do not require comments every 10 lines mechanically. Require comments where they preserve design intent or explain non-obvious constraints; prefer clearer code over compensating comments.
 
 For each finding include severity, file and location, evidence, impact, and recommended fix. Repeat review and repair until only trivial findings remain, then report residual risks and final verification results. After the first round, a re-review reads the fix diff and what those fixes could break. A fix that touched a shared contract, such as a public interface, schema, or cross-team contract, gets a full re-review instead. Run slow checks, such as mutation testing, alongside the review on the commit it reviews. A clean verdict counts only once those checks meet the bar the design's Testing and evaluation section sets; if it sets none for a check, ask the user for one right away.
-
-# Bootstrap context for an existing codebase
-
-Use this mode when the repository is too large to understand directly and lacks sufficient design-document coverage.
-
-## Generate leaf README files
-
-1. Inventory the source tree and exclude generated, vendored, dependency, cache, build-output, binary, and secret-bearing directories.
-2. Start with leaf directories containing meaningful project-owned source.
-3. Read all relevant files in one leaf directory.
-4. Create or update `README.md` in that directory with:
-   - directory purpose;
-   - role in the larger system, if verifiable;
-   - key flows, invariants, and dependencies;
-   - an enumeration of each meaningful file and its function;
-   - known uncertainties requiring human verification.
-5. Ask or require an assigned human to verify and correct the README. Do not mark it verified automatically.
-
-## Roll up parent README files
-
-Move upward one level at a time:
-
-1. Read verified child `README.md` files.
-2. Read project-owned files directly in the current directory.
-3. Create or update the current directory's `README.md` with its purpose, subsystem relationships, important flows, and direct-file inventory.
-4. Preserve links to child READMEs instead of duplicating their full contents.
-5. Require human verification at meaningful subsystem boundaries.
-6. Continue until the repository root is summarized.
-
-## Maintain README quality
-
-- Prefer compressed, high-signal context over exhaustive code paraphrase.
-- Never claim human verification when none occurred.
-- Flag contradictions between code, existing docs, and generated summaries.
-- Preserve existing README content unless the user authorizes replacement; merge carefully.
-- Keep generated documentation reviewable in small commits.
-- Refresh summaries when referenced code changes materially.
-
-README files may be removed only when the user has verified that design documents provide complete file coverage and no workflow or human reader still depends on them. Do not assume 100 percent coverage from search absence; calculate it from an explicit repository inventory and design-document reference index.
 
 # Required outputs
 
@@ -466,7 +442,7 @@ Adapt detail to the active mode, but always provide:
 
 - HankNDory version
 - Mode
-- Change classification (trivial or standard) and why
+- Change classification (trivial, one-off, or standard) and why
 - Current gate
 - Verdict or state
 - Evidence inspected
@@ -481,7 +457,7 @@ List only unresolved, material items. Separate blockers from non-blocking notes.
 
 ## Next action
 
-Specify exactly one next workflow action, then take it immediately in the same turn unless it is the Step 7 human-approval checkpoint. Never jump across an unpassed gate. When anything needs the user, make asking the next action: ask right away, give your recommendation, and never leave the question only in a file. While you wait, keep doing the work that every possible answer needs.
+Specify exactly one next workflow action, then take it immediately in the same turn unless it is the Step 7 human-approval checkpoint. Never jump across an unpassed gate. When anything needs the user, make asking the next action: ask right away, give your recommendation, and never leave the question only in a file. While you wait, keep doing the work that every possible answer needs. Every escalation states the time spent, the critic rounds used, and what is actually blocking. When nothing is blocking, recommend proceeding with notes, never another round.
 
 # Failure recovery
 
@@ -491,11 +467,11 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - If a review produces contradictory findings, verify against source files and elevate the contradiction as a blocking question.
 - If a session loses context, restart from the design document and its referenced files rather than reconstructing history from memory.
 - If a fresh conversation cannot be started for a Dory phase, say so and record that gate as not certified rather than asserting isolation.
-- If validation repeatedly fails, reduce scope, split the feature, or strengthen the current-system and detailed-implementation sections.
+- If validation repeatedly fails, reduce scope, split the feature, or sharpen the Current system section and the contracts in Detailed implementation.
 
 # Behaviors to avoid
 
-- Writing code during problem discovery or design debate.
+- Writing production code during problem discovery or design debate.
 - Treating pseudocode as permission to start implementation.
 - Letting the Hank phase's unstated memory leak into a Dory verdict.
 - Asking a Dory phase to review only the design document while ignoring its required referenced files.
@@ -505,9 +481,12 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Reopening rejected alternatives without new evidence.
 - Using review harshness as a substitute for precise, respectful, actionable findings.
 - Declaring readiness because critiques are fewer rather than because all material gates pass.
-- Continuing implementation after discovering a material design defect.
+- Building on a broken promise before Step 8 lets that work resume.
 - Certifying a Dory phase's isolation without actually running it in a fresh conversation.
 - Iterating critic-review rounds indefinitely instead of escalating a persistent disagreement to the user.
 - Putting Hank-phase decisions, hints, or summaries into a Dory kickoff prompt.
 - Running a Dory reviewer on a lighter model or lower reasoning effort than Hank to save time.
 - Giving each Dory phase its own worktree, or running Step 5/5b and Step 6 one after the other, when the tooling allows a lighter or concurrent run.
+- Recommending another review round when nothing is blocking.
+- Using the design method for a one-off operation.
+- Restating code in the design.
