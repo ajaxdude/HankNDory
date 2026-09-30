@@ -1,8 +1,8 @@
 # HankNDory
 
-**A structured design-validate-implement method for building software with an AI coding agent, named for two Pixar characters: Dory, from *Finding Nemo*, and Hank, from its sequel, *Finding Dory*.**
+**A structured design-validate-implement method for building software with an AI coding agent, named for three Pixar characters: Dory and Marlin, from *Finding Nemo*, and Hank, from its sequel, *Finding Dory*.**
 
-This is version 1.6. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.0. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -14,9 +14,9 @@ When you design and implement a feature in one sitting with an AI agent, the age
 
 HankNDory forces a hard separation between **designing with full context** and **validating with none**, so that the design document itself, not the conversation that produced it, has to carry the full weight of the plan.
 
-## The two characters
+## The three characters
 
-The skill is named after two fish (well, one fish and one octopus): Dory, who debuted in *Finding Nemo*, and Hank, the septopus who appears in its sequel, *Finding Dory*, each lending their defining trait to one half of the method:
+Dory, who debuted in *Finding Nemo*, and Hank, the septopus who appears in its sequel, *Finding Dory*, each lend their defining trait to one half of the method. Marlin, Nemo's dad, keeps the whole trip moving:
 
 ### Hank, the design phase
 
@@ -43,23 +43,42 @@ There are three independent Dory checks, each a hard gate:
 | **Critic** | Does the design have faulty assumptions, missing edge cases, contract or lifecycle gaps, or unresolved risks, reviewed adversarially? |
 | **Readiness** | Does the document contain everything an implementer needs to build it correctly on the first pass, with no outstanding material questions? |
 
-Comprehension and critic run at the same time, both reading the same commit of the document, because neither needs the other's result. Readiness runs last, once both have passed. Before a batch reviews a new version, Hank runs his own checks on it once: a mechanical scan and, once there is an earlier reviewed commit to compare with, a diff check that asks whether the revision fixed what it was meant to fix, brought back an old defect, contradicted unchanged text, or quietly changed an obligation. He fixes what they find, then starts the batch, to keep mistakes a fix just added away from reviewers.
+At careful pace, comprehension and critic run at the same time, both reading the same commit of the document, because neither needs the other's result, and readiness runs last, once both have passed. At faster paces one reviewer runs them in one pass, as the pace table below shows. Before a batch reviews a new version, Hank runs his own checks on it once: a mechanical scan and, once there is an earlier reviewed commit to compare with, a diff check that asks whether the revision fixed what it was meant to fix, brought back an old defect, contradicted unchanged text, or quietly changed an obligation. He fixes what they find, then starts the batch, to keep mistakes a fix just added away from reviewers.
 
-A critic round with no blocking findings passes, and its important findings are fixed once, without another round. A design gets three critic rounds in its whole life, including any after building starts, and more need the user's OK.
+A critic round with no blocking findings passes, and its important findings are fixed once, without another round. A design gets two or three critic rounds in its whole life, by pace, including any after building starts, and more need the user's OK.
 
-If any Dory phase fails, work returns to Hank to fix the document, never to patch understanding verbally and move on. Only after every gate passes, and a human explicitly approves, does implementation begin.
+If any Dory phase fails, work returns to Hank to fix the document, never to patch understanding verbally and move on. Only after every gate passes, and you approve, or the charter does at fast pace, does implementation begin.
+
+### Marlin, the one who keeps swimming
+
+Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, Marlin is a role the main conversation plays, and Nemo is the final objective. At kickoff, you and Marlin write a short **charter**: the final objective, milestones, deadline, budget, pace, which decisions Marlin makes alone, which ones stay with you, and how long a reversible question waits before Marlin takes its default (10 minutes unless you set another). After that, Marlin:
+
+- decides what the charter hands over, and records it;
+- sends you one **digest** at a time, holding every question and every piece of news, each question with a recommendation and, where it can be undone, a default and when it takes effect;
+- keeps working on whatever no pending answer can change, instead of sitting idle;
+- tells you early when the deadline or budget is at risk, and never recommends another review round when nothing is blocking.
+
+The charter also sets the **pace**:
+
+| Pace | Dory review | Approval before building |
+|---|---|---|
+| **Fast** | one fresh reviewer runs every gate in one pass; two critic rounds in the design's life; building overlaps review | the charter approves a `READY` design that stays inside it |
+| **Balanced** | one fresh reviewer runs comprehension, clarity, and critic, then a separate readiness check; two critic rounds | you approve, possibly through the digest |
+| **Careful** | separate reviewers for each gate, as above; three critic rounds | you approve |
+
+Anything on the skill's "Always standard" list (public APIs or schemas, auth, migrations or deletions of user or production data, billing, security boundaries, cross-team contracts) runs at careful pace unless the charter names it. Without a charter, everything runs at careful pace.
 
 ## The full lifecycle
 
 ```mermaid
 flowchart TD
-    A[Phase 1: Hank surveys the tank<br/>load context, challenge assumptions,<br/>test the riskiest one, propose first approach] --> B[Phase 2: Write the tank chart<br/>one durable design document]
-    B --> C{Phase 3: Ask Dory<br/>comprehension and critic<br/>at the same time}
+    K[Marlin: charter<br/>objective, pace, what Marlin decides] --> A[Phase 1: Hank surveys the tank<br/>load context, challenge assumptions,<br/>test the riskiest one, propose first approach] --> B[Phase 2: Write the tank chart<br/>one durable design document]
+    B --> C{Phase 3: Ask Dory<br/>one pass or separate gates,<br/>by pace}
     C -->|comprehension FAIL| A
     C -->|critic: blocking findings| A
     C -->|both pass| R{Readiness}
     R -->|NOT READY| A
-    R -->|READY, no later revision| D[Human approval]
+    R -->|READY, no later revision| D[Approval<br/>by you, or by the charter at fast pace]
     D --> E[Phase 4: Implement with guardrails<br/>smallest coherent changes,<br/>tests alongside every change]
     E --> F[Mean code review<br/>severe, concrete, actionable]
     E -->|discovery breaks a promise| P[Revise only that part<br/>Hank checks + one scoped critic round]
@@ -70,8 +89,8 @@ flowchart TD
 
 1. **Phase 1: Hank surveys the tank.** Load and verify real repository context, enforce a strict no-production-code rule during discovery, apply an explicit "sycophant challenge" (state the strongest counter-argument, find the weakest evidence), test the riskiest assumption with a short throwaway spike when a cheap test can settle it, then propose a first technical approach before asking the user for one.
 2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, architecture, alternatives considered, detailed implementation, risks, rollout, and a one-line-per-review `Dory validation record`. The design states the promises the code must keep, such as contracts, invariants, and the build order, not the code itself, and it has a length limit. Each rule is written once and referred to by name everywhere else, and the revision and review history lives in a separate history file, while decisions and rejected alternatives stay in the design. Before handing off to Dory, Hank runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
-3. **Phase 3: Ask Dory.** Run the comprehension and critic checks at the same time, each in its own fresh conversation, both reading the same commit of the document, after one pass of Hank's own checks (`reference/hank-checks.md`). Run readiness once both pass. Any failure sends the work back to Hank with a specific, actionable gap list, and Hank fixes everything from one batch in a single revision. A critic round with no blocking findings passes, and a design gets three critic rounds in its whole life.
-4. **Phase 4: Implement with guardrails.** Only after human approval, implement the smallest coherent units from the approved plan, with tests alongside every change. A discovery that keeps the design's promises is the implementer's call, logged in one line. One that breaks a promise revises only that part of the design, which gets Hank's checks and one scoped critic round, instead of restarting the whole review. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
+3. **Phase 3: Ask Dory.** At careful pace, run the comprehension and critic checks at the same time, each in its own fresh conversation, both reading the same commit of the document, after one pass of Hank's own checks (`reference/hank-checks.md`), and run readiness once both pass. At balanced and fast pace, one fresh reviewer runs the gates in one pass, and fast pace skips Hank's diff check. Any failure sends the work back to Hank with a specific, actionable gap list, and Hank fixes everything from one batch in a single revision, written in a new conversation that picks up from a handoff entry in the history file, so Hank's conversation stays short through the review loop. A critic round with no blocking findings passes, and a design gets two or three critic rounds in its whole life, by pace. Every reviewer runs on a model at least as capable as Hank's. Any reviewer that runs the critic or readiness review runs at Hank's reasoning effort or higher. A reviewer that runs only the comprehension test, and Hank's diff check, may run lower, but not below high or the tooling's nearest equivalent, or at Hank's effort if Hank runs below high.
+4. **Phase 4: Implement with guardrails.** Only after approval, or at fast pace on parts no blocking finding touches, implement the smallest coherent units from the approved plan, with tests alongside every change. A discovery that keeps the design's promises is the implementer's call, logged in one line. One that breaks a promise revises only that part of the design, which gets Hank's checks and one scoped critic round, or a scoped pass at fast pace, instead of restarting the whole review. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
 
 A **bootstrap-context** mode is also available for onboarding an existing, under-documented codebase: it recursively generates and rolls up `README.md` files from the leaves of the source tree upward, so a later Hank phase has real material to load instead of starting cold.
 
@@ -83,10 +102,11 @@ A **bootstrap-context** mode is also available for onboarding an existing, under
 | `dory-comprehension` | Test whether a fresh reader can understand the feature from the document alone, including a plain-language rewrite check. |
 | `dory-critic` | Adversarially review the design for omissions, faulty assumptions, and risk. |
 | `dory-readiness` | Decide whether the document is sufficient for a correct first-pass implementation. |
+| `dory-pass` | At balanced or fast pace, run the Dory gates the pace names in one fresh conversation. |
 | `implementation` | Implement strictly from an approved, validated design document. |
 | `mean-review` | Perform a severe, actionable code review against the approved design. |
 | `bootstrap-context` | Build a hierarchy of repository README files via bottom-up summarization. |
-| `full-voyage` | Orchestrate every phase above, in order, end to end, running comprehension and critic at the same time. |
+| `full-voyage` | Orchestrate every phase above, in order, end to end, with Marlin keeping it moving toward the final objective. |
 
 Not every job needs the full method. Trivial changes (a copy fix, a log line, an isolated one-file bug fix) skip straight to a direct edit plus tests and a code review. One-off operations (a download, a conversion, a test run, a publish, a one-time cleanup) get a one-page checklist and a review of any script instead. Anything touching public APIs, schemas, auth, migrations or deletions of user or production data, billing, security boundaries, or cross-team contracts always gets the full method.
 
@@ -104,7 +124,7 @@ gh skill install ajaxdude/HankNDory
 
 Pass `--agent <host> --scope <user|project>` to target a specific agent/location instead of the interactive prompt, e.g. `gh skill install ajaxdude/HankNDory --agent claude-code --scope user`.
 
-Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v1.6`, or pass `--pin v1.6`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
+Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.0`, or pass `--pin v2.0`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
 
 ### Manual install, by agent
 
@@ -144,23 +164,27 @@ HankNDory/
         ├── bootstrap-context.md
         ├── design-doc-template.md
         ├── hank-checks.md
+        ├── hank-handoff.md
+        ├── marlin.md
         ├── one-off-checklist.md
         └── plain-speech-checklist.md
 ```
 
 - **`CHANGELOG.md`**: what changed in each version, newest first.
-- **`hankndory/SKILL.md`**: the method itself, covering rules, modes, the four-phase lifecycle, the design document structure, and the failure-recovery guidance the agent follows.
+- **`hankndory/SKILL.md`**: the method itself, covering rules, modes, the charter and pace, the four-phase lifecycle, the design document structure, and the failure-recovery guidance the agent follows.
 - **`hankndory/agents/ui_metadata.yaml`**: display metadata (name, one-line description) used by tooling that surfaces installed skills in a UI.
 - **`hankndory/reference/bootstrap-context.md`**: the steps the `bootstrap-context` mode follows, kept out of `SKILL.md` to keep it short.
 - **`hankndory/reference/design-doc-template.md`**: the canonical starting template for every design document the Hank phase produces, with per-section guidance comments.
 - **`hankndory/reference/hank-checks.md`**: the mechanical scan and the diff check Hank runs once on each new version before Dory reviews it.
+- **`hankndory/reference/hank-handoff.md`**: how Hank hands the review loop to a new conversation after each batch, so its conversation stays short.
+- **`hankndory/reference/marlin.md`**: the charter, how Marlin sorts decisions, and the digest that replaces one-at-a-time questions.
 - **`hankndory/reference/one-off-checklist.md`**: the one-page checklist used instead of the design method for a one-off operation, such as a download or a one-time cleanup.
 - **`hankndory/reference/plain-speech-checklist.md`**: the checklist Hank applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
 - **`hankndory/`** is deliberately nested one level below the repository root (rather than living at the root itself) because `gh skill` and several other skill-discovery tools only scan for `*/SKILL.md`, not a `SKILL.md` at the very top of a repository.
 
 ## Why this matters in practice
 
-The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Hank brings the context and the caution. Dory brings the amnesia that keeps everyone honest.
+The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Hank brings the context and the caution. Dory brings the amnesia that keeps everyone honest. Marlin keeps everyone swimming toward Nemo.
 
 ## License
 

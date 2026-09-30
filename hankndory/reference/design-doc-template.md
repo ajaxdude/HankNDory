@@ -12,8 +12,9 @@
 
 <!-- Current workflow state from "Maintain workflow state" in SKILL.md, and the
      change classification from "Size the change before choosing a gate set,"
-     with the reason for it.
-     Target date for human approval, review budget, time spent so far, and
+     with the reason for it, and the pace and the charter's path and version
+     from "Pick the pace" and "Marlin keeps the voyage moving" in SKILL.md.
+     Target date for approval, review budget, time spent so far, and
      critic rounds used, as "Status" in SKILL.md describes.
      Add one line per substantive revision since the document was last
      reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older
@@ -109,8 +110,9 @@
 ## Referenced files
 
 <!-- Every file a fresh Dory phase needs to understand and implement the
-     plan, with a one-line reason for each. Remove stale or incidental
-     references. -->
+     plan, with a one-line reason for each and, for a large file, the part
+     that matters, named by section or function, not line number. Remove
+     stale or incidental references. -->
 
 ## Dory validation record
 
@@ -129,6 +131,5 @@
 
 ## Human approval
 
-<!-- Approver, date, and exactly what was approved. If the user is working
-     alone, state explicitly that human review was skipped by user
-     judgment. -->
+<!-- Who approved, when, and the version and commit approved. For approval
+     by the charter at fast pace, name the charter and its version. -->

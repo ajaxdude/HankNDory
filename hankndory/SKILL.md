@@ -3,26 +3,27 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. enforce explicit no-code gates and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "1.6"
+  version: "2.0"
 ---
 
-# HankNDory 1.6: The Hank & Dory Method
+# HankNDory 2.0: The Hank & Dory Method
 
-Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. Write production code only after every required gate passes.
+Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets, without waiting on the user for anything the user has delegated. Write production code only after every required gate passes.
 
 ## Core rules
 
 1. Treat the design document like source code, versioned and reviewed, and as the authoritative record of the feature.
 2. Keep the Hank phase and every Dory phase logically isolated. Run each Dory phase in a fresh conversation that starts with no history, never as a continuation of the Hank conversation. A sub-agent or a new chat in the same checkout counts; a new worktree, clone, or machine is not required. A Dory phase may use only the design document and files explicitly referenced by it.
-3. Do not write production code before the implementation gate passes.
+3. Do not write production code before the implementation gate passes, except where "Pick the pace" lets building overlap review.
 4. Ask hard questions, challenge assumptions, and explain reasoning. Do not merely agree.
 5. Separate facts verified from repository files from assumptions, proposals, and open questions.
 6. Never claim a gate passed if blocking findings, missing context, unresolved decisions, or unverified file references remain.
-7. Require human approval before implementation when a reviewer is available. If the user is working alone, explicitly record that human review was skipped by user judgment.
+7. Get human approval before building, either explicitly or, at fast pace, through the charter, as Step 7 describes. Never infer approval any other way.
 8. Preserve decisions and rejected alternatives in the design document so later sessions do not reopen settled questions without new evidence.
 9. Inspect referenced files before making claims about the current system. Do not invent paths, APIs, schemas, dependencies, or behavior.
 10. Building does not restart the design. Handle each implementation discovery as Step 8 describes, and revise only the part of the design whose promises it breaks.
 11. Size every request before choosing a mode, as "Size the change before choosing a gate set" describes, and use the lightest method that fits.
+12. Keep moving toward the final objective. Never leave work waiting on the user for a decision the charter delegates or that has a reversible default, as "Marlin keeps the voyage moving" describes.
 
 ## Determine the requested operating mode
 
@@ -32,10 +33,11 @@ Choose one mode from the user's request and current repository state:
 - **dory-comprehension**: test whether a fresh engineer can understand the feature and relevant current system, and whether that understanding survives a plain-language rewrite with nothing lost.
 - **dory-critic**: adversarially review the design for omissions, faulty assumptions, edge cases, risks, and ambiguity.
 - **dory-readiness**: decide whether the design contains everything needed for a first-pass implementation.
+- **dory-pass**: at balanced or fast pace, run the Dory steps that "Pick the pace" names, in one fresh conversation.
 - **implementation**: implement only from a validated and approved design document.
 - **mean-review**: perform a severe but actionable code review against the approved design or a one-off operation's checklist.
 - **bootstrap-context**: create a hierarchy of repository README files through bottom-up recursive summarization, following `reference/bootstrap-context.md`.
-- **full-voyage**: orchestrate all applicable phases in order, running the Dory gates in batches as described in "Dispatch Dory reviews."
+- **full-voyage**: orchestrate all applicable phases in order, with Marlin keeping the voyage moving, running the Dory gates in batches as described in "Dispatch Dory reviews."
 
 If the user asks to code a standard change but no validated design exists, do not implement. Explain the missing gate and begin or recommend `new-feature-hank`.
 
@@ -74,11 +76,34 @@ At the start of each response, determine and report only the current phase, the 
 
 When one batch fails more than one gate, record the earlier gate's state: `comprehension-failed` takes precedence over `critic-revisions-required`.
 
-Do not infer approval. Approval must be explicit.
+Do not infer approval. It must be explicit, or given by the charter as Step 7 describes.
 
-Human approval gates exactly one state transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions; only stop early if a gate fails, isolation cannot be certified, or another rule in this skill says to ask the user.
+Human approval gates exactly one state transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. At fast pace, the charter can give that approval. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions. Anything that needs the user goes in the digest, and only work that depends on a reserved answer waits.
 
-This version applies in full to new design documents. A design started under an earlier version keeps its document as written. From its next step it follows this version's review and building rules, counting the critic rounds it has already used. Adopting this version never by itself reopens a gate, invalidates a verdict, or voids an approval.
+This version applies in full to new design documents. A design started under an earlier version keeps its document as written. From its next step it follows this version's review and building rules, counting the critic rounds it has already used, and it runs at careful pace until the user sets a charter for it. Adopting this version never by itself reopens a gate, invalidates a verdict, or voids an approval.
+
+# Marlin keeps the voyage moving
+
+Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role, not a separate conversation: the conversation acting as Hank plays it, and a Hank handoff passes it on. Marlin keeps the work moving toward the final objective, following `reference/marlin.md` in this skill:
+
+- Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, the default wait, review points, and operating limits. Only the user changes it.
+- Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
+- Ask through one digest at a time, in a way that does not stop work, and meanwhile keep doing whatever no pending answer can change.
+- Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk.
+
+## Pick the pace
+
+The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work.
+
+| | Fast | Balanced | Careful |
+|---|---|---|---|
+| Dory reviewers per batch | one `dory-pass`: Steps 5, 5b, 6, and 7 | one `dory-pass`: Steps 5, 5b, and 6; then Step 7 | Step 5/5b and Step 6 in separate reviewers; then Step 7 |
+| Critic rounds in the document's whole life | two | two | three |
+| Hank's diff check | no | yes | yes |
+| Approval before building | the charter, as Step 7 describes | explicit | explicit |
+| Building overlaps review | yes | no | no |
+
+When building overlaps review, and while the design stays inside the charter, building may start as soon as a `dory-pass` returns, on its own branch, on any component that no blocking finding, Step 5/5b gap, or Step 7 item touches, while Hank revises and the next pass runs. Nothing built this way merges into a shared branch or deploys until the design is approved and Step 9 is clean. If a revision then changes that component's contracts, rework it as Step 8 describes.
 
 # Phase 1: Hank Surveys the Tank
 
@@ -112,16 +137,7 @@ During discovery and design discussion:
 - Distinguish must-haves from preferences and future extensions.
 - Define how the finished feature will be evaluated before selecting an implementation.
 
-Use questions such as:
-
-- What user or business problem must change, and for whom?
-- What observable outcome proves success?
-- What is explicitly out of scope?
-- What current behavior must remain invariant?
-- What inputs are untrusted, partial, delayed, duplicated, or out of order?
-- What happens on retries, partial failure, cancellation, rollback, or recovery?
-- Which compatibility, privacy, security, accessibility, latency, cost, and operability constraints apply?
-- Why is this assumption believed to be true, and which file or evidence verifies it?
+Useful questions ask: what problem must change, and for whom; what observable outcome proves success; what is out of scope; what current behavior must stay the same; which inputs are untrusted, partial, delayed, duplicated, or out of order; what happens on retries, partial failure, cancellation, rollback, or recovery; which compatibility, privacy, security, accessibility, latency, cost, and operability limits apply; and which file or evidence shows each assumption is true.
 
 Continue until the problem, constraints, and acceptance criteria are crisp enough to compare designs.
 
@@ -174,30 +190,7 @@ Create or update one markdown design document in the repository. Build it sectio
 
 ## Required document structure
 
-Start every new design document from `reference/design-doc-template.md` in this skill, unless repository conventions require a stricter template. That template carries the same headings below plus guidance comments for each section:
-
-```markdown
-# <Feature name>
-
-## Status
-## Problem
-## Goals and non-goals
-## Current system
-## Requirements and acceptance criteria
-## Technical plan
-## Architecture and flows
-## Alternatives considered
-## Detailed implementation
-## Testing and evaluation
-## Security, privacy, reliability, and operations
-## Rollout, migration, and rollback
-## Risks and mitigations
-## Open questions
-## Decision log
-## Referenced files
-## Dory validation record
-## Human approval
-```
+Start every new design document from `reference/design-doc-template.md` in this skill, unless repository conventions require a stricter template. The template lists the required sections, with guidance for each.
 
 ### Length limit
 
@@ -205,7 +198,7 @@ Keep the design document under 3,000 words, not counting the Referenced files li
 
 ### Status
 
-State the current workflow state from "Maintain workflow state" and the change classification from "Size the change before choosing a gate set." Record a target date for human approval and a review budget in hours or cost, set with the user, or proposed by Hank when the user has none. Keep a running count of the time spent and the critic rounds used, and escalate to the user as soon as review passes the target date or uses up the budget. Add one line per substantive revision since the document was last reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older lines to the history file. Bump the version whenever a Dory phase or human reviewer needs to know what changed; do not bump it for typo fixes. Each entry in the "Dory validation record" must state which version it reviewed.
+State the current workflow state from "Maintain workflow state", the change classification from "Size the change before choosing a gate set", and the pace and the charter's path and version the design runs under. Record a target date for approval and a review budget in hours or cost, taken from the charter, or set with the user when there is none. Keep a running count of the time spent and the critic rounds used, and escalate to the user as soon as review passes the target date or uses up the budget. Add one line per substantive revision since the document was last reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older lines to the history file. Bump the version whenever a Dory phase or human reviewer needs to know what changed; do not bump it for typo fixes. Each entry in the "Dory validation record" must state which version it reviewed.
 
 ### Problem
 
@@ -239,7 +232,7 @@ Then give the build order, with dependencies and checkpoints. Do not list every 
 
 ### Referenced files
 
-List every file needed by a fresh session to understand and implement the plan. Briefly state why each is required. Remove stale or incidental references.
+List every file needed by a fresh session to understand and implement the plan. Briefly state why each is required and, for a large file, which part matters, named by section or function rather than by line number. Remove stale or incidental references.
 
 ### Dory validation record
 
@@ -256,7 +249,7 @@ Keep one line per independent review here, giving its type, the version it revie
 
 ## Keep history out of the rules
 
-Keep the full revision list, the gate history, and the full Dory validation entries in a sibling history file, such as `docs/design/<feature-name>.history.md`, whose first line reads "This file is a record, not a rule." The gate history includes each run of Hank's checks (see "Run the gates in batches") and what it found. Of that history, the design document keeps only what "Status" and "Dory validation record" say to keep. Every decision and rejected alternative stays in the design document. Leave the history file out of Referenced files, because no gate depends on it.
+Keep the full revision list, the gate history, and the full Dory validation entries in a sibling history file, such as `docs/design/<feature-name>.history.md`, whose first line reads "This file is a record, not a rule." The gate history includes each run of Hank's checks (see "Run the gates in batches") and what it found. The history file also keeps each Hank handoff entry (see "Keep Hank's conversation short"), which records where the review loop stands and adds no rule. Of that history, the design document keeps only what "Status" and "Dory validation record" say to keep. Every decision and rejected alternative stays in the design document. Leave the history file out of Referenced files, because no gate depends on it.
 
 ## Write each rule once
 
@@ -272,7 +265,7 @@ This is a standing editing habit, not a gate: do it and continue in the same tur
 
 A Dory phase must behave as if it has just met the plan for the first time, with zero access to the Hank conversation. Use only the design document and files it explicitly references. Do not silently fill gaps from prior chat context.
 
-Run every Dory phase in a fresh conversation, never as a continuation of the Hank phase or an earlier Dory phase; a single ongoing conversation cannot honestly certify its own amnesia. If the available tooling cannot start a fresh conversation, say so and record the isolation gate as not certified rather than asserting it passed.
+Run every Dory phase in a fresh conversation, never as a continuation of the Hank phase or of an earlier reviewer, though the steps of one `dory-pass` share its one fresh conversation; a single ongoing conversation cannot honestly certify its own amnesia. If the available tooling cannot start a fresh conversation, say so and record the isolation gate as not certified rather than asserting it passed.
 
 Before returning a verdict, answer one self-audit question in the output: "What did this verdict rely on that is not in the design document or its referenced files?" A non-empty answer means the gate fails; add that information to the document explicitly and rerun a fresh Dory phase.
 
@@ -288,37 +281,44 @@ Use the first option the tooling supports:
 2. a new chat session in the checkout Hank is using;
 3. a new worktree or clone, only when that checkout cannot stay unchanged until the review returns, or when the reviewer must run on another machine.
 
-Skip the sub-agent option when a sub-agent's starting context shows checkpoints, history, or session files from before its kickoff prompt, and rerun in a new chat session any review whose reviewer reports seeing them. If a new chat session shows them too, the tooling cannot start a fresh conversation, which Phase 3's opening paragraphs cover. Start any new session for a reviewer in a session mode that does not pause for plan approval, so it runs unattended. Never start a reviewer by forking or resuming the Hank conversation, or by handing it a summary of that conversation. A fork copies the history the review must be free of. Run each reviewer on a model at least as capable as Hank's, at the same or higher reasoning effort. Read-only tool access is fine. A lighter model or lower effort is not, because it trades review quality for speed.
+Skip the sub-agent option when a sub-agent's starting context shows checkpoints, history, or session files from before its kickoff prompt, and rerun in a new chat session any review whose reviewer reports seeing them. If a new chat session shows them too, the tooling cannot start a fresh conversation, which Phase 3's opening paragraphs cover. Start any new session for a reviewer in a session mode that does not pause for plan approval, so it runs unattended. Never start a reviewer by forking or resuming the Hank conversation, or by handing it a summary of that conversation. A fork copies the history the review must be free of. Run each reviewer, and the diff check, on a model at least as capable as Hank's. Steps 6 and 7 judge the whole design, so a reviewer that runs either one runs at Hank's reasoning effort or higher. A reviewer that runs only Step 5/5b tests whether the text carries its meaning, and the diff check reads only a diff and the sections it touches, so they may run at lower effort than Hank's, down to high or the tooling's nearest equivalent. If Hank runs below high, they run at Hank's effort. Read-only tool access is fine. A lighter model, or effort below these levels, is not, because it trades review quality for speed.
 
 ### Freeze the document
 
-Before starting a batch or Hank's checks, commit the design document and every referenced file you changed, and make sure `Status` names the version at that commit. Every reviewer and check reads the commit it was given through `git show <commit>:<path>`, or an equivalent frozen copy when the project isn't in git, never the working tree. Do not edit the design document or any referenced file until every review and check in the batch has returned. If a reviewer or check reports a different version or commit from the one it was given, discard what it returned and rerun it.
+Before starting a batch or Hank's checks, commit the design document and every referenced file you changed, and make sure `Status` names the version at that commit. Every reviewer and check reads the commit it was given through `git show <commit>:<path>`, or an equivalent frozen copy when the project isn't in git, never the working tree. Do not edit the design document or any referenced file until every review and check in the batch has returned, except on the building branch that "Pick the pace" allows. If a reviewer or check reports a different version or commit from the one it was given, or a reviewer reports reading the history file, discard what it returned and rerun it.
 
 ### Write the kickoff prompt
 
 Give each reviewer only:
 
-- the mode and step to run, for example `dory-critic`, Step 6;
+- the mode and steps to run, for example `dory-critic`, Step 6, or `dory-pass`, Steps 5 to 7;
 - the design document's path, version, and commit;
 - an instruction to read that document and only the files in its `Referenced files` section, at that commit, to change nothing, and to follow this skill's instructions for that step;
+- an instruction to read the document in one piece, for example with one `git show`, skipping none of it and reading the rest if the tooling cuts a read short, to read each referenced file at most once and search it rather than reread it, and to send one final report with no progress messages;
 - any operating limits the user set, such as machines or commands that are off limits;
-- for a scoped critic round, the last commit a batch reviewed, and an instruction to critique only the sections changed since that commit, reading the rest of the document for context;
+- for a scoped critic round, or the Step 6 part of a scoped `dory-pass`, the last commit a batch reviewed, and an instruction to critique only the sections changed since that commit, reading the rest of the document for context;
 - what to return: the step's required output and verdict, the document version and commit it read, the files it read, the HankNDory version it followed, whether its starting context showed checkpoints, history, or session files from before this prompt, and its answer to the Phase 3 self-audit question.
 
-If the reviewer cannot load this skill, paste Phase 3's opening paragraphs and the text of its step into the prompt. That text is instructions, not design context. Never add design content: no decisions, hints, summaries, or expected verdicts.
+If the reviewer cannot load this skill, paste Phase 3's opening paragraphs and the text of each step it runs into the prompt. That text is instructions, not design context. Never add design content: no decisions, hints, summaries, or expected verdicts.
 
 ### Run the gates in batches
 
+Numbered step 1 below is for careful pace. At balanced or fast pace, one reviewer in mode `dory-pass` runs the steps "Pick the pace" names, in order, on one frozen version, and reports a verdict for each. It takes the place of the separate reviewers in steps 2 to 4, and each step closes as it would at careful pace. A later pass runs only the steps still open, plus Step 7 at fast pace; run Step 7 alone only when it is the only step still open. At fast pace, a `READY` counts only if, on that same version, Steps 5 and 5b passed, Step 6 closed, every gate was certified isolated, every check in the batch returned, and no revision followed. That pass's important findings then go to the history file as notes for the builder, instead of into a revision. Step 7's version limit counts only versions it reviewed after Steps 5, 5b, and 6 closed.
+
 Steps 5 and 5b run in one reviewer, because Step 5b rewrites Step 5's explanation. Step 6 reads the same frozen version and does not need Step 5's result, so the two reviewers can run at the same time.
 
-Before a batch reviews a version that no earlier batch has reviewed, Step 7's batches included, run Hank's checks on it once: the pre-flight scan and, once an earlier batch has reviewed a commit, the diff check, both described in `reference/hank-checks.md`. Commit that version as a candidate and give the checks that commit. Fix what they find, and start the batch on the commit that includes those fixes without rerunning the checks. They are one pass, not a gate, so never loop them until they come back clean. Any other check Hank runs that reads the whole document runs alongside the batch instead, on the batch's commit and never before it, and its findings join the reviewers' findings. A check that errors out or stalls holds nothing back and counts as returned. Stop it if it is still running, start the batch or write the batch's revision without it, and record the gap in the history file. If it cannot be stopped and returns later, record what it found as non-blocking notes in the history file.
+Before a batch reviews a version that no earlier batch has reviewed, Step 7's batches included, run Hank's checks on it once, as `reference/hank-checks.md` describes: the pre-flight scan, and also the diff check if an earlier batch has reviewed a commit and the pace calls for one. Commit that version as a candidate and give the checks that commit. Fix what they find, and start the batch on the commit that includes those fixes without rerunning the checks. They are one pass, not a gate, so never loop them until they come back clean. Any other check Hank runs that reads the whole document runs alongside the batch instead, on the batch's commit and never before it, and its findings join the reviewers' findings. A check that errors out or stalls holds nothing back and counts as returned. Stop it if it is still running, start the batch or write the batch's revision without it, and record the gap in the history file. If it cannot be stopped and returns later, record what it found as non-blocking notes in the history file.
 
 1. Start the Step 5/5b reviewer and a Step 6 critic round together.
-2. Wait for every review in the batch, and gather the findings of any whole-document check running alongside it once that check returns. Fix all of their findings except those Step 6 makes optional, in one Hank revision, and bump the version. If Hank's checks or reviewers find that two revisions in a row brought back the defect class they were written to fix, restructure the document in this revision instead of patching that text again, for example by moving history into the history file or by splitting the document.
+2. Wait for every review in the batch, as "Keep Hank's conversation short" describes, and gather the findings of any whole-document check running alongside it once that check returns. Fix all of their findings except those Step 6 makes optional, in one Hank revision, and bump the version. If Hank's checks or reviewers find that two revisions in a row brought back the defect class they were written to fix, restructure the document in this revision instead of patching that text again, for example by moving history into the history file or by splitting the document.
 3. Start the next batch with only the gates still open. Step 5/5b stays open until it passes. Step 6 stays open until it closes as Step 6 describes.
-4. Once both gates have closed, start Step 7 on the current version. Only a `READY` version that no revision followed goes to human approval. After a `READY`, revise only for blocking findings, as Step 6 defines them, from a whole-document check in its batch, and leave the rest as non-blocking notes in the history file. If you revised, run Step 7 again on the new version. If Step 7 would need to review a fourth version before approval, escalate its open findings to the user instead.
+4. Once both gates have closed, start Step 7 on the current version. Only a `READY` version that no revision followed goes to approval. After a `READY`, revise only for blocking findings, as Step 6 defines them, from a whole-document check in its batch, and leave the rest as non-blocking notes in the history file. If you revised, run Step 7 again on the new version. If Step 7 would need to review a fourth version before approval, escalate its open findings to the user instead.
 
 If more than one reviewer runs the same gate as a cross-check, start them together on the same commit. The gate passes only if all of them pass it. Before starting a replacement reviewer, confirm the first one failed or stalled; otherwise wait for it. If the tooling can run only one reviewer at a time, run the batch's reviews and then any whole-document check back to back, and still revise once per batch.
+
+### Keep Hank's conversation short
+
+Every step Hank takes rereads its whole conversation, so a long one makes each step slower and costlier. Hank's working record is the files, and the design document has to stand on its own for Dory anyway. Phases 1 and 2 stay in one conversation, because the discussion with the user is what they build on. Once a batch has returned, write each revision in a new Hank conversation, never a fork or resume of the old one, following `reference/hank-handoff.md` in this skill. During Step 8, the implementing conversation writes its scoped revision itself and does not hand off. Before starting a reviewer or check, set a stall time from how long that step took before. Then wait for the tooling's notice that it has finished, instead of checking on it again and again. Use a timeout or a scheduled wake-up where the tooling allows, and check once when the stall time passes.
 
 ## Step 5: Comprehension test
 
@@ -366,13 +366,13 @@ Assume the role of an expert technical reviewer. Search for:
 
 Classify each finding as `blocking`, `important`, or `nit`. A finding is blocking only if, left as it is, the design would lead an implementer to build the wrong thing, break a requirement or contract, or create a security, privacy, or data-loss risk. Include evidence, impact, and a concrete document fix. Do not inflate severity.
 
-A critic round with no blocking findings closes Step 6, even if Step 5/5b failed in the same batch. Hank fixes its important findings once, in the next revision, and a diff check verifies them; they start no new critic round. Nits are optional. During design, only a round with blocking findings leads to another critic round, which may be scoped to the fix.
+A critic round with no blocking findings closes Step 6, even if Step 5/5b failed in the same batch. Hank fixes its important findings once, in the next revision, and a diff check verifies them where the pace calls for one; they start no new critic round. Nits are optional. During design, only a round with blocking findings leads to another critic round, which may be scoped to the fix.
 
-A design document gets three critic rounds in its whole life, counting scoped rounds and rounds after a return from building. Restructuring or splitting the document does not reset the count, and each document a split produces keeps the count so far. When a fourth round would be needed, or two reviews disagree on whether the same finding is blocking, escalate the open or disputed blocking findings to the user, with both positions for a dispute. Run another critic round only with the user's explicit OK.
+A design document gets the critic rounds "Pick the pace" allows in its whole life, counting scoped rounds, `dory-pass` runs that include Step 6, and rounds after a return from building. Restructuring or splitting the document does not reset the count, and each document a split produces keeps the count so far. When one more round would be needed, or two reviews disagree on whether the same finding is blocking, escalate the open or disputed blocking findings to the user, with both positions for a dispute. Run another critic round only with the user's explicit OK.
 
 ## Step 7: Implementation-readiness test
 
-Start this step only once Steps 5, 5b, and 6 have closed (see "Run the gates in batches"). Review the current version.
+Start this step only once Steps 5, 5b, and 6 have closed (see "Run the gates in batches"), or, at fast pace, in the same `dory-pass` as them. Review the current version.
 
 Evaluate whether an experienced engineer, with only the design and referenced files, can implement the feature correctly on the first pass.
 
@@ -392,13 +392,13 @@ Return one verdict:
 - **READY**: no material implementation question remains.
 - **NOT READY**: list the minimum questions or edits required.
 
-After `READY`, require human review and explicit approval. Record approval status in the document.
+After `READY`, get approval as "Pick the pace" says, and record in the document who gave it, when, and the version and commit it covers. At fast pace, Step 7 also lists every "Always standard" item and every step that can't be undone that the design touches, and the charter approves only a `READY` that counts under "Run the gates in batches", whose list holds nothing the charter does not name, and that stays inside the charter's objective, budget, and delegation. Record it as approved by the charter and its version, report it in the next digest, and start building. Anything outside the charter goes to the user as a reserved decision.
 
 # Phase 4: Implement with guardrails
 
 ## Step 8: Implement the approved design
 
-Proceed only when the design is marked `approved-for-implementation`.
+Proceed only when the design is marked `approved-for-implementation`, or on work that "Pick the pace" lets overlap review.
 
 1. Read the full design and all referenced files relevant to the next implementation unit.
 2. Follow the build order and keep every contract.
@@ -409,8 +409,8 @@ Proceed only when the design is marked `approved-for-implementation`.
 7. Keep a concise implementation log outside the design document, mapping each change to the files it touched and the design section it serves.
 8. Sort each discovery by whether it keeps the design's promises: its contracts, invariants, security and privacy rules, user-visible behavior, and scope.
    - If it keeps them, decide, add one line to the implementation log, and continue. The code review covers it.
-   - If it breaks one, pause the work that depends on it and revise only that part of the design. Run Hank's checks on the revision and one critic round scoped to it, and resume once a critic round on it has no blocking findings. Rerun Steps 5, 5b, and 7 only if the revision changes the Problem, the Goals, or the overall approach.
-   - Ask the user only when the revision changes the scope, an approved contract, or the risk, and wait for their answer before building on it.
+   - If it breaks one, pause the work that depends on it and revise only that part of the design. Run Hank's checks on the revision and one critic round scoped to it, a scoped `dory-pass` at fast pace, and resume once a critic round on it has no blocking findings. Rerun Steps 5, 5b, and 7 only if the revision changes the Problem, the Goals, or the overall approach; at fast pace, those steps join the same pass. Approval carries over unless the revision leaves the charter. The charter may grant extra critic rounds for this step; otherwise the lifetime limit applies.
+   - Ask the user only when the revision changes the scope, an approved contract, or the risk beyond what the charter delegates. Treat it as a reserved decision, and wait for the answer before building on it.
 
 ## Step 9: Perform the mean code review
 
@@ -432,7 +432,7 @@ Inspect:
 
 Do not require comments every 10 lines mechanically. Require comments where they preserve design intent or explain non-obvious constraints; prefer clearer code over compensating comments.
 
-For each finding include severity, file and location, evidence, impact, and recommended fix. Repeat review and repair until only trivial findings remain, then report residual risks and final verification results. After the first round, a re-review reads the fix diff and what those fixes could break. A fix that touched a shared contract, such as a public interface, schema, or cross-team contract, gets a full re-review instead. Run slow checks, such as mutation testing, alongside the review on the commit it reviews. A clean verdict counts only once those checks meet the bar the design's Testing and evaluation section sets; if it sets none for a check, ask the user for one right away.
+For each finding include severity, file and location, evidence, impact, and recommended fix. Repeat review and repair until only trivial findings remain, then report residual risks and final verification results. After the first round, a re-review reads the fix diff and what those fixes could break. A fix that touched a shared contract, such as a public interface, schema, or cross-team contract, gets a full re-review instead. Run slow checks, such as mutation testing, alongside the review on the commit it reviews. A clean verdict counts only once those checks meet the bar the design's Testing and evaluation section sets; if it sets none for a check, put the question in the digest, with a proposed bar as the reversible default.
 
 # Required outputs
 
@@ -443,6 +443,7 @@ Adapt detail to the active mode, but always provide:
 - HankNDory version
 - Mode
 - Change classification (trivial, one-off, or standard) and why
+- Pace and charter version
 - Current gate
 - Verdict or state
 - Evidence inspected
@@ -457,7 +458,7 @@ List only unresolved, material items. Separate blockers from non-blocking notes.
 
 ## Next action
 
-Specify exactly one next workflow action, then take it immediately in the same turn unless it is the Step 7 human-approval checkpoint. Never jump across an unpassed gate. When anything needs the user, make asking the next action: ask right away, give your recommendation, and never leave the question only in a file. While you wait, keep doing the work that every possible answer needs. Every escalation states the time spent, the critic rounds used, and what is actually blocking. When nothing is blocking, recommend proceeding with notes, never another round.
+Specify exactly one next workflow action, then take it immediately in the same turn, unless it waits on explicit approval or another reserved decision. Never jump across an unpassed gate. When anything needs the user, put it in the digest with your recommendation, as "Marlin keeps the voyage moving" describes, and never leave a question only in a file. While you wait, keep doing the work that every possible answer needs. Every escalation states the time spent, the critic rounds used, and what is actually blocking. When nothing is blocking, recommend proceeding with notes, never another round.
 
 # Failure recovery
 
@@ -465,7 +466,7 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - If referenced files are missing, stop the affected Dory gate and list the missing paths.
 - If the repository is too large, switch to `bootstrap-context` or narrow to the relevant subsystem.
 - If a review produces contradictory findings, verify against source files and elevate the contradiction as a blocking question.
-- If a session loses context, restart from the design document and its referenced files rather than reconstructing history from memory.
+- If a session loses context, restart from the charter, the design document, its referenced files, and the latest handoff entry and digest in the history file and any history entries after them, rather than reconstructing history from memory.
 - If a fresh conversation cannot be started for a Dory phase, say so and record that gate as not certified rather than asserting isolation.
 - If validation repeatedly fails, reduce scope, split the feature, or sharpen the Current system section and the contracts in Detailed implementation.
 
@@ -485,8 +486,12 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Certifying a Dory phase's isolation without actually running it in a fresh conversation.
 - Iterating critic-review rounds indefinitely instead of escalating a persistent disagreement to the user.
 - Putting Hank-phase decisions, hints, or summaries into a Dory kickoff prompt.
-- Running a Dory reviewer on a lighter model or lower reasoning effort than Hank to save time.
-- Giving each Dory phase its own worktree, or running Step 5/5b and Step 6 one after the other, when the tooling allows a lighter or concurrent run.
+- Running a Dory reviewer or check on a lighter model, or at lower reasoning effort than "Choose where each reviewer runs" allows, to save time.
+- Carrying one Hank conversation through the whole review loop when the tooling can start a new one, or checking on a running reviewer again and again.
+- Giving each Dory phase its own worktree, or at careful pace running Step 5/5b and Step 6 one after the other, when the tooling allows a lighter or concurrent run.
 - Recommending another review round when nothing is blocking.
 - Using the design method for a one-off operation.
 - Restating code in the design.
+- Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait.
+- Asking questions one at a time, or in a prompt that stops work, when a digest would do.
+- Running work under "Always standard" faster than careful pace without the charter naming it.
