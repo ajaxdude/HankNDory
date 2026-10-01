@@ -15,7 +15,7 @@ The Hank conversation that started the batch waits for it, then:
    - the commit the next diff check starts from, where the pace calls for one, the defect classes earlier reviews found, and whether the next revision must restructure the document, as step 2 of "Run the gates in batches" in `SKILL.md` requires;
    - any reviewer or check still running, and where its result will arrive;
    - the charter's path and version, and the pace;
-   - at light or fast pace, the building under way: its components, its branch, and its implementation log;
+   - every other work stream still running, such as building, research, tests, or drafts: what it is doing, its branch or output, any implementation log, and where its result will arrive;
    - the critic rounds used, the time spent, the target date, and the review budget;
    - every user decision, preference, and rejected option since the last handoff, or since Phase 1 for the first handoff, that the design document does not hold yet;
    - the open digest: each question waiting on the user, with its recommendation and plain context, written as "Ask with context" in `reference/marlin.md` describes, and for a reversible one, its default and when that takes effect;
@@ -42,6 +42,6 @@ If the tooling cannot start such a conversation without the user, shrink the cur
 
 1. Marks the handoff entry `Taken over`, with the commit it read, and commits that. Then it sets up its own hourly-update wake-up, as `reference/marlin.md` describes.
 2. Sends the open digest again, as its first message to the user, keeping each default's original time.
-3. Writes the revision, applying `reference/plain-speech-checklist.md` to each prose section it changes, runs Hank's checks, starts the next batch, and waits for it. When that batch returns, it hands off in turn.
+3. Takes over the work streams the entry lists, reading each result where the entry says it will arrive, starts any allowed work no listed stream covers, as "Start everything allowed, in parallel" in `reference/marlin.md` describes, then writes the revision, applying `reference/plain-speech-checklist.md` to each prose section it changes, runs Hank's checks, starts the next batch, and waits for it. When that batch returns, it hands off in turn.
 
 Anything the handoff entry leaves unclear, it puts in the next digest rather than guesses. If something it needed was missing from the files, it adds that to the design document or the next handoff entry, so the gap does not repeat.

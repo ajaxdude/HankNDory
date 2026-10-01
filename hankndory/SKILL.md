@@ -3,12 +3,12 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. enforce explicit no-code gates and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.2"
+  version: "2.3"
 ---
 
-# HankNDory 2.2: The Hank & Dory Method
+# HankNDory 2.3: The Hank & Dory Method
 
-Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets, without waiting on the user for anything the user has delegated. Write production code only after every required gate passes.
+Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, and never waits on the user for anything the user has delegated. Write production code only after every required gate passes.
 
 ## Core rules
 
@@ -23,7 +23,7 @@ Named for the fish who forgets everything yet still finds her way by trusting wh
 9. Inspect referenced files before making claims about the current system. Do not invent paths, APIs, schemas, dependencies, or behavior.
 10. Building does not restart the design. Handle each implementation discovery as Step 8 describes, and revise only the part of the design whose promises it breaks.
 11. Size every request before choosing a mode, as "Size the change before choosing a gate set" describes, and use the lightest method that fits.
-12. Keep moving toward the final objective. Never leave work waiting on the user for a decision the charter delegates or that has a reversible default, as "Marlin keeps the voyage moving" describes.
+12. Keep moving toward the final objective. At every pace, start at once all work the charter and current approvals allow, and run independent work in parallel. Never leave work waiting on the user for a decision the charter delegates or that has a reversible default, as "Marlin keeps the voyage moving" describes.
 
 ## Determine the requested operating mode
 
@@ -86,14 +86,14 @@ This version applies in full to new design documents. A design started under an 
 
 Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role, not a separate conversation: the conversation acting as Hank plays it, and a Hank handoff passes it on. Marlin keeps the work moving toward the final objective, following `reference/marlin.md` in this skill:
 
-- Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, the backup remote, and where the hourly update goes. Only the user changes it.
+- Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, any limit on parallel streams, the backup remote, and where the hourly update goes. Only the user changes it.
 - Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
-- Ask through one digest at a time, in a way that does not stop work, and meanwhile keep doing whatever no pending answer can change. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
-- Post Dory's hourly update, a three-row table of what was just done, what is happening now, and what comes next. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, as `reference/marlin.md` describes.
+- Ask through one digest at a time, in a way that does not stop work, and meanwhile start everything allowed at once, in parallel, as `reference/marlin.md` describes. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
+- Post Dory's hourly update, a three-row table of what was just done, what is happening now in each stream, and what comes next. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, as `reference/marlin.md` describes.
 
 ## Pick the pace
 
-The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work, and the hourly update still goes to the chat the user reads.
+The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work, allowed work still starts at once and in parallel, and the hourly update still goes to the chat the user reads.
 
 | | Light | Fast | Balanced | Careful |
 |---|---|---|---|---|
@@ -105,7 +105,7 @@ The charter sets each design's pace. Set the charter before Step 1 of a standard
 
 When building overlaps review, and while the design stays inside the charter, building may start as soon as a `dory-pass` returns, on its own branch, on any component that no blocking finding, Step 5/5b gap, or Step 7 item touches, while Hank revises and the next pass runs. Nothing built this way merges into a shared branch or deploys until the design is approved and Step 9 is clean. If a revision then changes that component's contracts, rework it as Step 8 describes.
 
-Light pace suits a point release or a design written after the code. It follows every fast-pace rule except where this paragraph differs; without a design-review budget cap in the charter, use fast pace instead. Hank fixes everything a pass found in one revision: the design, and, on the building branch, any code the pass shows to be wrong. Run Hank's checks, the diff check included, on that revision. If the pass had a blocking finding, a Step 5/5b `FAIL`, or a Step 7 `NOT READY`, a second pass runs on the fixed revision if the design-review budget allows, followed by one more fix under the same rules; this second pass and any Step 8 scoped round share a lifetime limit of two critic rounds. The charter approves only when the last pass had none of those three. It then approves that pass's fix revision, or the pass's own version if it found nothing, in place of a `READY` that no revision followed, within the limits Step 7 sets for fast pace. Otherwise the open findings go to the user. Step 9 runs one review and one re-review, which follows Step 9's rule on scope; any finding still open goes in the digest, and while a non-trivial one is open, merging and deploying stay reserved whatever the charter delegates.
+Light pace suits a point release or a design written after the code. It follows every fast-pace rule except where this paragraph differs; without a design-review budget cap in the charter, use fast pace instead. Hank fixes everything a pass found in one revision: the design, and, on a building branch, any code the pass shows to be wrong. Run Hank's checks, the diff check included, on that revision. If the pass had a blocking finding, a Step 5/5b `FAIL`, or a Step 7 `NOT READY`, a second pass runs on the fixed revision if the design-review budget allows, followed by one more fix under the same rules; this second pass and any Step 8 scoped round share a lifetime limit of two critic rounds. The charter approves only when the last pass had none of those three. It then approves that pass's fix revision, or the pass's own version if it found nothing, in place of a `READY` that no revision followed, within the limits Step 7 sets for fast pace. Otherwise the open findings go to the user. Step 9 runs one review and one re-review, which follows Step 9's rule on scope; any finding still open goes in the digest, and while a non-trivial one is open, merging and deploying stay reserved whatever the charter delegates.
 
 # Phase 1: Hank Surveys the Tank
 
@@ -287,7 +287,7 @@ Skip the sub-agent option when a sub-agent's starting context shows checkpoints,
 
 ### Freeze the document
 
-Before starting a batch or Hank's checks, commit the design document and every referenced file you changed, and make sure `Status` names the version at that commit. Every reviewer and check reads the commit it was given through `git show <commit>:<path>`, or an equivalent frozen copy when the project isn't in git, never the working tree. Do not edit the design document or any referenced file until every review and check in the batch has returned, except on the building branch that "Pick the pace" allows. If a reviewer or check reports a different version or commit from the one it was given, or a reviewer reports reading the history file, discard what it returned and rerun it.
+Before starting a batch or Hank's checks, commit the design document and every referenced file you changed, and make sure `Status` names the version at that commit. Every reviewer and check reads the commit it was given through `git show <commit>:<path>`, or an equivalent frozen copy when the project isn't in git, never the working tree. Do not edit the design document or any referenced file until every review and check in the batch has returned, except on a building branch that "Pick the pace" allows. If a reviewer or check reports a different version or commit from the one it was given, or a reviewer reports reading the history file, discard what it returned and rerun it.
 
 ### Write the kickoff prompt
 
@@ -320,7 +320,7 @@ If more than one reviewer runs the same gate as a cross-check, start them togeth
 
 ### Keep Hank's conversation short
 
-Every step Hank takes rereads its whole conversation, so a long one makes each step slower and costlier. Hank's working record is the files, and the design document has to stand on its own for Dory anyway. Phases 1 and 2 stay in one conversation, because the discussion with the user is what they build on. Once a batch has returned, write each revision in a new Hank conversation, never a fork or resume of the old one, following `reference/hank-handoff.md` in this skill. During Step 8, the implementing conversation writes its scoped revision itself and does not hand off. Before starting a reviewer or check, set a stall time from how long that step took before. Then wait for the tooling's notice that it has finished, instead of checking on it again and again. Use a timeout or a scheduled wake-up where the tooling allows, and check once when the stall time passes.
+Every step Hank takes rereads its whole conversation, so a long one makes each step slower and costlier. Hank's working record is the files, and the design document has to stand on its own for Dory anyway. Phases 1 and 2 stay in one conversation, because the discussion with the user is what they build on. Once a batch has returned, write each revision in a new Hank conversation, never a fork or resume of the old one, following `reference/hank-handoff.md` in this skill. During Step 8, the conversation acting as Hank writes the scoped revision itself and does not hand off; a building stream that finds a broken promise pauses that work and reports it. Before starting a reviewer or check, set a stall time from how long that step took before. Then wait for the tooling's notice that it has finished, instead of checking on it again and again. Use a timeout or a scheduled wake-up where the tooling allows, and check once when the stall time passes.
 
 ## Step 5: Comprehension test
 
@@ -460,7 +460,7 @@ List only unresolved, material items. Separate blockers from non-blocking notes.
 
 ## Next action
 
-Specify exactly one next workflow action, then take it immediately in the same turn, unless it waits on explicit approval or another reserved decision. Never jump across an unpassed gate. When anything needs the user, put it in the digest with your recommendation and its plain context, as "Marlin keeps the voyage moving" describes, and never leave a question only in a file. While you wait, keep doing the work that every possible answer needs. Every escalation states the time spent, the critic rounds used, and what is actually blocking. When nothing is blocking, recommend proceeding with notes, never another round.
+Specify exactly one next workflow action, then take it immediately in the same turn, unless it waits on explicit approval or another reserved decision. Never jump across an unpassed gate. When anything needs the user, put it in the digest with your recommendation and its plain context, as "Marlin keeps the voyage moving" describes, and never leave a question only in a file. While you wait, start everything allowed, as "Marlin keeps the voyage moving" describes. Every escalation states the time spent, the critic rounds used, and what is actually blocking. When nothing is blocking, recommend proceeding with notes, never another round.
 
 # Failure recovery
 
@@ -494,6 +494,6 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Recommending another review round when nothing is blocking.
 - Using the design method for a one-off operation.
 - Restating code in the design.
-- Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait.
+- Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait; holding back allowed work for a gate, digest, or answer it does not depend on; or running independent work one stream at a time when the tooling, the charter, and the budget allow more.
 - Asking questions one at a time, or in a prompt that stops work, when a digest would do; asking without plain context; or using internal labels, such as document, review, or step numbers, with the user.
 - Running work under "Always standard" faster than careful pace without the charter naming it.

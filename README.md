@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with an AI coding agent, named for three Pixar characters: Dory and Marlin, from *Finding Nemo*, and Hank, from its sequel, *Finding Dory*.**
 
-This is version 2.2. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.3. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -55,8 +55,8 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, M
 
 - decides what the charter hands over, and records it;
 - sends you one **digest** at a time, holding every question and every piece of news. Each question leads with a recommendation, then two to four plain sentences on what it is, why it needs deciding now, and what each option costs you in time, money, or risk, and, where it can be undone, a default and when it takes effect;
-- posts **Dory's hourly update**, a three-row table of what was just done, what is happening now, and what comes next, written for someone who remembers nothing: plain words, no document numbers, review numbers, step codes, or hashes;
-- keeps working on whatever no pending answer can change, instead of sitting idle;
+- posts **Dory's hourly update**, a three-row table of what was just done, what is happening now in each piece of work, and what comes next. It names anything waiting on you, and why. It is written for someone who remembers nothing: plain words, no document numbers, review numbers, step codes, or hashes;
+- at every pace, starts at once everything the charter and your approvals already allow. Independent work runs side by side in several sub-agents or sessions: research, drafts, tests, reviews, and building inside approved designs. Only the work that depends on one of your answers waits for it. At each check-in, Marlin makes sure nothing allowed sits idle;
 - tells you early when the deadline or budget is at risk, and never recommends another review round when nothing is blocking;
 - pushes the designs, the charter, their history files, and the working branches to a backup remote at every gate, so losing a machine loses nothing. If the project's repository is public or isn't yours, use a private one.
 
@@ -129,7 +129,7 @@ gh skill install ajaxdude/HankNDory
 
 Pass `--agent <host> --scope <user|project>` to target a specific agent/location instead of the interactive prompt, e.g. `gh skill install ajaxdude/HankNDory --agent claude-code --scope user`.
 
-Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.2`, or pass `--pin v2.2`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
+Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.3`, or pass `--pin v2.3`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
 
 ### Manual install, by agent
 
@@ -182,7 +182,7 @@ HankNDory/
 - **`hankndory/reference/design-doc-template.md`**: the canonical starting template for every design document the Hank phase produces, with per-section guidance comments.
 - **`hankndory/reference/hank-checks.md`**: the mechanical scan and the diff check Hank runs once on each new version before Dory reviews it.
 - **`hankndory/reference/hank-handoff.md`**: how Hank hands the review loop to a new conversation after each batch, so its conversation stays short.
-- **`hankndory/reference/marlin.md`**: the charter, how Marlin sorts decisions, the digest that replaces one-at-a-time questions, the plain-words rule with good and bad examples, and Dory's hourly update.
+- **`hankndory/reference/marlin.md`**: the charter, how Marlin sorts decisions, the digest that replaces one-at-a-time questions, the plain-words rule with good and bad examples, Dory's hourly update, and starting all allowed work at once, in parallel.
 - **`hankndory/reference/one-off-checklist.md`**: the one-page checklist used instead of the design method for a one-off operation, such as a download or a one-time cleanup.
 - **`hankndory/reference/plain-speech-checklist.md`**: the checklist Hank applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
 - **`hankndory/`** is deliberately nested one level below the repository root (rather than living at the root itself) because `gh skill` and several other skill-discovery tools only scan for `*/SKILL.md`, not a `SKILL.md` at the very top of a repository.

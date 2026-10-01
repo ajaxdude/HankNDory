@@ -2,6 +2,17 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.3 (2026-09-30)
+
+Faster by default. Allowed work still waited for the next gate, digest, or answer, and independent work ran one piece at a time.
+
+- Start everything allowed, in parallel: at every pace, Marlin starts at once all work the charter, current approvals, and the skill's rules allow, and a reserved question holds back only the work that depends on its answer. Independent streams run at the same time in several sub-agents or sessions where the tooling allows, such as research, spikes, drafts, tests, reviews, and building inside an approved design or where the pace lets building overlap review. At each check-in, Marlin checks that nothing allowed sits idle. This replaces "Never idle" in `reference/marlin.md`. Core rule 12 and "Marlin keeps the voyage moving" say so.
+- Parallel work changes no other rule. Two streams are independent when neither needs the other's result and they change different files. Each stream starts with its task, the user's operating limits and standing instructions, and the reserved list, stops and reports back on anything reserved, and has a stall time. Streams are recorded in the charter's history file when they start and return, and report back to the conversation acting as Hank, which alone does what only Hank does. Dory reviewers still run fresh, and no stream edits a frozen document. Each building stream gets its own branch in its own worktree or clone; Hank merges finished ones into one branch that is not shared or default, and Step 9 reviews it. During Step 8 the conversation acting as Hank writes any scoped revision. Every stream counts toward the budget: at the charter's stream limit the streams that bring the final objective closest run first, and a budget miss is escalated as before.
+- New charter field, parallel streams: any limit the user sets on how many run at once besides Hank, reviewers and checks included. A charter without it has no limit. The digest's fourth item now lists the streams running.
+- The hourly update's Happening now row names each stream, grouping alike ones, then anything waiting on the user, and why. It may run past two sentences.
+- A Hank handoff lists every work stream still running, and the new conversation takes them over and starts any allowed work left idle.
+- Behaviors to avoid adds holding back allowed work and running independent work one stream at a time.
+
 ## 2.2 (2026-09-30)
 
 Less of a black box. Users were asked to decide with no context, and status came in internal labels they couldn't follow.
