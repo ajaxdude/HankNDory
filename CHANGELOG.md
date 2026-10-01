@@ -2,6 +2,13 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.7 (2026-09-30)
+
+One list of everything waiting on the user. Crush's report showed only new or changed decisions, so older ones dropped out of sight.
+
+- Waiting on you lists every open item still waiting on the user, across all workstreams: decisions, approvals, and tasks only the user can do. New or changed items come first, marked new, and each shows how long it has waited. An item leaves the list once it is answered, withdrawn, settled by its default, or its workstream ends; a voyage that sends updates to Crush tells it in one line when that happens.
+- Items that are only still waiting don't trigger a report on their own. Crush keeps the current list in its files, so the user can ask for it at any time.
+
 ## 2.6 (2026-09-30)
 
 Crush's hourly slot is the user's to set. It was fixed at about five minutes past the hour.

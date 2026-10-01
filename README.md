@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with an AI coding agent, named for four Pixar characters: Dory, Marlin, and Crush, from *Finding Nemo*, and Hank, from its sequel, *Finding Dory*.**
 
-This is version 2.6. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.7. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -65,7 +65,7 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, M
 Crush is the sea turtle who rides the current. In the method, Crush is one long-running conversation for all your projects, not part of any one of them. The skill creates it the first time a voyage starts, as its own top-level conversation detached from every voyage, and every later voyage finds and uses the same one. It asks you to approve its house rules, and until you do it only queues heavy work one job at a time and gathers updates. It does two jobs:
 
 - **It routes heavy work onto the machines you share across projects.** Sessions ask Crush for machine time before loading a model, running a GPU job, or running a big memory, disk, or CPU job; light work like git and small tests doesn't. Crush runs as much side by side as fits, so the machines stay busy without collisions. You set its house rules: the limits it keeps, what it may do alone (such as pausing and restoring shared services, or moving files between drives), what stays yours (such as installing software, stopping a running job, or deleting anything), and a freeze switch for model loading and GPU work when you need a machine yourself. A grant gives machine time only, never permission.
-- **It gathers every project's updates into one report.** Dory is the voice of each project's update table, which a project writes only when it has new progress; waiting is not progress. By default each project sends its update to Crush instead of posting its own table. Once an hour, at a time you set in its house rules (about five past by default), and only when something is new, Crush posts one report, never in between: new or changed decisions waiting on you first, each listed once with plain context and a link to where you answer it; then a row for each project with news, including about how much is done and when it should finish; then a line for each machine where something changed. So Crush's report is the one place you read updates. A project that is only waiting gets no reminder. One with work running and no update for 3 hours gets one, answers it in a line, and is marked as possibly stalled if it doesn't answer within an hour.
+- **It gathers every project's updates into one report.** Dory is the voice of each project's update table, which a project writes only when it has new progress; waiting is not progress. By default each project sends its update to Crush instead of posting its own table. Once an hour, at a time you set in its house rules (about five past by default), and only when something is new, Crush posts one report, never in between: everything still waiting on you first, across all projects, new items marked, each listed once with plain context, how long it has waited, and a link to where you act on it; then a row for each project with news, including about how much is done and when it should finish; then a line for each machine where something changed. So Crush's report is the one place you read updates. Items that are only still waiting don't trigger a report, but you can ask Crush for the current list at any time. A project that is only waiting gets no reminder. One with work running and no update for 3 hours gets one, answers it in a line, and is marked as possibly stalled if it doesn't answer within an hour.
 
 The charter also sets the **pace**:
 
@@ -136,7 +136,7 @@ gh skill install ajaxdude/HankNDory
 
 Pass `--agent <host> --scope <user|project>` to target a specific agent/location instead of the interactive prompt, e.g. `gh skill install ajaxdude/HankNDory --agent claude-code --scope user`.
 
-Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.6`, or pass `--pin v2.6`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
+Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.7`, or pass `--pin v2.7`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
 
 ### Manual install, by agent
 

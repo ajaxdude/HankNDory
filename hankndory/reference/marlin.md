@@ -50,6 +50,8 @@ One message holds every question and every piece of news the user must act on. K
 3. what Marlin decided under the charter since the last digest, one line each;
 4. the work streams running meanwhile.
 
+When the voyage sends updates to Crush, it also tells Crush in one line when an item waiting on the user is answered, withdrawn, or settled by its default.
+
 Send it in a way that does not stop work. If the tooling's question prompt holds the conversation until the user answers, send the digest as an ordinary message, or give the prompt a timeout, and keep working. Use a timeout or a scheduled wake-up to act when a default's time comes.
 
 ## Talk to the user in plain words
