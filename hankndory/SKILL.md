@@ -1,24 +1,24 @@
 ---
 name: hankndory
-description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. enforce explicit no-code gates and treat the validated design document as the source of truth.
+description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.8"
+  version: "2.9"
 ---
 
-# HankNDory 2.8: The Hank & Dory Method
+# HankNDory 2.9: The Hank & Dory Method
 
-Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report. Write production code only after every required gate passes.
+Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, and **Bailey** runs spikes and experiments and measures the results, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
 ## Core rules
 
 1. Treat the design document like source code, versioned and reviewed, and as the authoritative record of the feature.
 2. Keep the Hank phase and every Dory phase logically isolated. Run each Dory phase in a fresh conversation that starts with no history, never as a continuation of the Hank conversation. A sub-agent or a new chat in the same checkout counts; a new worktree, clone, or machine is not required. A Dory phase may use only the design document and files explicitly referenced by it.
-3. Do not write production code before the implementation gate passes, except where "Pick the pace" lets building overlap review.
+3. Do not write production code before the implementation gate passes, except for a two-way door, as `reference/map-and-legs.md` describes, or where "Pick the pace" lets building overlap review.
 4. Ask hard questions, challenge assumptions, and explain reasoning. Do not merely agree.
 5. Separate facts verified from repository files from assumptions, proposals, and open questions.
 6. Never claim a gate passed if blocking findings, missing context, unresolved decisions, or unverified file references remain.
-7. Get human approval before building, either explicitly or, at light or fast pace, through the charter, as Step 7 describes. Never infer approval any other way.
+7. Get human approval before building a one-way door, and before merging a two-way door, either explicitly or, at light or fast pace, through the charter, as Step 7 describes. Never infer approval any other way.
 8. Preserve decisions and rejected alternatives in the design document so later sessions do not reopen settled questions without new evidence.
 9. Inspect referenced files before making claims about the current system. Do not invent paths, APIs, schemas, dependencies, or behavior.
 10. Building does not restart the design. Handle each implementation discovery as Step 8 describes, and revise only the part of the design whose promises it breaks.
@@ -34,13 +34,14 @@ Choose one mode from the user's request and current repository state:
 - **dory-critic**: adversarially review the design for omissions, faulty assumptions, edge cases, risks, and ambiguity.
 - **dory-readiness**: decide whether the design contains everything needed for a first-pass implementation.
 - **dory-pass**: at balanced, light, or fast pace, run the Dory steps that "Pick the pace" names, in one fresh conversation.
-- **implementation**: implement only from a validated and approved design document.
-- **mean-review**: perform a severe but actionable code review against the approved design or a one-off operation's checklist.
+- **implementation**: implement from a validated and approved design document, or build a two-way-door leg first, as `reference/map-and-legs.md` describes.
+- **acceptance-tests**: as Ray, write a leg's acceptance tests from the design alone, following `reference/crew.md`.
+- **mean-review**: as Bruce, perform a severe but actionable code review against the approved design or a one-off operation's checklist.
 - **bootstrap-context**: create a hierarchy of repository README files through bottom-up recursive summarization, following `reference/bootstrap-context.md`.
 - **crush**: act as the user's Crush, following `reference/crush.md`; it reports no phase or gate, and runs under house rules, not a charter.
 - **full-voyage**: orchestrate all applicable phases in order, with Marlin keeping the voyage moving, running the Dory gates in batches as described in "Dispatch Dory reviews."
 
-If the user asks to code a standard change but no validated design exists, do not implement. Explain the missing gate and begin or recommend `new-feature-hank`.
+If the user asks to code a standard change but no validated design exists, do not implement, unless every part of it is a two-way door, as `reference/map-and-legs.md` describes. Explain the missing gate and begin or recommend `new-feature-hank`.
 
 ## Size the change before choosing a gate set
 
@@ -48,7 +49,7 @@ Before starting a mode, classify the requested work and use the lightest tier th
 
 - **Trivial**: a small, local, reversible code change with no effect on user or production data, security, or shared behavior, and nothing under "Always standard", for example a copy fix, a log message, a constant, or an isolated single-file bug fix with an obvious repair.
 - **One-off**: an operation that runs once, leaves no code to maintain, and has nothing under "Always standard", for example a download, a conversion, a test run, a publish, or a one-time cleanup.
-- **Standard**: everything else, including any change whose blast radius is unclear.
+- **Standard**: everything else, including any change whose blast radius is unclear. Each of its legs is a one-way door or a two-way door, as `reference/map-and-legs.md` defines.
 
 **Always standard**: work that touches public APIs or schemas, authentication or authorization, migrations or deletions of user or production data, billing, security boundaries, or cross-team or cross-repository contracts. Deleting files the user explicitly approved deleting, or the project's own generated or temporary files, is not on this list unless those files hold user or production data.
 
@@ -62,24 +63,13 @@ When the size is uncertain, treat the work as standard, or ask the user before c
 
 ## Maintain workflow state
 
-At the start of each response, determine and report only the current phase, the active gate, and what is needed next. Track these states in the design document when possible:
-
-- `drafting`
-- `comprehension-failed`
-- `critic-revisions-required`
-- `readiness-blocked`
-- `ready-for-human-review`
-- `approved-for-implementation`
-- `implementing`
-- `implementation-complete`
-- `review-revisions-required`
-- `complete`
+At the start of each response, determine and report only the current phase, the active gate, and what is needed next. Track these states in the design document when possible: `drafting`, `comprehension-failed`, `critic-revisions-required`, `readiness-blocked`, `ready-for-human-review`, `approved-for-implementation`, `implementing`, `implementation-complete`, `review-revisions-required`, and `complete`.
 
 When one batch fails more than one gate, record the earlier gate's state: `comprehension-failed` takes precedence over `critic-revisions-required`.
 
 Do not infer approval. It must be explicit, or given by the charter as Step 7 describes.
 
-Human approval gates exactly one state transition: `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict. At light or fast pace, the charter can give that approval, as Step 7 describes. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions. Anything that needs the user goes in the digest, and only work that depends on a reserved answer waits.
+Human approval gates only the move from `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict, for the design or a later one-way-door leg, and the merge of work built first, as `reference/map-and-legs.md` describes. At light or fast pace, the charter can give that approval, as Step 7 describes. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions. Anything that needs the user goes in the digest, and only work that depends on a reserved answer waits.
 
 This version applies in full to new design documents. A design started under an earlier version keeps its document as written. From its next step it follows this version's review and building rules, counting the critic rounds it has already used, and it runs at careful pace until the user sets a charter for it. Adopting this version never by itself reopens a gate, invalidates a verdict, or voids an approval.
 
@@ -90,7 +80,7 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role
 - Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, any limit on parallel streams, the shared machines, the backup remote, and where Dory's update goes. Only the user changes it.
 - Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
 - Ask through one digest at a time, in a way that does not stop work, and meanwhile start everything allowed at once, in parallel, as `reference/marlin.md` describes. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
-- Send or post Dory's update, a table with a Status row (LGTM, Blocked, or Issues), what was just done, what is happening now in each stream, what comes next, and the share done with the forecast finish, only when there is new progress; an hourly wake-up checks, and waiting is not progress. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, as `reference/marlin.md` describes. At kickoff, make sure the user's one Crush exists, creating it if not. Crush gathers every voyage's updates into one report for the user, and heavy work on a shared machine is booked through it, as `reference/crush.md` describes.
+- Send or post Dory's update, a table with a Status row (LGTM, Blocked, or Issues), what was just done, what is happening now in each stream, what comes next, and the share done with the forecast finish, only when there is new progress; an hourly wake-up checks, and waiting is not progress. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, send a demo at every milestone, and write a retro when the voyage ends, as `reference/marlin.md` describes. At kickoff, make sure the user's one Crush exists, creating it if not. Crush gathers every voyage's updates into one report for the user, and heavy work on a shared machine is booked through it, as `reference/crush.md` describes.
 
 ## Pick the pace
 
@@ -104,7 +94,7 @@ The charter sets each design's pace. Set the charter before Step 1 of a standard
 | Approval before building | the charter, as Step 7 describes | the charter, as Step 7 describes | explicit | explicit |
 | Building overlaps review | yes | yes | no | no |
 
-When building overlaps review, and while the design stays inside the charter, building may start as soon as a `dory-pass` returns, on its own branch, on any component that no blocking finding, Step 5/5b gap, or Step 7 item touches, while Hank revises and the next pass runs. Nothing built this way merges into a shared branch or deploys until the design is approved and Step 9 is clean. If a revision then changes that component's contracts, rework it as Step 8 describes.
+When building overlaps review, and while the design stays inside the charter, building may start as soon as a `dory-pass` returns, on its own branch, on any component that no blocking finding, Step 5/5b gap, or Step 7 item touches, while Hank revises and the next pass runs. Nothing built this way merges into a shared branch or deploys until the design is approved and Step 9 is clean. If a revision then changes that component's contracts, rework it as Step 8 describes. At every pace, a two-way-door leg is built before approval, as `reference/map-and-legs.md` describes.
 
 Light pace suits a point release or a design written after the code. It follows every fast-pace rule except where this paragraph differs; without a design-review budget cap in the charter, use fast pace instead. Hank fixes everything a pass found in one revision: the design, and, on a building branch, any code the pass shows to be wrong. Run Hank's checks, the diff check included, on that revision. If the pass had a blocking finding, a Step 5/5b `FAIL`, or a Step 7 `NOT READY`, a second pass runs on the fixed revision if the design-review budget allows, followed by one more fix under the same rules; this second pass and any Step 8 scoped round share a lifetime limit of two critic rounds. The charter approves only when the last pass had none of those three. It then approves that pass's fix revision, or the pass's own version if it found nothing, in place of a `READY` that no revision followed, within the limits Step 7 sets for fast pace. Otherwise the open findings go to the user. Step 9 runs one review and one re-review, which follows Step 9's rule on scope; any finding still open goes in the digest, and while a non-trivial one is open, merging and deploying stay reserved whatever the charter delegates.
 
@@ -158,12 +148,12 @@ If the conversation becomes agreeable without adding scrutiny, explicitly reset 
 
 ## Step 3b: Test the riskiest assumption first
 
-Before writing a long design, ask whether a cheap, real test could settle the assumption with the weakest evidence, such as whether a library supports a needed feature or a tool works on the target platform. If one could, run it as a spike:
+Before writing a long design, ask whether a cheap, real test could settle the assumption with the weakest evidence, such as whether a library supports a needed feature or a tool works on the target platform. If one could, have Bailey run it as a spike, as `reference/crew.md` describes:
 
 - set a time limit before starting, and stop when it runs out;
 - keep the spike's code out of the production codebase, never merge it, and throw it away when done;
 - stay within the user's operating limits, and ask first if the test needs anything they have not allowed;
-- record the question, how it was tested, and the result in the design document as evidence, with enough detail to judge the result without the spike code.
+- record the question, how it was tested, and the result in Bailey's card, with enough detail to judge the result without the spike code, list the card in Referenced files, and cite it in the design.
 
 If no cheap test exists, keep the assumption as an open question or a risk and continue.
 
@@ -224,6 +214,8 @@ For each serious alternative, include:
 Never erase rejected alternatives merely because a preferred design was chosen.
 
 ### Detailed implementation
+
+Before building, this section holds the Map's part: the contracts that cross legs, the legs in order, and the first leg in full. Each later leg's section is written when that leg starts, as `reference/map-and-legs.md` describes.
 
 State the promises the code must keep, not the code. For each component, give:
 
@@ -365,19 +357,20 @@ Assume the role of an expert technical reviewer. Search for:
 - rollout, migration, compatibility, and test gaps;
 - contradictions between the proposal and referenced files;
 - omitted alternatives or decisions likely to be relitigated;
-- vague or inflated prose masking a missing mechanism (see `reference/plain-speech-checklist.md`).
+- vague or inflated prose masking a missing mechanism (see `reference/plain-speech-checklist.md`);
+- a leg marked as a two-way door that reverting its commits would not fully undo.
 
 Classify each finding as `blocking`, `important`, or `nit`. A finding is blocking only if, left as it is, the design would lead an implementer to build the wrong thing, break a requirement or contract, or create a security, privacy, or data-loss risk. Include evidence, impact, and a concrete document fix. Do not inflate severity.
 
 A critic round with no blocking findings closes Step 6, even if Step 5/5b failed in the same batch. Hank fixes its important findings once, in the next revision, and a diff check verifies them where the pace calls for one; they start no new critic round. Nits are optional. During design, only a round with blocking findings leads to another critic round, which may be scoped to the fix.
 
-A design document gets the critic rounds "Pick the pace" allows in its whole life, counting scoped rounds, `dory-pass` runs that include Step 6, and rounds after a return from building. Restructuring or splitting the document does not reset the count, and each document a split produces keeps the count so far. When one more round would be needed, or two reviews disagree on whether the same finding is blocking, escalate the open or disputed blocking findings to the user, with both positions for a dispute. Run another critic round only with the user's explicit OK.
+A design document gets the critic rounds "Pick the pace" allows in its whole life, counting scoped rounds, `dory-pass` runs that include Step 6, and rounds after a return from building. A later one-way-door leg's scoped review has its own limit of one critic round, or two at careful pace, which Step 8 rounds during that leg also count against. Restructuring or splitting the document does not reset the count, and each document a split produces keeps the count so far. When one more round would be needed, or two reviews disagree on whether the same finding is blocking, escalate the open or disputed blocking findings to the user, with both positions for a dispute. Run another critic round only with the user's explicit OK.
 
 ## Step 7: Implementation-readiness test
 
-Start this step only once Steps 5, 5b, and 6 have closed (see "Run the gates in batches"), or, at light or fast pace, in the same `dory-pass` as them. Review the current version.
+Start this step only once Steps 5, 5b, and 6 have closed (see "Run the gates in batches"), or, at light or fast pace, in the same `dory-pass` as them. Review the current version: for the Map, the contracts that cross legs, the legs, and the first leg in full unless it is a two-way door; for a later leg's scoped pass, that leg.
 
-Evaluate whether an experienced engineer, with only the design and referenced files, can implement the feature correctly on the first pass.
+Evaluate whether an experienced engineer, with only the design and referenced files, can implement the leg under review correctly on the first pass, keeping the Map's contracts.
 
 Check that:
 
@@ -401,14 +394,14 @@ After `READY`, get approval as "Pick the pace" says, and record in the document 
 
 ## Step 8: Implement the approved design
 
-Proceed only when the design is marked `approved-for-implementation`, or on work that "Pick the pace" lets overlap review.
+Proceed only when the design is marked `approved-for-implementation`, on work that "Pick the pace" lets overlap review, or on a two-way-door leg, as `reference/map-and-legs.md` describes.
 
 1. Read the full design and all referenced files relevant to the next implementation unit.
 2. Follow the build order and keep every contract.
 3. Make the smallest coherent change that satisfies the design.
-4. Add or update tests alongside each change.
+4. Add or update tests alongside each change, and run Ray's acceptance tests without changing them.
 5. Run relevant formatters, linters, type checks, unit tests, integration tests, and build checks available in the repository.
-6. Compare the implementation against every acceptance criterion.
+6. Compare the implementation against every acceptance criterion. A leg is done when Ray's tests pass and its Step 9 review is clean; Marlin then sends its demo.
 7. Keep a concise implementation log outside the design document, mapping each change to the files it touched and the design section it serves.
 8. Sort each discovery by whether it keeps the design's promises: its contracts, invariants, security and privacy rules, user-visible behavior, and scope.
    - If it keeps them, decide, add one line to the implementation log, and continue. The code review covers it.
@@ -417,7 +410,7 @@ Proceed only when the design is marked `approved-for-implementation`, or on work
 
 ## Step 9: Perform the mean code review
 
-Review the code severely but professionally. Compare it against the approved design, or a one-off operation's checklist, and repository conventions. Find concrete defects rather than generating insults.
+Bruce reviews the code severely but professionally, as `reference/crew.md` describes. Compare it against the approved design, or a one-off operation's checklist, and repository conventions. Find concrete defects rather than generating insults.
 
 Inspect:
 
@@ -493,6 +486,7 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Carrying one Hank conversation through the whole review loop when the tooling can start a new one, or checking on a running reviewer again and again.
 - Giving each Dory phase its own worktree, or at careful pace running Step 5/5b and Step 6 one after the other, when the tooling allows a lighter or concurrent run.
 - Recommending another review round when nothing is blocking, using the design method for a one-off operation, or restating code in the design.
+- Designing a two-way door in full before building it, building a one-way door before its design is approved, or letting the builder write or change Ray's acceptance tests.
 - Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait; holding back allowed work for a gate, digest, or answer it does not depend on; or running independent work one stream at a time when the tooling, the charter, and the budget allow more.
 - Asking questions one at a time, or in a prompt that stops work, when a digest would do; asking without plain context; or using internal labels, such as document, review, or step numbers, with the user.
 - Running work under "Always standard" faster than careful pace without the charter naming it, or heavy work on a shared machine without its Crush's grant.

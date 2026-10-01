@@ -43,7 +43,8 @@
 
 <!-- Each requirement must map to a design element in "Technical plan" or
      "Detailed implementation" and a test in "Testing and evaluation."
-     Acceptance criteria must be objectively testable. -->
+     Acceptance criteria must be objectively testable, because Ray writes
+     the acceptance tests from them before seeing any code. -->
 
 ## Technical plan
 
@@ -66,7 +67,13 @@
 
 ## Detailed implementation
 
-<!-- The promises the code must keep, not the code. For each component: its
+<!-- Before building, the Map's part: the contracts that cross legs or that
+     other systems rely on; the legs in order, one line each, giving what it
+     delivers, what its demo will show, whether it is a one-way or a two-way
+     door, and what it depends on; and the first leg in full unless it is a
+     two-way door. Add a "Leg: <name>" subsection for each later leg when it
+     starts, as reference/map-and-legs.md describes.
+     Each leg states the promises the code must keep, not the code. For each component: its
      responsibility; the contracts it must keep (interfaces, schemas,
      invariants, error behavior); the areas expected to change, naming a file
      only where a contract lives in it. Then the build order, with
@@ -78,7 +85,8 @@
 
 <!-- How each acceptance criterion will be exercised: unit, integration,
      manual, or evaluation-harness coverage. State what proves the feature
-     works, not just that it runs. -->
+     works, not just that it runs. Cite Bailey's cards for spikes,
+     experiments, models, and datasets instead of restating them. -->
 
 ## Security, privacy, reliability, and operations
 

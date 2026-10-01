@@ -26,7 +26,7 @@ Write it with the user once, at kickoff, in its own file, such as `docs/charter.
   - taste calls the user keeps, such as brand, voice, or look.
 - **Accepted as built:** wording, such as interface or email text, and small extensions inside a scope already decided, that the user accepts as built without being asked. Marlin treats them as delegated. For what it names, this overrides the reserved taste calls. It never covers anything on the "Always standard" list and never sends anything to anyone. Privacy, legal, and terms wording stays reserved unless named here.
 - **Default wait:** how long a reversible question waits for an answer before Marlin takes its default. It is 10 minutes unless the user sets another.
-- **Review points:** when the user sees results, such as a demo at each milestone or the finished feature.
+- **Review points:** which demos wait for the user's reaction before the next leg starts. By default none does. A Review points line written under an earlier version keeps its meaning until the user changes it.
 - **Operating limits:** quoted as the user gave them.
 - **Updates:** where Dory's update goes, and any hours when the wake-up pauses. By default it goes to the user's Crush. The voyage sends each update to Crush as its row instead of posting it, as `reference/crush.md` describes. Without a Crush, or if the user names another place, it is posted in this voyage's own chat. An Updates line written under an earlier version that names this voyage's chat keeps it there until the user changes it.
 - **Parallel streams:** any limit the user sets on how many sub-agents or sessions run at once, besides the conversation acting as Hank, counting reviewers and checks. Without one, Marlin runs as many as the independent work, the tooling, and the budget allow. A charter without this line has no limit and needs no new version.
@@ -114,15 +114,31 @@ Also bad: any table when nothing moved, such as "Still waiting for the review" i
 
 The update carries no questions. Questions go in the digest, and the update points to it when one is waiting.
 
+## A demo at every milestone
+
+When a leg is done, as `reference/crew.md` describes, Marlin posts a demo in Dory's voice, in this voyage's chat or where the user named, following "Talk to the user in plain words". It is new progress, and the next update links to it in Just done. It gives:
+
+1. what works now, in one or two sentences;
+2. how to try it: a command, a link, or screenshots or a short recording when the user can't run it;
+3. the checks, in plain words, such as "all 14 checks that the weekly email goes only to people who signed up pass", and Bailey's latest measures;
+4. the choices made along the way and why, each in a sentence, so the user can disagree with one;
+5. what the next milestone will show.
+
+The demo is not a gate. The next leg starts at once, unless the charter's review points make that demo wait for the user's reaction. Marlin acts on a reaction that stays inside the charter, and puts one that changes the scope, an approved contract, or the risk in the digest as a reserved decision.
+
+## A retro when the voyage ends
+
+When the final objective is met, or the user stops the voyage, Marlin writes a retro of three to six plain lines: what went well, what slowed the voyage and roughly how much time it cost, and what to change next time, in the charter, in the project, or in this skill. Record it in the charter's history file and post it like a demo, with the last update linking to it. A change to this skill is a proposal for the user, never made by the voyage itself.
+
 ## Back up at every gate
 
 When a gate closes, and when approval or a handoff happens, commit and push to the backup remote: each design document and its history file, the charter and its history file, and the working branches. This guards against losing a machine mid-voyage. Pushing to the backup remote is delegated; merging into a shared or default branch stays reserved. Push only branches that are not shared or default, never force-push, and never push to a remote where a push deploys. If the project's own remote is public or isn't the user's, push the design documents, the charter, and their history files only to the backup remote. With no backup remote named, skip the backup and say so in the digest.
 
 ## Start everything allowed, in parallel
 
-At every pace, start at once every piece of work that the charter, the current approvals, and this skill's rules already allow. Allowed work never waits for a gate, digest, or answer it does not depend on. A reserved question holds back only the work that depends on its answer; everything else carries on. The pace still decides what is allowed. Building before approval happens only where "Pick the pace" in `SKILL.md` lets it overlap review.
+At every pace, start at once every piece of work that the charter, the current approvals, and this skill's rules already allow. Allowed work never waits for a gate, digest, or answer it does not depend on. A reserved question holds back only the work that depends on its answer; everything else carries on. The pace still decides what is allowed. Building before approval happens only where "Pick the pace" in `SKILL.md` lets it overlap review, or on a two-way-door leg, as `reference/map-and-legs.md` describes.
 
-Run independent streams at the same time, each in its own sub-agent or session where the tooling allows: research, spikes, drafts, tests, tooling, docs, reviews, and building inside an approved design or a component the pace lets overlap review. Two streams are independent when neither needs the other's result and they change different files, apart from each one's own part of the implementation log. Running in parallel changes no other rule. In particular:
+Run independent streams at the same time, each in its own sub-agent or session where the tooling allows: research, spikes, drafts, tests, tooling, docs, reviews, and building inside an approved design, a component the pace lets overlap review, or a two-way-door leg. Two streams are independent when neither needs the other's result and they change different files, apart from each one's own part of the implementation log. Running in parallel changes no other rule. In particular:
 
 - Start each stream with only its task, the user's operating limits and standing instructions, quoted as the user gave them, the reserved list, and, for a stream that runs on a shared machine, the user's Crush, the machine's light-work line, and what its house rules keep for the user. A stream that reaches anything reserved stops that part and reports back. Set it a stall time, as for a reviewer; for a stream queued with Crush, it starts when the grant arrives.
 - Each stream writes its result to its branch or a file and sends one short final report. Record each stream in the charter's history file when it starts and when it returns: what it does, its branch or output, and where its result will arrive.

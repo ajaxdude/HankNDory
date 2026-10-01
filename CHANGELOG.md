@@ -2,6 +2,17 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.9 (2026-10-01)
+
+A hybrid for the age of AI. Code is cheap for agents, but coherence is expensive, so design first only what is hard to undo, design each stretch when it starts, and show working software at every milestone.
+
+- Two-way doors: a change that reverting its commits fully undoes, that changes no shared data or environment, publishes or deploys nothing, adds no paid resource, and touches nothing under "Always standard", is built first, at every pace, on a branch that is not shared or default, and written up as built. A one-way door is designed and approved first. Nothing merges or deploys until the Map is approved, the leg's acceptance tests pass, and its code review is clean. A change that is all two-way doors gets a short Map, builds at once, and is reviewed and approved as built. The new `reference/map-and-legs.md` holds the rules; core rules 3 and 7, sizing, "Pick the pace", and the template point to it.
+- The Map and its legs: before building, Detailed implementation holds the contracts that cross legs, the legs in order, one line each, and the first leg in full. Each later leg is written when it starts, from what earlier legs taught. A later one-way-door leg gets one review of Steps 6 and 7 scoped to it, with its own limit of one critic round (two at careful pace), and its own approval; a two-way-door leg is written as built and checked by the code review. `Status` tracks each leg's door and state. Merging stays reserved unless the charter delegates it. A finished leg shrinks to what later legs rely on. A design written before legs counts as one leg.
+- A demo at every milestone, in Dory's voice: what works now, how to try it, the checks that pass, Bailey's measures, the choices made and why, and what comes next. It is not a gate unless the charter's review points say so.
+- A retro when the voyage ends: three to six plain lines, recorded in the charter's history file and sent with the last update. Changes to this skill are proposals for the user.
+- Three new roles in the new `reference/crew.md`, each started as a stream when there is work for it. Ray writes each leg's acceptance tests from the design before seeing its code; the builder runs them and never changes them, a disputed test gets one exchange before Hank decides, and a leg is done only when they pass and its code review is clean. Bruce runs the mean code review as an attacker would, and checks no acceptance test was weakened. Bailey runs spikes and experiments, gathers the measures, and writes a one-page card for each spike, experiment, model, or dataset. New mode `acceptance-tests`.
+- README: a new section with the hybrid approach, the crew table, and a comparison with Agile, Shape Up, and waterfall.
+
 ## 2.8 (2026-09-30)
 
 A status the user can scan. Each project's row said what happened, but not whether it needed the user.

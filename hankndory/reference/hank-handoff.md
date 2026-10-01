@@ -35,7 +35,7 @@ Start it as a new top-level conversation that the user can see and answer in, no
 - the model and reasoning effort it runs on, which every later handoff keeps;
 - the design document's path, the charter's path, and the commit holding the handoff entry;
 - the user's operating limits and standing instructions, quoted as the user gave them, as a Dory kickoff prompt carries them;
-- the instruction to read `SKILL.md`, `reference/marlin.md`, the charter and its history file, `reference/crush.md` when updates go to Crush or the charter names a shared machine, the design document, the handoff entry and the batch's entries in the history file, and any implementation log the entry names, each once and in one piece, and only the referenced files the fixes need.
+- the instruction to read `SKILL.md`, `reference/marlin.md`, the charter and its history file, `reference/crush.md` when updates go to Crush or the charter names a shared machine, `reference/map-and-legs.md` and `reference/crew.md` when the design has legs, the design document, the handoff entry and the batch's entries in the history file, and any implementation log the entry names, each once and in one piece, and only the referenced files the fixes need.
 
 If the tooling cannot start such a conversation without the user, shrink the current conversation down to the handoff entry instead, if the tooling can, keeping its hourly wake-up, and record that in the history file. If it cannot do either, carry on in the current conversation, keeping its wake-up, and record that the handoff was skipped.
 
