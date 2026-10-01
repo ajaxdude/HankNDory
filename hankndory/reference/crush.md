@@ -67,14 +67,14 @@ Crush also handles:
 
 ## The combined report
 
-Dory is the voice of each workstream's update: the plain table, Just done, Happening now, Next, and Progress, that "Dory's update" in `reference/marlin.md` describes. Each workstream writes one from its coordinating conversation when it has new progress, and nothing when it has none, such as when it is only waiting or a job is still running. Where it goes is set by the Updates line, as "The charter" in `reference/marlin.md` describes. Crush gathers them all into one report.
+Dory is the voice of each workstream's update: the plain table, Status, Just done, Happening now, Next, and Progress, that "Dory's update" in `reference/marlin.md` describes. Each workstream writes one from its coordinating conversation when it has new progress, and nothing when it has none, such as when it is only waiting or a job is still running. Where it goes is set by the Updates line, as "The charter" in `reference/marlin.md` describes. Crush gathers them all into one report.
 
 **Collecting.** Every hour, Crush reads the newest update of each workstream that posts its own, read-only, where the tooling lets it read other sessions. It reads only real update tables in the workstream's own messages, starting from the newest, never prompts or text that describes the format. A workstream whose updates go to Crush, or that Crush can't read, sends Crush each update, and Crush takes its row from those messages. Crush shows at most one row per workstream, taken from its coordinating conversation, never one per helper session. When a workstream sent more than one update since the last report, Crush joins their Just done lines and takes the other cells from the newest.
 
 **Posting.** Crush posts only at its hourly slot, set in the house rules, and only when something is new since its last report. It never posts in between, however news arrives; urgent news is the one exception, as "How Crush fits the other rules" says. The report comes in this order:
 
 1. **Waiting on you:** every open item still waiting on the user, across all workstreams, not only new ones: each decision, approval, and task only the user can do, such as signing in or plugging in a drive. New or changed items come first, marked new. Each decision has its recommended answer first, and each item has its two to four plain sentences of context, how long it has waited, and a link to where the user acts on it. Crush finds them in each owner's digest, in any question the tooling shows as waiting for the user, and in the items still open from its last report. An item closes when its owner tells Crush it is done, when the owner's newest digest no longer carries it, when the tooling no longer shows it waiting, or when a reversible item's default time has passed. If its workstream has ended or been archived, Crush closes its items and says so once in the next report. An item from a workstream marked as possibly stalled stays listed, marked that way. Each is listed once, however many workstreams wait on it, under the workstream that asked first. If that workstream closes it while another still waits on it, it moves under the next one. The owning session asks it; Crush never asks it again or answers it. Listing it again in a later report is not asking it again. Crush's own questions go here too.
-2. **One table** with a row only for each workstream that posted or sent a new update, named plainly, with columns Done, Finish, Just done, Happening now, and Next. Done and Finish come from the update's Progress row: the rough percent done and the forecast finish of its charter's final objective, or "not given" for a session without a charter. The other cells hold one short sentence each.
+2. **One table** with a row only for each workstream that posted or sent a new update, named plainly, with columns Status, Done, Finish, Just done, Happening now, and Next. Status comes from the update's Status row: the one word, and for Blocked or Issues its short sentence, or "not given" when the update has none. Rows go Blocked first, then Issues, then LGTM, then "not given". Done and Finish come from the update's Progress row: the rough percent done and the forecast finish of its charter's final objective, or "not given" for a session without a charter. The other cells hold one short sentence each.
 3. **The machines,** one line for each machine where something changed: the model slot, a freeze, the queue, or anything Crush paused, unloaded, or moved.
 
 When nothing is new, Crush posts nothing; items that are only still waiting are not new. Crush keeps the current list of open items in its files, so the user can ask for it at any time.
@@ -83,14 +83,15 @@ When nothing is new, Crush posts nothing; items that are only still waiting are 
 
 Bad:
 
-| | Done | Finish | Just done | Happening now | Next |
-|---|---|---|---|---|---|
-| WS-2 | M2/M4 | T+14h | v0.16 READY | M3, q41 held (D7) | Gate 9 |
-| WS-5 | ? | ? | nothing new | still waiting | same |
+| | Status | Done | Finish | Just done | Happening now | Next |
+|---|---|---|---|---|---|---|
+| WS-2 | Amber | M2/M4 | T+14h | v0.16 READY | M3, q41 held (D7) | Gate 9 |
+| WS-5 | ? | ? | ? | nothing new | still waiting | same |
 
 Good:
 
-| | Done | Finish | Just done | Happening now | Next |
-|---|---|---|---|---|---|
-| Weekly email app | about 60% | Thursday evening | The design passed its review with nothing blocking. | Building the check that only the scheduled job can send the email. | Testing sign-out on a bad connection. |
-| Voice model | about 30% | about 5 hours | Downloaded the model. | Waiting for the shared machine, behind another model test, about 40 minutes. | Converting the model once its turn comes. |
+| | Status | Done | Finish | Just done | Happening now | Next |
+|---|---|---|---|---|---|---|
+| Photo backup | Blocked. Needs you to sign in to the storage account; only you can. | about 40% | Friday, once you sign in | Wrote the upload step. | Testing restore while the sign-in waits. | Uploading the first backup. |
+| Weekly email app | Issues. Sign-out on a bad connection kept old notifications; the fix is being tested. | about 60% | Thursday evening | The design passed its review with nothing blocking. | Testing the sign-out fix. | Building the check that only the scheduled job can send the email. |
+| Voice model | LGTM | about 30% | about 5 hours | Downloaded the model. | Waiting for the shared machine, behind another model test, about 40 minutes. | Converting the model once its turn comes. |

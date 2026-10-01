@@ -2,6 +2,13 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.8 (2026-09-30)
+
+A status the user can scan. Each project's row said what happened, but not whether it needed the user.
+
+- Dory's update gains a Status row, and Crush's table a Status column: LGTM (going well and on course), Blocked (some part of the plan can't go on until the user acts), or Issues (something unforeseen needs a fix, and it is being worked on without the user). Blocked and Issues add one short sentence on what and why.
+- If Marlin may take the recommended path under the charter, it takes it, and the voyage is not Blocked. A reversible question waiting for its default, a user decision not yet holding up work, and waiting in Crush's queue are not Blocked either. When more than one fits, Blocked wins, then Issues. A change of status counts as new progress. Crush lists Blocked rows first, then Issues, then LGTM.
+
 ## 2.7 (2026-09-30)
 
 One list of everything waiting on the user. Crush's report showed only new or changed decisions, so older ones dropped out of sight.

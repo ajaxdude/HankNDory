@@ -74,10 +74,17 @@ Good: "I recommend fixing who can send the weekly email before we build it. The 
 
 Marlin writes it in Dory's voice, for someone who has just walked in; no Dory reviewer writes or sees it. A voyage runs from the charter, or from Step 1 without one, until the final objective is met or the user stops it. At kickoff, or at the next step of a voyage started under an earlier version, set up a recurring hourly wake-up that resumes the current Hank conversation and checks for new progress; a charter without an Updates line uses the default and needs no new version. If the tooling can only start a new conversation on a schedule, that conversation reads the charter's history file, posts or sends an update, as the Updates line says, if there is new progress, and does nothing else. A Hank handoff moves the wake-up to the new conversation, as `reference/hank-handoff.md` describes.
 
-Post an update only when there is new progress since the last one: something finished, started, or changed course. Waiting, "still running", and "no change" are not progress, so the wake-up posts nothing then. If Crush sends a reminder, answer Crush in one line with what is still running; that is not an update. Stop the wake-up when the voyage ends or the user pauses it, and set it up again when the user resumes. Record each update's time and Just done line in the charter's history file. Send or post it as the Updates line says. The update is a table of four rows, each cell one or two short sentences, following "Talk to the user in plain words". Happening now names each stream in a short phrase, grouping alike ones, such as "three test runs", then anything waiting on the user, and why. It may run past two sentences. Progress gives the share of the final objective done, as a rough percent, and the forecast finish, as a day and time, such as Thursday evening, or as hours left when it is less than a day away. Estimate the share as each finished milestone's share of the estimated agent-hours, plus the finished part of the current one, and use the same forecast the digest gives. Without a charter, write "not set yet". A forecast that moves counts as new progress:
+Post an update only when there is new progress since the last one: something finished, started, or changed course. Waiting, "still running", and "no change" are not progress, so the wake-up posts nothing then. If Crush sends a reminder, answer Crush in one line with what is still running; that is not an update. Stop the wake-up when the voyage ends or the user pauses it, and set it up again when the user resumes. Record each update's time, Status, and Just done line in the charter's history file. Send or post it as the Updates line says. The update is a table of five rows, each cell one or two short sentences, following "Talk to the user in plain words". Happening now names each stream in a short phrase, grouping alike ones, such as "three test runs", then anything waiting on the user, and why. It may run past two sentences. Progress gives the share of the final objective done, as a rough percent, and the forecast finish, as a day and time, such as Thursday evening, or as hours left when it is less than a day away. Estimate the share as each finished milestone's share of the estimated agent-hours, plus the finished part of the current one, and use the same forecast the digest gives. Without a charter, write "not set yet". A forecast that moves counts as new progress. Status is one word, then, for Blocked or Issues, one short sentence on what and why. Use these three words exactly; the user chose them:
+
+- **LGTM:** going well and on course.
+- **Blocked:** some part of the plan cannot go on until the user acts, such as a reserved decision or a task only the user can do. Name it, and it is also listed in the digest. If Marlin may take the recommended path under the charter, it takes it, and the voyage is not Blocked. A reversible question waiting for its default is not Blocked either; Marlin takes the default when its time comes. A user decision that is coming but not yet holding up work is not Blocked, and neither is waiting in Crush's queue.
+- **Issues:** something the plan didn't foresee needs a fix or a workaround, and it is being worked on without the user.
+
+When more than one fits, use Blocked, then Issues. A change of status counts as new progress:
 
 | | |
 |---|---|
+| **Status** | LGTM, Blocked, or Issues, and for the last two, what and why |
 | **Just done** | what finished since the last update |
 | **Happening now** | each stream being worked on, and anything waiting on the user, and why |
 | **Next** | what comes after that |
@@ -87,6 +94,7 @@ Bad:
 
 | | |
 |---|---|
+| **Status** | Amber, see D7. |
 | **Just done** | Doc 12 v0.16 passed Review #2; A8 closed at 3f9c2e1. |
 | **Happening now** | Step 9 on M3, L3 pending. |
 | **Next** | Gate 5 after the 5b rerun. |
@@ -96,9 +104,10 @@ Good:
 
 | | |
 |---|---|
+| **Status** | Issues. Sign-out on a bad connection kept the old account's notifications; the fix is being tested. |
 | **Just done** | The design for the weekly email passed its review, with nothing blocking. |
 | **Happening now** | Three things at once: building the check that only the scheduled job can send the weekly email, testing sign-out on a bad connection, and drafting the release notes. Publishing will need your OK, because only you can approve a public release. |
-| **Next** | Then we fix whatever the tests turn up and send you the release to approve. |
+| **Next** | Then we send you the release to approve, once the sign-out fix passes. |
 | **Progress** | About 60% done. Should be finished Thursday evening. |
 
 Also bad: any table when nothing moved, such as "Still waiting for the review" in every row. Post nothing instead.
