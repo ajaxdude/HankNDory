@@ -2,6 +2,15 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.2 (2026-09-30)
+
+Less of a black box. Users were asked to decide with no context, and status came in internal labels they couldn't follow.
+
+- Dory's hourly update: while a voyage runs, a recurring hourly wake-up set up at kickoff posts a three-row table, Just done, Happening now, and Next, each cell one or two short sentences. The charter says where it goes, the chat the user reads by default, and a voyage already running sets it up at its next step. The wake-up resumes the conversation acting as Hank, and a Hank handoff moves it to the new conversation, so only one ever posts. It pauses when all work waits on the user, and each update is recorded in the charter's history file.
+- Plain words: everything addressed to the user, including digests, questions, and the hourly update, names things instead of using internal labels such as document or review numbers, design versions, step, gate, or finding codes, item IDs, or commit hashes. `reference/marlin.md` gives a good and a bad example.
+- Ask with context: every question leads with the recommendation, then two to four plain sentences on what it is, why it needs deciding now, and what each option changes for the user in time, money, or risk, then the options. A Hank handoff carries each open question's plain context. Documents the user asks to see keep their labels; summaries of them don't.
+- Behaviors to avoid adds asking without plain context and using internal labels with the user.
+
 ## 2.1 (2026-09-30)
 
 A light pace and a sturdier charter, from trying 2.0's fast pace on a small release. Separate reviewers at the highest effort cost far more than one pass at Hank's effort and found little more. The budget unit was unclear, Step 7 kept sending already-decided wording to the user, and nothing protected the work against losing a machine.

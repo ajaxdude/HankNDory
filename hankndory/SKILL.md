@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. enforce explicit no-code gates and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.1"
+  version: "2.2"
 ---
 
-# HankNDory 2.1: The Hank & Dory Method
+# HankNDory 2.2: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets, without waiting on the user for anything the user has delegated. Write production code only after every required gate passes.
 
@@ -86,14 +86,14 @@ This version applies in full to new design documents. A design started under an 
 
 Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role, not a separate conversation: the conversation acting as Hank plays it, and a Hank handoff passes it on. Marlin keeps the work moving toward the final objective, following `reference/marlin.md` in this skill:
 
-- Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, and the backup remote. Only the user changes it.
+- Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, the backup remote, and where the hourly update goes. Only the user changes it.
 - Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
-- Ask through one digest at a time, in a way that does not stop work, and meanwhile keep doing whatever no pending answer can change.
-- Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, as `reference/marlin.md` describes.
+- Ask through one digest at a time, in a way that does not stop work, and meanwhile keep doing whatever no pending answer can change. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
+- Post Dory's hourly update, a three-row table of what was just done, what is happening now, and what comes next. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, as `reference/marlin.md` describes.
 
 ## Pick the pace
 
-The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work.
+The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work, and the hourly update still goes to the chat the user reads.
 
 | | Light | Fast | Balanced | Careful |
 |---|---|---|---|---|
@@ -460,7 +460,7 @@ List only unresolved, material items. Separate blockers from non-blocking notes.
 
 ## Next action
 
-Specify exactly one next workflow action, then take it immediately in the same turn, unless it waits on explicit approval or another reserved decision. Never jump across an unpassed gate. When anything needs the user, put it in the digest with your recommendation, as "Marlin keeps the voyage moving" describes, and never leave a question only in a file. While you wait, keep doing the work that every possible answer needs. Every escalation states the time spent, the critic rounds used, and what is actually blocking. When nothing is blocking, recommend proceeding with notes, never another round.
+Specify exactly one next workflow action, then take it immediately in the same turn, unless it waits on explicit approval or another reserved decision. Never jump across an unpassed gate. When anything needs the user, put it in the digest with your recommendation and its plain context, as "Marlin keeps the voyage moving" describes, and never leave a question only in a file. While you wait, keep doing the work that every possible answer needs. Every escalation states the time spent, the critic rounds used, and what is actually blocking. When nothing is blocking, recommend proceeding with notes, never another round.
 
 # Failure recovery
 
@@ -495,5 +495,5 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Using the design method for a one-off operation.
 - Restating code in the design.
 - Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait.
-- Asking questions one at a time, or in a prompt that stops work, when a digest would do.
+- Asking questions one at a time, or in a prompt that stops work, when a digest would do; asking without plain context; or using internal labels, such as document, review, or step numbers, with the user.
 - Running work under "Always standard" faster than careful pace without the charter naming it.
