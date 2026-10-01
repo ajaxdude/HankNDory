@@ -9,7 +9,11 @@
 
 Crush's own conversation decides grants, so it runs on the strong tier unless its house rules name another, and its own helpers have their own cap of three, apart from every voyage's.
 
-At kickoff, name the actual model and effort for each tier in the charter's Cost line. A helper task that fails its own checks twice goes back to Hank, who decides the next step; record that in the charter's history file.
+For the strong tier, prefer the model family with the lowest cost per unit of work that meets the bar, as the user's spend report shows, for example GPT-5.5 at high effort over Claude Opus; use another family only where the charter names it. For helpers, use a small, cheap model, for example GPT-6 Luna at medium effort. At kickoff, name the actual model and effort for each tier in the charter's Cost line. A helper task that fails its own checks twice goes back to Hank, who decides the next step; record that in the charter's history file.
+
+## Hard spend cap
+
+The user may set a hard spend cap, such as an amount over any rolling 28 days, measured by the report the user names, in Crush's house rules or the charter's Cost line. Crush estimates the spend every hour. When the cap is reached, Crush tells every voyage to stop, and everything stops: every voyage, helper, automation, and Crush's own hourly run. Running work finishes only its current step. Nothing restarts until the user says resume. Without a Crush, Marlin checks the cap at each hourly wake-up.
 
 ## At most three at once
 

@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.10"
+  version: "2.11"
 ---
 
-# HankNDory 2.10: The Hank & Dory Method
+# HankNDory 2.11: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, and **Bailey** runs spikes and experiments and measures the results, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 

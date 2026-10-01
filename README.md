@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, and Mr. Ray, from *Finding Nemo*, and Hank and Bailey, from its sequel, *Finding Dory*.**
 
-This is version 2.10. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.11. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -101,7 +101,7 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, M
 - decides what the charter hands over, and records it;
 - sends you one **digest** at a time, holding every question and every piece of news. Each question leads with a recommendation, then two to four plain sentences on what it is, why it needs deciding now, and what each option costs you in time, money, or risk, and, where it can be undone, a default and when it takes effect;
 - sends or posts **Dory's update**, a table of the status (LGTM, meaning looks good to me, Blocked, or Issues), what was just done, what is happening now in each piece of work, what comes next, and about how much is done with when it should finish, only when there is new progress; it checks every hour. It names anything waiting on you, and why. It is written for someone who remembers nothing: plain words, no document numbers, review numbers, step codes, or hashes;
-- at every pace, starts at once everything the charter and your approvals already allow. Independent work runs side by side in several sub-agents or sessions: research, drafts, tests, reviews, and building inside approved designs. Only the work that depends on one of your answers waits for it. By default, at most three helpers or reviewers run at once, every helper runs on a much cheaper model than Hank and the review gates, nothing checks on running work more than once an hour, and a conversation that grows past about 300,000 tokens hands off to a fresh one (`reference/cost.md`). At each check-in, Marlin makes sure nothing allowed sits idle beyond the cap below;
+- at every pace, starts at once everything the charter and your approvals already allow. Independent work runs side by side in several sub-agents or sessions: research, drafts, tests, reviews, and building inside approved designs. Only the work that depends on one of your answers waits for it. By default, at most three helpers or reviewers run at once, every helper runs on a much cheaper model than Hank and the review gates, nothing checks on running work more than once an hour, a conversation that grows past about 300,000 tokens hands off to a fresh one, and everything stops if the spend cap you set is reached (`reference/cost.md`). At each check-in, Marlin makes sure nothing allowed sits idle beyond the cap below;
 - sends you a demo at every milestone, and a retro when the voyage ends;
 - tells you early when the deadline or budget is at risk, and never recommends another review round when nothing is blocking;
 - pushes the designs, the charter, their history files, and the working branches to a backup remote at every gate, so losing a machine loses nothing. If the project's repository is public or isn't yours, use a private one.
@@ -186,7 +186,7 @@ gh skill install ajaxdude/HankNDory
 
 Pass `--agent <host> --scope <user|project>` to target a specific agent/location instead of the interactive prompt, e.g. `gh skill install ajaxdude/HankNDory --agent claude-code --scope user`.
 
-Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.10`, or pass `--pin v2.10`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
+Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.11`, or pass `--pin v2.11`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
 
 ### Manual install, by agent
 

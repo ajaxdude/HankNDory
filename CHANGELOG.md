@@ -2,6 +2,11 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.11 (2026-10-01)
+
+- Hard spend cap in `reference/cost.md`: the user may set one, such as an amount over any rolling 28 days. Crush estimates the spend hourly, and when the cap is reached everything stops, Crush's own hourly run included, until the user says resume.
+- The strong tier prefers the model family with the lowest cost per unit of work, for example GPT-5.5 at high effort over Claude Opus, unless the charter names another. Helpers use a small, cheap model, for example GPT-6 Luna at medium effort.
+
 ## 2.10 (2026-10-01)
 
 A default cost policy, in the new `reference/cost.md`, because helpers and long conversations were most of the spend. The charter's new Cost line may change any of it.
