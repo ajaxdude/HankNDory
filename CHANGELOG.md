@@ -2,6 +2,15 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.10 (2026-10-01)
+
+A default cost policy, in the new `reference/cost.md`, because helpers and long conversations were most of the spend. The charter's new Cost line may change any of it.
+
+- Two model tiers. The conversation acting as Hank and every review gate that decides go or no-go (each Dory reviewer, critic round, and `dory-pass`, and Bruce's code review) run on a strong model at high effort, never the maximum unless the charter sets it. Every other sub-agent or child session, including building, tests, monitors, Bailey's spikes, Ray's acceptance tests, drafting, summarising, and Hank's checks, runs on a much cheaper model at medium effort. The charter names the actual models. A helper task that fails its checks twice goes back to Hank.
+- At most three helpers and reviewers run at once per voyage, counting sub-agents, background agents, and child sessions. It is the default for the charter's "Parallel streams" line.
+- Check at most once an hour. Wait for completion notices; a repeating timer or automation runs at most hourly. Reviewers that can't all run at once run in groups on the same commit.
+- A conversation whose context passes about 300,000 tokens writes a short handoff and carries on fresh, at any point in the voyage.
+
 ## 2.9 (2026-10-01)
 
 A hybrid for the age of AI. Code is cheap for agents, but coherence is expensive, so design first only what is hard to undo, design each stretch when it starts, and show working software at every milestone.

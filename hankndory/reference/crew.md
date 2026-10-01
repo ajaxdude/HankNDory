@@ -1,12 +1,12 @@
 # The crew: Ray, Bruce, and Bailey
 
-`SKILL.md` names three more roles besides Hank, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes, on a model at least as capable as Hank's. None of them sees the builder's conversation.
+`SKILL.md` names three more roles besides Hank, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Ray and Bailey run on the helper tier of `reference/cost.md`, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees the builder's conversation.
 
 ## Ray tests the promises
 
 Mr. Ray is the teacher who quizzes the class. In HankNDory, Ray writes the acceptance tests for each leg from its acceptance criteria and the Map's contracts, as `reference/map-and-legs.md` describes, before seeing any of the leg's code. Building may start at the same time, so Ray costs no waiting.
 
-- Ray gets only the design document at a named base commit, its referenced files, and the leg to test, never reads a building branch, and runs at Hank's reasoning effort or one level lower. For a two-way-door leg, which has no written contracts yet, Ray tests through what the user can see and do, or binds to the as-built contracts before reading the implementation.
+- Ray gets only the design document at a named base commit, its referenced files, and the leg to test, and never reads a building branch. For a two-way-door leg, which has no written contracts yet, Ray tests through what the user can see and do, or binds to the as-built contracts before reading the implementation.
 - Ray writes the tests in the project's own test tools, on a branch that is not shared or default, and reports any criterion that can't be tested as written, which goes back to Hank.
 - The builder runs Ray's tests and never changes them. A test the builder thinks is wrong goes back to Ray once, with the reason. If they still disagree, Hank decides from the design, unless it changes what a promise means, which follows Step 8's rule for a broken promise.
 - A leg is done only when Ray's tests pass and its Step 9 review is clean. The tests then join the project's tests.
