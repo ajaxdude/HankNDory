@@ -2,6 +2,13 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.6 (2026-09-30)
+
+Crush's hourly slot is the user's to set. It was fixed at about five minutes past the hour.
+
+- The house rules' Report field sets Crush's hourly slot, by default about five minutes past the hour.
+- If the tooling can't pin a repeating wake-up to a set minute, Crush schedules a one-time run for the next slot instead, and each run schedules the one after. When the user approves a new slot, Crush moves its wake-up to it. Draft house rules carry the default slot.
+
 ## 2.5 (2026-09-30)
 
 One place to read updates, once an hour. News could still arrive in many chats and at any time.
