@@ -1,4 +1,4 @@
-# Marlin: the charter, the digest, parallel work, and the hourly update
+# Marlin: the charter, the digest, parallel work, and Dory's update
 
 Marlin follows these steps as "Marlin keeps the voyage moving" in `SKILL.md` describes.
 
@@ -8,7 +8,7 @@ Write it with the user once, at kickoff, in its own file, such as `docs/charter.
 
 - **Final objective (Nemo):** what done looks like, stated as a test someone can check.
 - **Milestones:** the few stops on the way, each with a result the user can see.
-- **Deadline and budget:** a target date, and a limit in agent-hours or cost, for the whole voyage and for design review. Agent-hours add up the time of every agent: Marlin and Hank, builders, reviewers, and checks, counting agents that run at the same time separately.
+- **Deadline and budget:** a target date, and a limit in agent-hours or cost, for the whole voyage and for design review. Agent-hours add up the time of every agent: Marlin and Hank, builders, reviewers, and checks, counting agents that run at the same time separately. Time a session spends waiting for a grant with its turn ended doesn't count.
 - **Pace:** light, fast, balanced, or careful, as "Pick the pace" in `SKILL.md` describes, and any part of the work that runs at a different pace.
 - **Delegated decisions:** what Marlin decides without asking. Unless the user narrows it, this covers:
   - reversible technical choices inside the design's contracts;
@@ -28,8 +28,9 @@ Write it with the user once, at kickoff, in its own file, such as `docs/charter.
 - **Default wait:** how long a reversible question waits for an answer before Marlin takes its default. It is 10 minutes unless the user sets another.
 - **Review points:** when the user sees results, such as a demo at each milestone or the finished feature.
 - **Operating limits:** quoted as the user gave them.
-- **Hourly update:** where Dory's hourly update goes, which is the chat the user reads for this voyage unless the user names another, and any hours when it pauses.
+- **Updates:** where Dory's update goes, which is the chat the user reads for this voyage unless the user names another, and any hours when the wake-up pauses.
 - **Parallel streams:** any limit the user sets on how many sub-agents or sessions run at once, besides the conversation acting as Hank, counting reviewers and checks. Without one, Marlin runs as many as the independent work, the tooling, and the budget allow. A charter without this line has no limit and needs no new version.
+- **Shared machines:** each machine the voyage uses that other projects also use, and the Crush that routes it and gathers this voyage's updates, as `reference/crush.md` describes. A charter without this line needs no new version, but heavy work on a machine that has a Crush still asks it.
 - **Backup remote:** where Marlin pushes the backups "Back up at every gate" describes. If the project's own remote is public or isn't the user's, ask the user for a private one.
 
 ## Sort each decision
@@ -53,7 +54,7 @@ Send it in a way that does not stop work. If the tooling's question prompt holds
 
 ## Talk to the user in plain words
 
-Everything addressed to the user, including digests, questions, and the hourly update, uses short sentences in everyday words. Never use internal labels there: no document or review numbers, design versions, milestone, step, gate, or finding codes, item IDs, or commit hashes. Documents the user asks to see, such as a review or the design itself, keep their labels, but any summary of them names things. Name the thing instead. Say "the check that only the scheduled job can send the weekly email", not "A8", and "the design for sign-out", not "Doc 3 v0.16". Links are fine as long as the sentence makes sense without them.
+Everything addressed to the user, including digests, questions, and Dory's update, uses short sentences in everyday words. Never use internal labels there: no document or review numbers, design versions, milestone, step, gate, or finding codes, item IDs, or commit hashes. Documents the user asks to see, such as a review or the design itself, keep their labels, but any summary of them names things. Name the thing instead. Say "the check that only the scheduled job can send the weekly email", not "A8", and "the design for sign-out", not "Doc 3 v0.16". Links are fine as long as the sentence makes sense without them.
 
 ## Ask with context
 
@@ -67,9 +68,11 @@ Bad: "Review #2 on Doc 12 flagged A8 as NOT READY. Approve the v0.17 scope chang
 
 Good: "I recommend fixing who can send the weekly email before we build it. The design for the weekly email left out who may send it, and building it starts next. The fix lets only the scheduled job send it, so no one can send one by hand. Saying yes adds about 20 minutes and no cost; saying no risks the occasional duplicate email. Options: fix it first (recommended); build it as is."
 
-## Dory's hourly update
+## Dory's update
 
-Dory remembers nothing, so this update is written for someone who has just walked in. Marlin writes it; the name is about the reader. A voyage runs from the charter, or from Step 1 without one, until the final objective is met or the user stops it. At kickoff, or at the next step of a voyage started under an earlier version, set up a recurring hourly wake-up that resumes the current Hank conversation and posts the update where the charter says; a charter without an Hourly update line uses the default and needs no new version. If the tooling can only start a new conversation on a schedule, that conversation reads the charter's history file, posts the update, and does nothing else. A Hank handoff moves the wake-up to the new conversation, as `reference/hank-handoff.md` describes. Post it every hour while the voyage is running, even when little changed. When all work waits on the user, post once, then pause until the answer. Stop when the voyage ends or the user pauses it, and set it up again when the user resumes. Record each update's time and Just done line in the charter's history file. It is a table of three rows, each cell one or two short sentences, following "Talk to the user in plain words". Happening now names each stream in a short phrase, grouping alike ones, such as "three test runs", then anything waiting on the user, and why. It may run past two sentences:
+Marlin writes it in Dory's voice, for someone who has just walked in; no Dory reviewer writes or sees it. A voyage runs from the charter, or from Step 1 without one, until the final objective is met or the user stops it. At kickoff, or at the next step of a voyage started under an earlier version, set up a recurring hourly wake-up that resumes the current Hank conversation and checks for new progress; a charter without an Updates line uses the default and needs no new version. If the tooling can only start a new conversation on a schedule, that conversation reads the charter's history file, posts an update if there is new progress, and does nothing else. A Hank handoff moves the wake-up to the new conversation, as `reference/hank-handoff.md` describes.
+
+Post an update only when there is new progress since the last one: something finished, started, or changed course. Waiting, "still running", and "no change" are not progress, so the wake-up posts nothing then. If Crush sends a reminder, answer Crush in one line with what is still running; that is not an update. Stop the wake-up when the voyage ends or the user pauses it, and set it up again when the user resumes. Record each update's time and Just done line in the charter's history file. When a Crush covers the voyage, it also gathers the update into its combined report, as `reference/crush.md` describes. The update is a table of three rows, each cell one or two short sentences, following "Talk to the user in plain words". Happening now names each stream in a short phrase, grouping alike ones, such as "three test runs", then anything waiting on the user, and why. It may run past two sentences:
 
 | | |
 |---|---|
@@ -93,6 +96,8 @@ Good:
 | **Happening now** | Three things at once: building the check that only the scheduled job can send the weekly email, testing sign-out on a bad connection, and drafting the release notes. Publishing will need your OK, because only you can approve a public release. |
 | **Next** | Then we fix whatever the tests turn up and send you the release to approve. |
 
+Also bad: any table when nothing moved, such as "Still waiting for the review" in every row. Post nothing instead.
+
 The update carries no questions. Questions go in the digest, and the update points to it when one is waiting.
 
 ## Back up at every gate
@@ -105,14 +110,15 @@ At every pace, start at once every piece of work that the charter, the current a
 
 Run independent streams at the same time, each in its own sub-agent or session where the tooling allows: research, spikes, drafts, tests, tooling, docs, reviews, and building inside an approved design or a component the pace lets overlap review. Two streams are independent when neither needs the other's result and they change different files, apart from each one's own part of the implementation log. Running in parallel changes no other rule. In particular:
 
-- Start each stream with only its task, the user's operating limits and standing instructions, quoted as the user gave them, and the reserved list. A stream that reaches anything reserved stops that part and reports back. Set it a stall time, as for a reviewer.
+- Start each stream with only its task, the user's operating limits and standing instructions, quoted as the user gave them, the reserved list, and, for a stream that runs on a shared machine, that machine's Crush, its light-work line, and what its house rules keep for the user. A stream that reaches anything reserved stops that part and reports back. Set it a stall time, as for a reviewer; for a stream queued with Crush, it starts when the grant arrives.
 - Each stream writes its result to its branch or a file and sends one short final report. Record each stream in the charter's history file when it starts and when it returns: what it does, its branch or output, and where its result will arrive.
 - Other streams report back to the conversation acting as Hank and leave to it everything `reference/hank-handoff.md` says only Hank does. Each Dory reviewer still runs fresh, as "Choose where each reviewer runs" in `SKILL.md` describes.
 - While a batch runs, no stream edits the design document or a referenced file, except as "Freeze the document" in `SKILL.md` allows.
 - Give each building stream its own branch in its own worktree or clone. A stream that must change another stream's file stops and reports back. Hank changes a stream's branch only after it returns, and merges finished building branches into one branch that is not shared or default. Step 9 reviews that branch.
+- A stream that needs heavy work on a shared machine asks its Crush for machine time as soon as the stream is known, and every other stream starts meanwhile. A stream queued with Crush is not idle. When the charter names a shared machine, also follow "How Crush fits the other rules" in `reference/crush.md`.
 - Every stream counts toward the budget. When the charter's stream limit is reached, run first the streams that bring the final objective closest. When the remaining work no longer fits the budget, escalate as "Escalate early" describes.
 
-At each check-in, whenever a stream or batch returns or a digest or hourly update goes out, check that nothing allowed is sitting idle, and start it. Stop only when every remaining step depends on a reserved answer, and say so in the digest.
+At each check-in, whenever a stream or batch returns, a digest or update goes out, or the hourly wake-up runs, check that nothing allowed is sitting idle, and start it. Stop only when every remaining step depends on a reserved answer, and say so in the digest.
 
 ## Escalate early
 

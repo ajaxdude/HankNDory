@@ -1,8 +1,8 @@
 # HankNDory
 
-**A structured design-validate-implement method for building software with an AI coding agent, named for three Pixar characters: Dory and Marlin, from *Finding Nemo*, and Hank, from its sequel, *Finding Dory*.**
+**A structured design-validate-implement method for building software with an AI coding agent, named for four Pixar characters: Dory, Marlin, and Crush, from *Finding Nemo*, and Hank, from its sequel, *Finding Dory*.**
 
-This is version 2.3. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.4. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -14,9 +14,9 @@ When you design and implement a feature in one sitting with an AI agent, the age
 
 HankNDory forces a hard separation between **designing with full context** and **validating with none**, so that the design document itself, not the conversation that produced it, has to carry the full weight of the plan.
 
-## The three characters
+## The four characters
 
-Dory, who debuted in *Finding Nemo*, and Hank, the septopus who appears in its sequel, *Finding Dory*, each lend their defining trait to one half of the method. Marlin, Nemo's dad, keeps the whole trip moving:
+Dory, who debuted in *Finding Nemo*, and Hank, the septopus who appears in its sequel, *Finding Dory*, each lend their defining trait to one half of the method. Marlin, Nemo's dad, keeps the whole trip moving, and Crush, the sea turtle, keeps the shared lanes clear:
 
 ### Hank, the design phase
 
@@ -51,14 +51,21 @@ If any Dory phase fails, work returns to Hank to fix the document, never to patc
 
 ### Marlin, the one who keeps swimming
 
-Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, Marlin is a role the main conversation plays, and Nemo is the final objective. At kickoff, you and Marlin write a short **charter**: the final objective, milestones, deadline, budget (in agent-hours, counting every agent that runs, or in cost), pace, which decisions Marlin makes alone, which ones stay with you, any wording or small extension you accept as built, where Marlin backs up the work, where the hourly update goes, and how long a reversible question waits before Marlin takes its default (10 minutes unless you set another). After that, Marlin:
+Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, Marlin is a role the main conversation plays, and Nemo is the final objective. At kickoff, you and Marlin write a short **charter**: the final objective, milestones, deadline, budget (in agent-hours, counting every agent that runs, or in cost), pace, which decisions Marlin makes alone, which ones stay with you, any wording or small extension you accept as built, where Marlin backs up the work, where Dory's update goes, and how long a reversible question waits before Marlin takes its default (10 minutes unless you set another). After that, Marlin:
 
 - decides what the charter hands over, and records it;
 - sends you one **digest** at a time, holding every question and every piece of news. Each question leads with a recommendation, then two to four plain sentences on what it is, why it needs deciding now, and what each option costs you in time, money, or risk, and, where it can be undone, a default and when it takes effect;
-- posts **Dory's hourly update**, a three-row table of what was just done, what is happening now in each piece of work, and what comes next. It names anything waiting on you, and why. It is written for someone who remembers nothing: plain words, no document numbers, review numbers, step codes, or hashes;
+- posts **Dory's update**, a three-row table of what was just done, what is happening now in each piece of work, and what comes next, only when there is new progress; it checks every hour. It names anything waiting on you, and why. It is written for someone who remembers nothing: plain words, no document numbers, review numbers, step codes, or hashes;
 - at every pace, starts at once everything the charter and your approvals already allow. Independent work runs side by side in several sub-agents or sessions: research, drafts, tests, reviews, and building inside approved designs. Only the work that depends on one of your answers waits for it. At each check-in, Marlin makes sure nothing allowed sits idle;
 - tells you early when the deadline or budget is at risk, and never recommends another review round when nothing is blocking;
 - pushes the designs, the charter, their history files, and the working branches to a backup remote at every gate, so losing a machine loses nothing. If the project's repository is public or isn't yours, use a private one.
+
+### Crush, who knows every lane
+
+Crush is the sea turtle who rides the current. In the method, Crush is one long-running conversation you start for all your projects, not part of any one of them. It does two jobs:
+
+- **It routes heavy work onto the machines you share across projects.** Sessions ask Crush for machine time before loading a model, running a GPU job, or running a big memory, disk, or CPU job; light work like git and small tests doesn't. Crush runs as much side by side as fits, so the machines stay busy without collisions. You set its house rules once: the limits it keeps, what it may do alone (such as pausing and restoring shared services, or moving files between drives), what stays yours (such as installing software, stopping a running job, or deleting anything), and a freeze switch for model loading and GPU work when you need a machine yourself. A grant gives machine time only, never permission.
+- **It gathers every project's updates into one report.** Dory is the voice of each project's update table, which a project posts only when it has new progress; waiting is not progress. Each hour, Crush reads the newest ones itself and, only when something is new, posts one report: new or changed decisions waiting on you first, each listed once with plain context and a link to where you answer it; then a row for each project with news; then a line for each machine where something changed. A project that is only waiting gets no reminder. One with work running and no update for 3 hours gets one, answers it in a line, and is marked as possibly stalled if it doesn't answer within an hour.
 
 The charter also sets the **pace**:
 
@@ -129,7 +136,7 @@ gh skill install ajaxdude/HankNDory
 
 Pass `--agent <host> --scope <user|project>` to target a specific agent/location instead of the interactive prompt, e.g. `gh skill install ajaxdude/HankNDory --agent claude-code --scope user`.
 
-Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.3`, or pass `--pin v2.3`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
+Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.4`, or pass `--pin v2.4`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
 
 ### Manual install, by agent
 
@@ -167,6 +174,7 @@ HankNDory/
     │   └── ui_metadata.yaml
     └── reference/
         ├── bootstrap-context.md
+        ├── crush.md
         ├── design-doc-template.md
         ├── hank-checks.md
         ├── hank-handoff.md
@@ -179,17 +187,18 @@ HankNDory/
 - **`hankndory/SKILL.md`**: the method itself, covering rules, modes, the charter and pace, the four-phase lifecycle, the design document structure, and the failure-recovery guidance the agent follows.
 - **`hankndory/agents/ui_metadata.yaml`**: display metadata (name, one-line description) used by tooling that surfaces installed skills in a UI.
 - **`hankndory/reference/bootstrap-context.md`**: the steps the `bootstrap-context` mode follows, kept out of `SKILL.md` to keep it short.
+- **`hankndory/reference/crush.md`**: Crush's house rules, how sessions ask for and give back machine time, and the combined report.
 - **`hankndory/reference/design-doc-template.md`**: the canonical starting template for every design document the Hank phase produces, with per-section guidance comments.
 - **`hankndory/reference/hank-checks.md`**: the mechanical scan and the diff check Hank runs once on each new version before Dory reviews it.
 - **`hankndory/reference/hank-handoff.md`**: how Hank hands the review loop to a new conversation after each batch, so its conversation stays short.
-- **`hankndory/reference/marlin.md`**: the charter, how Marlin sorts decisions, the digest that replaces one-at-a-time questions, the plain-words rule with good and bad examples, Dory's hourly update, and starting all allowed work at once, in parallel.
+- **`hankndory/reference/marlin.md`**: the charter, how Marlin sorts decisions, the digest that replaces one-at-a-time questions, the plain-words rule with good and bad examples, Dory's update, and starting all allowed work at once, in parallel.
 - **`hankndory/reference/one-off-checklist.md`**: the one-page checklist used instead of the design method for a one-off operation, such as a download or a one-time cleanup.
 - **`hankndory/reference/plain-speech-checklist.md`**: the checklist Hank applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
 - **`hankndory/`** is deliberately nested one level below the repository root (rather than living at the root itself) because `gh skill` and several other skill-discovery tools only scan for `*/SKILL.md`, not a `SKILL.md` at the very top of a repository.
 
 ## Why this matters in practice
 
-The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Hank brings the context and the caution. Dory brings the amnesia that keeps everyone honest. Marlin keeps everyone swimming toward Nemo.
+The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Hank brings the context and the caution. Dory brings the amnesia that keeps everyone honest. Marlin keeps everyone swimming toward Nemo. Crush keeps the shared lanes clear.
 
 ## License
 

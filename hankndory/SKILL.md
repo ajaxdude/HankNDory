@@ -3,12 +3,12 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. enforce explicit no-code gates and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.3"
+  version: "2.4"
 ---
 
-# HankNDory 2.3: The Hank & Dory Method
+# HankNDory 2.4: The Hank & Dory Method
 
-Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, and never waits on the user for anything the user has delegated. Write production code only after every required gate passes.
+Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report. Write production code only after every required gate passes.
 
 ## Core rules
 
@@ -37,6 +37,7 @@ Choose one mode from the user's request and current repository state:
 - **implementation**: implement only from a validated and approved design document.
 - **mean-review**: perform a severe but actionable code review against the approved design or a one-off operation's checklist.
 - **bootstrap-context**: create a hierarchy of repository README files through bottom-up recursive summarization, following `reference/bootstrap-context.md`.
+- **crush**: act as the user's Crush, following `reference/crush.md`; it reports no phase or gate, and runs under house rules, not a charter.
 - **full-voyage**: orchestrate all applicable phases in order, with Marlin keeping the voyage moving, running the Dory gates in batches as described in "Dispatch Dory reviews."
 
 If the user asks to code a standard change but no validated design exists, do not implement. Explain the missing gate and begin or recommend `new-feature-hank`.
@@ -86,14 +87,14 @@ This version applies in full to new design documents. A design started under an 
 
 Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role, not a separate conversation: the conversation acting as Hank plays it, and a Hank handoff passes it on. Marlin keeps the work moving toward the final objective, following `reference/marlin.md` in this skill:
 
-- Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, any limit on parallel streams, the backup remote, and where the hourly update goes. Only the user changes it.
+- Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, any limit on parallel streams, the shared machines, the backup remote, and where Dory's update goes. Only the user changes it.
 - Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
 - Ask through one digest at a time, in a way that does not stop work, and meanwhile start everything allowed at once, in parallel, as `reference/marlin.md` describes. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
-- Post Dory's hourly update, a three-row table of what was just done, what is happening now in each stream, and what comes next. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, as `reference/marlin.md` describes.
+- Post Dory's update, a three-row table of what was just done, what is happening now in each stream, and what comes next, only when there is new progress; an hourly wake-up checks, and waiting is not progress. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, as `reference/marlin.md` describes. Book heavy work on a shared machine through Crush, which also gathers every voyage's updates into one report for the user, as `reference/crush.md` describes.
 
 ## Pick the pace
 
-The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work, allowed work still starts at once and in parallel, and the hourly update still goes to the chat the user reads.
+The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work, allowed work still starts at once and in parallel, and Dory's update still goes to the chat the user reads.
 
 | | Light | Fast | Balanced | Careful |
 |---|---|---|---|---|
@@ -491,9 +492,7 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Running a Dory reviewer or check on a lighter model, or at lower reasoning effort than "Choose where each reviewer runs" allows, to save time.
 - Carrying one Hank conversation through the whole review loop when the tooling can start a new one, or checking on a running reviewer again and again.
 - Giving each Dory phase its own worktree, or at careful pace running Step 5/5b and Step 6 one after the other, when the tooling allows a lighter or concurrent run.
-- Recommending another review round when nothing is blocking.
-- Using the design method for a one-off operation.
-- Restating code in the design.
+- Recommending another review round when nothing is blocking, using the design method for a one-off operation, or restating code in the design.
 - Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait; holding back allowed work for a gate, digest, or answer it does not depend on; or running independent work one stream at a time when the tooling, the charter, and the budget allow more.
 - Asking questions one at a time, or in a prompt that stops work, when a digest would do; asking without plain context; or using internal labels, such as document, review, or step numbers, with the user.
-- Running work under "Always standard" faster than careful pace without the charter naming it.
+- Running work under "Always standard" faster than careful pace without the charter naming it, or heavy work on a shared machine without its Crush's grant.

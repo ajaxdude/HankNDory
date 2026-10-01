@@ -14,7 +14,9 @@ The checklist for a one-off operation, as "Size the change before choosing a gat
 ## Limits
 
 <!-- The user's operating limits that apply, such as machines, commands,
-     disk space, time, or cost. -->
+     disk space, time, or cost. On a shared machine, the Crush to ask and
+     each heavy step's grant, as reference/crush.md in this skill
+     describes. -->
 
 ## Steps
 
