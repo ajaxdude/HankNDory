@@ -8,8 +8,8 @@ Write it with the user once, at kickoff, in its own file, such as `docs/charter.
 
 - **Final objective (Nemo):** what done looks like, stated as a test someone can check.
 - **Milestones:** the few stops on the way, each with a result the user can see.
-- **Deadline and budget:** a target date, and a limit in hours or cost, for the whole voyage and for design review.
-- **Pace:** fast, balanced, or careful, as "Pick the pace" in `SKILL.md` describes, and any part of the work that runs at a different pace.
+- **Deadline and budget:** a target date, and a limit in agent-hours or cost, for the whole voyage and for design review. Agent-hours add up the time of every agent: Marlin and Hank, builders, reviewers, and checks, counting agents that run at the same time separately.
+- **Pace:** light, fast, balanced, or careful, as "Pick the pace" in `SKILL.md` describes, and any part of the work that runs at a different pace.
 - **Delegated decisions:** what Marlin decides without asking. Unless the user narrows it, this covers:
   - reversible technical choices inside the design's contracts;
   - commits, and pushes to the project's own working branches;
@@ -24,9 +24,11 @@ Write it with the user once, at kickoff, in its own file, such as `docs/charter.
   - public releases, store submissions, and messages to other people;
   - legal, licensing, privacy, and terms questions;
   - taste calls the user keeps, such as brand, voice, or look.
+- **Accepted as built:** wording, such as interface or email text, and small extensions inside a scope already decided, that the user accepts as built without being asked. Marlin treats them as delegated. For what it names, this overrides the reserved taste calls. It never covers anything on the "Always standard" list and never sends anything to anyone. Privacy, legal, and terms wording stays reserved unless named here.
 - **Default wait:** how long a reversible question waits for an answer before Marlin takes its default. It is 10 minutes unless the user sets another.
 - **Review points:** when the user sees results, such as a demo at each milestone or the finished feature.
 - **Operating limits:** quoted as the user gave them.
+- **Backup remote:** where Marlin pushes the backups "Back up at every gate" describes. If the project's own remote is public or isn't the user's, ask the user for a private one.
 
 ## Sort each decision
 
@@ -38,7 +40,7 @@ When unsure which group a decision belongs to, or when it fits both a delegated 
 
 ## The digest
 
-One message holds every question and every piece of news the user needs. Keep one current digest. A new question starts a new digest that replaces the current one and carries forward each unanswered item with its original default time. Gather new questions for no longer than one default wait before sending; send an escalation at once. Record each digest in the history file when it is sent. It gives:
+One message holds every question and every piece of news the user needs. Keep one current digest. A new question starts a new digest that replaces the current one and carries forward each unanswered item with its original default time. Gather new questions for no longer than one default wait before sending; send an escalation at once. Record each digest in the charter's history file, such as `docs/charter.history.md`, when it is sent. It gives:
 
 1. where the voyage stands: the last milestone reached, the next one, the forecast against the deadline, and spend against the budget;
 2. the decisions needed, reserved ones first, each with a recommendation, and for a reversible one, its default and when that takes effect;
@@ -46,6 +48,10 @@ One message holds every question and every piece of news the user needs. Keep on
 4. what Marlin is doing meanwhile.
 
 Send it in a way that does not stop work. If the tooling's question prompt holds the conversation until the user answers, send the digest as an ordinary message, or give the prompt a timeout, and keep working. Use a timeout or a scheduled wake-up to act when a default's time comes.
+
+## Back up at every gate
+
+When a gate closes, and when approval or a handoff happens, commit and push to the backup remote: each design document and its history file, the charter and its history file, and the working branches. This guards against losing a machine mid-voyage. Pushing to the backup remote is delegated; merging into a shared or default branch stays reserved. Push only branches that are not shared or default, never force-push, and never push to a remote where a push deploys. If the project's own remote is public or isn't the user's, push the design documents, the charter, and their history files only to the backup remote. With no backup remote named, skip the backup and say so in the digest.
 
 ## Never idle
 

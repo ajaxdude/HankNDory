@@ -2,6 +2,17 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.1 (2026-09-30)
+
+A light pace and a sturdier charter, from trying 2.0's fast pace on a small release. Separate reviewers at the highest effort cost far more than one pass at Hank's effort and found little more. The budget unit was unclear, Step 7 kept sending already-decided wording to the user, and nothing protected the work against losing a machine.
+
+- New light pace, for a point release or a design written after the code, with a design-review budget cap in the charter. It follows the fast-pace rules except where it differs. One `dory-pass` runs Steps 5 to 7. Hank fixes everything it found in one revision, the design and, on the building branch, any code it shows to be wrong, and runs his checks, the diff check included, on that revision. A second pass runs only if the first had a blocking finding, a Step 5/5b `FAIL`, or a Step 7 `NOT READY`, and the budget allows, followed by one more fix; it shares a lifetime limit of two critic rounds with any Step 8 scoped round. The charter approves the last fix revision only when the last pass had none of those three; otherwise the open findings go to the user. Step 9 runs one review and one re-review, and any finding still open goes in the digest; while a non-trivial one is open, merging and deploying stay reserved. "Always standard" items still have to be named in the charter.
+- At light and fast pace, reviewers that run Step 6 or 7 run at Hank's reasoning effort unless the charter sets a higher one.
+- The charter's budget is in agent-hours or cost. Agent-hours add up every agent's time, counting agents that run at the same time separately.
+- New charter field, accepted as built: wording and small extensions inside a scope already decided that the user accepts without being asked. It overrides the reserved taste calls for what it names, never covers "Always standard" items, and never sends anything. Privacy, legal, and terms wording stays reserved unless named.
+- Back up at every gate: Marlin pushes the design documents, the charter, their history files, and the working branches to the charter's backup remote. Only branches that aren't shared or default, never force-pushed, never to a remote where a push deploys. A public project, or one the user doesn't own, keeps its designs, charter, and history files on a private backup remote. Digests are recorded in the charter's history file.
+- The README adds a tooling note: in the GitHub Copilot app, task sub-agents see the parent session's checkpoint titles and file list, so Dory reviewers run as new top-level sessions.
+
 ## 2.0 (2026-09-30)
 
 Reaching the final objective sooner, at a pace the user chooses, and at lower cost. Work sat idle for hours waiting on routine answers and approvals, questions came one at a time, every design got the full set of separate reviews whatever its risk, and most of the cost came from Hank's own conversation growing long through the review loop. This is a major version because a charter can now make the method run faster and approve building by itself. Version 1.7 was never released; its changes are part of this one.

@@ -132,4 +132,4 @@
 ## Human approval
 
 <!-- Who approved, when, and the version and commit approved. For approval
-     by the charter at fast pace, name the charter and its version. -->
+     by the charter at light or fast pace, name the charter and its version. -->

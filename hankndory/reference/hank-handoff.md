@@ -15,7 +15,7 @@ The Hank conversation that started the batch waits for it, then:
    - the commit the next diff check starts from, where the pace calls for one, the defect classes earlier reviews found, and whether the next revision must restructure the document, as step 2 of "Run the gates in batches" in `SKILL.md` requires;
    - any reviewer or check still running, and where its result will arrive;
    - the charter's path and version, and the pace;
-   - at fast pace, the building under way: its components, its branch, and its implementation log;
+   - at light or fast pace, the building under way: its components, its branch, and its implementation log;
    - the critic rounds used, the time spent, the target date, and the review budget;
    - every user decision, preference, and rejected option since the last handoff, or since Phase 1 for the first handoff, that the design document does not hold yet;
    - the open digest: each question waiting on the user, with its recommendation, and for a reversible one, its default and when that takes effect;
