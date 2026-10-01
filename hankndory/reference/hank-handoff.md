@@ -2,7 +2,7 @@
 
 Hank follows these steps as "Keep Hank's conversation short" in `SKILL.md` describes. The handoff moves Hank's working record into the files, so a new Hank conversation can start from the files alone.
 
-Only one conversation acts as Hank at a time: the one named in the newest handoff entry marked `Taken over`, or the Phase 1 and 2 conversation before any handoff. Only that conversation revises the design document, starts a batch, plays Marlin, sends the user a digest, or posts Dory's update. A conversation that has handed off never acts as Hank again. If a message reaches it later, it points the sender to the current Hank.
+Only one conversation acts as Hank at a time: the one named in the newest handoff entry marked `Taken over`, or the Phase 1 and 2 conversation before any handoff. Only that conversation revises the design document, starts a batch, plays Marlin, sends the user a digest, or posts or sends Dory's update. A conversation that has handed off never acts as Hank again. If a message reaches it later, it points the sender to the current Hank.
 
 ## When the batch returns
 
@@ -22,7 +22,7 @@ The Hank conversation that started the batch waits for it, then:
    - the open digest: each question waiting on the user, with its recommendation and plain context, written as "Ask with context" in `reference/marlin.md` describes, and for a reversible one, its default and when that takes effect;
    - the next action.
 3. Commits the history file, or saves a frozen copy when the project isn't in git.
-4. Stops its hourly wake-up, starts a new Hank conversation with the prompt below, then tells the user, and the voyage's Crush if it has one, where Hank now continues, and that the open digest should be answered there.
+4. Stops its hourly wake-up, starts a new Hank conversation with the prompt below, then tells the user, and the user's Crush if there is one, where Hank now continues, and that the open digest should be answered there.
 5. Checks once for the new conversation's `Taken over` mark: after the tooling reports that the new conversation has started, or after a wait set before starting it. If the mark is there, it stops. If not, it stops the new conversation and removes any wake-up that conversation set, sets up its own again, and carries on as Hank, recording the failed handoff in the history file. If it cannot stop the new conversation, it tells the user and waits for them.
 
 If the batch leads to no revision, such as a `READY` that goes to human approval, the same conversation carries on and no handoff is needed.
@@ -35,7 +35,7 @@ Start it as a new top-level conversation that the user can see and answer in, no
 - the model and reasoning effort it runs on, which every later handoff keeps;
 - the design document's path, the charter's path, and the commit holding the handoff entry;
 - the user's operating limits and standing instructions, quoted as the user gave them, as a Dory kickoff prompt carries them;
-- the instruction to read `SKILL.md`, `reference/marlin.md`, the charter and its history file, `reference/crush.md` when the charter names a shared machine, the design document, the handoff entry and the batch's entries in the history file, and any implementation log the entry names, each once and in one piece, and only the referenced files the fixes need.
+- the instruction to read `SKILL.md`, `reference/marlin.md`, the charter and its history file, `reference/crush.md` when updates go to Crush or the charter names a shared machine, the design document, the handoff entry and the batch's entries in the history file, and any implementation log the entry names, each once and in one piece, and only the referenced files the fixes need.
 
 If the tooling cannot start such a conversation without the user, shrink the current conversation down to the handoff entry instead, if the tooling can, keeping its hourly wake-up, and record that in the history file. If it cannot do either, carry on in the current conversation, keeping its wake-up, and record that the handoff was skipped.
 

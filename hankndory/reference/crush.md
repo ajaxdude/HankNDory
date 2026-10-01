@@ -5,15 +5,26 @@ Crush follows these steps in the `crush` mode of `SKILL.md`. Crush is the sea tu
 - it routes heavy work onto the machines the user shares across projects, so they stay busy without collisions;
 - it gathers every workstream's update into one report for the user.
 
-A workstream is a voyage whose charter names this Crush, or any other session the user names. Marlin keeps one voyage moving; Crush looks after the shared machines and gives the user one view of all the work. When two or more voyages share a machine and no Crush exists, Marlin recommends one in the next digest.
+A workstream is every voyage of the user, and any other session the user names. Marlin keeps one voyage moving; Crush looks after the shared machines and gives the user one view of all the work.
 
 ## Starting and running Crush
 
-The user starts Crush as a new top-level conversation and gives it the house rules' path. Crush's record is its files: the house rules and their history file, which records each approval, every grant, and every pause, unload, and file move. When its conversation grows long, Crush restarts from those files in a new conversation and tells every workstream where it now runs. The house rules set Crush's own budget. Crush starts no conversation with a stream or a Dory reviewer. It answers only the session that asked, and sends everything else to each voyage's conversation acting as Hank, or to a session the user named.
+Each user has exactly one Crush. It runs as its own top-level conversation, detached from every voyage, so it outlives the voyage that started it. Its record is its files, kept in one place every voyage of the user can find: where the user's standing instructions say, or by default a `crush` folder in the user's home folder. They hold the house rules and their history file. The history file records each approval, every grant, and every pause, unload, and file move, each update row sent to Crush that has not yet been reported, the time of each hourly check and of the last report, and where Crush runs now.
+
+At kickoff, at the next step of a voyage started under an earlier version, and whenever a message to Crush fails, Marlin makes sure the user's Crush exists:
+
+1. If the charter or the user's standing instructions name a Crush already running, use it, and ask it to record in the Crush folder where it runs and where its files are.
+2. Otherwise, if the history file says where Crush runs, and that conversation still exists and has not been archived or ended, use it, even when it is idle between checks. If it has recorded no hourly check for 2 hours, tell the user in the digest. Never create a second one.
+3. Otherwise, claim the right to create it by making a lock file in the Crush folder, in a way that fails if the file already exists, and record the voyage and the time in it. If the claim fails, wait for the other voyage to record where its Crush runs, then use that one; if nothing is recorded within 10 minutes, ask the user in the digest. If the claim succeeds, write draft house rules into the folder if none exist, create the conversation as a detached top-level conversation, in a session mode that does not pause for plan approval, with only the instruction to run HankNDory in `crush` mode and the folder's path. Then record where it runs in the history file and remove the lock.
+4. If the tooling can't create such a conversation, or the user's operating limits don't allow writing to that folder or starting a conversation that outlives the voyage, recommend a Crush in the next digest, and meanwhile post updates in this voyage's own chat.
+
+Marlin writes the draft house rules from the user's operating limits and the charter's shared machines, with disk floors and a budget. Crush asks the user to approve them in its first message, at once. Until the user approves them, Crush collects and reports updates, and grants heavy work one job at a time on each machine, within the user's operating limits and above the draft disk floors. It does nothing else alone.
+
+On starting, and after each restart, Crush sets up a recurring hourly wake-up at about five minutes past the hour, and each run records its time in the history file. When its conversation grows long, Crush restarts from its files in a new detached conversation, records where it now runs, and tells every workstream. The old conversation then stops its wake-up, never acts as Crush again, and points anyone who writes to it to the new one. A Crush the user starts by hand also records where it runs. The house rules set Crush's own budget. Crush starts no conversation with a stream or a Dory reviewer. It answers only the session that asked, and sends everything else to each voyage's conversation acting as Hank, or to a session the user named.
 
 ## House rules
 
-No charter governs Crush. The user sets its house rules once, in their own file, the way a charter is set: only the user changes them, and each version takes effect once the user explicitly approves it. The house rules cover:
+No charter governs Crush. The user sets its house rules, the way a charter is set. Only the user changes them, and each version takes effect once the user explicitly approves it. The house rules cover:
 
 - **Machines and parts:** each shared machine and its scarce parts, such as the model slot (the one place a large model can be loaded at a time), the GPU, memory, disk, CPU, and network, and the limits Crush keeps, such as memory kept free.
 - **Disk floors:** the minimum free space on each filesystem. Two mounts can share one filesystem, so set floors per filesystem, not per mount. A grant that would cross a floor is held, and a floor crossed anyway goes to the user at once.
@@ -22,7 +33,7 @@ No charter governs Crush. The user sets its house rules once, in their own file,
 - **What stays the user's:** unless the user hands it over by name, installing software on a machine, changing service settings, stopping a running job or pausing it so another can run, which project goes first, deleting anything, and authority to load models at all. That authority is separate from the model slot: a tiny CPU-only model may take no slot, but its project still needs to be allowed to load models. On a shared machine, where a voyage's charter and the house rules differ, the stricter applies. A session may delete files its own grant created.
 - **Freeze switch:** the user can freeze model loading and GPU work on a machine when they need it themselves. While it is frozen, no model loads and no GPU job starts. CPU, disk, and network work carry on, and jobs already running are never stopped. Crush tells every waiting session. Only the user unfreezes it.
 - **Priority:** equal turns between projects unless the user ranks them.
-- **Report:** where the combined report goes, which is the chat the user reads unless the user names another.
+- **Report:** where the combined report goes, which is Crush's own conversation unless the user names another.
 
 ## Asking for and giving back machine time
 
@@ -56,14 +67,14 @@ Crush also handles:
 
 ## The combined report
 
-Dory is the voice of each workstream's update: the plain three-row table, Just done, Happening now, and Next, that "Dory's update" in `reference/marlin.md` describes. Each workstream posts one from its coordinating conversation when it has new progress, and posts nothing when it has no new progress, such as when it is only waiting or a job is still running. Crush gathers them into one report.
+Dory is the voice of each workstream's update: the plain table, Just done, Happening now, Next, and Progress, that "Dory's update" in `reference/marlin.md` describes. Each workstream writes one from its coordinating conversation when it has new progress, and nothing when it has none, such as when it is only waiting or a job is still running. Where it goes is set by the Updates line, as "The charter" in `reference/marlin.md` describes. Crush gathers them all into one report.
 
-**Collecting.** Every hour, Crush reads each workstream's newest update itself, read-only, where the tooling lets it read other sessions, so workstreams send nothing and spend nothing extra. It reads only real update tables in the workstream's own messages, starting from the newest, never prompts or text that describes the format. A workstream Crush can't read sends Crush a copy of each update. Crush shows at most one row per workstream, taken from its coordinating conversation, never one per helper session.
+**Collecting.** Every hour, Crush reads the newest update of each workstream that posts its own, read-only, where the tooling lets it read other sessions. It reads only real update tables in the workstream's own messages, starting from the newest, never prompts or text that describes the format. A workstream whose updates go to Crush, or that Crush can't read, sends Crush each update, and Crush takes its row from those messages. Crush shows at most one row per workstream, taken from its coordinating conversation, never one per helper session. When a workstream sent more than one update since the last report, Crush joins their Just done lines and takes the other cells from the newest.
 
-**Posting.** Crush posts only when something is new since its last report, about five minutes past the hour, in this order:
+**Posting.** Crush posts only at its hourly slot, about five minutes past the hour, and only when something is new since its last report. It never posts in between, however news arrives; urgent news is the one exception, as "How Crush fits the other rules" says. The report comes in this order:
 
 1. **Waiting on you:** each decision waiting on the user that is new or has changed, across all workstreams, recommended answer first, with its two to four plain sentences of context and a link to where the user answers it. Crush finds them in each owner's digest and in any question the tooling shows as waiting for the user. Each is listed once, however many workstreams wait on it, under the workstream that asked first. The owning session asks it; Crush never asks it again or answers it. Crush's own questions go here too.
-2. **One table** with a row only for each workstream that posted a new update, named plainly, with columns Just done, Happening now, and Next, one short sentence per cell.
+2. **One table** with a row only for each workstream that posted or sent a new update, named plainly, with columns Done, Finish, Just done, Happening now, and Next. Done and Finish come from the update's Progress row: the rough percent done and the forecast finish of its charter's final objective, or "not given" for a session without a charter. The other cells hold one short sentence each.
 3. **The machines,** one line for each machine where something changed: the model slot, a freeze, the queue, or anything Crush paused, unloaded, or moved.
 
 When nothing is new, Crush posts nothing.
@@ -72,14 +83,14 @@ When nothing is new, Crush posts nothing.
 
 Bad:
 
-| | Just done | Happening now | Next |
-|---|---|---|---|
-| WS-2 | v0.16 READY | M3, q41 held (D7) | Gate 9 |
-| WS-5 | nothing new | still waiting | same |
+| | Done | Finish | Just done | Happening now | Next |
+|---|---|---|---|---|---|
+| WS-2 | M2/M4 | T+14h | v0.16 READY | M3, q41 held (D7) | Gate 9 |
+| WS-5 | ? | ? | nothing new | still waiting | same |
 
 Good:
 
-| | Just done | Happening now | Next |
-|---|---|---|---|
-| Weekly email app | The design passed its review with nothing blocking. | Building the check that only the scheduled job can send the email. | Testing sign-out on a bad connection. |
-| Voice model | Downloaded the model. | Waiting for the shared machine, behind another model test, about 40 minutes. | Converting the model once its turn comes. |
+| | Done | Finish | Just done | Happening now | Next |
+|---|---|---|---|---|---|
+| Weekly email app | about 60% | Thursday evening | The design passed its review with nothing blocking. | Building the check that only the scheduled job can send the email. | Testing sign-out on a bad connection. |
+| Voice model | about 30% | about 5 hours | Downloaded the model. | Waiting for the shared machine, behind another model test, about 40 minutes. | Converting the model once its turn comes. |

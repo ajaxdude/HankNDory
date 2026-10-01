@@ -2,6 +2,15 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.5 (2026-09-30)
+
+One place to read updates, once an hour. News could still arrive in many chats and at any time.
+
+- Crush posts its combined report only at its hourly slot, about five minutes past the hour, and only when something is new. It never posts in between; urgent machine news is still sent at once.
+- Updates go to Crush by default. A voyage sends each update to its Crush as its row instead of posting its own table, so Crush's report is the one place the user reads them. The charter's Updates line can name another place instead, and an older Updates line that names the voyage's chat keeps it there. When a workstream sent several updates since the last report, Crush joins their Just done lines.
+- The skill creates Crush. Each user has exactly one, as a top-level conversation detached from every voyage, with its files in one place every voyage can find. At kickoff, at the next step of an older voyage, and whenever a message to Crush fails, Marlin uses a Crush the user named or the one recorded there if its conversation still exists, and otherwise claims a lock file and creates one, so two voyages never create two. A new Crush asks the user at once to approve draft house rules that Marlin wrote from the user's operating limits; until then it gathers updates and grants heavy work one job at a time per machine, within those limits, and does nothing else alone. Crush sets up its own hourly wake-up, and after a restart the old conversation never acts as Crush again.
+- Dory's update gains a Progress row: the rough percent of the final objective done and the forecast finish, as a day and time or as hours left when under a day. A moved forecast counts as new progress. Crush's table shows them as Done and Finish columns.
+
 ## 2.4 (2026-09-30)
 
 Shared machines, one view of all the work, and updates only when there is news. Projects collided on a machine they shared: two model loads at once, memory running out, disks filling. Each voyage's update sat in its own chat, and hourly tables that said "still waiting" were noise.
