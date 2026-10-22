@@ -5,7 +5,7 @@
 ## Two model tiers
 
 - **Strong tier:** the conversation acting as Hank, which makes the decisions, and every review gate that decides go or no-go: each Dory reviewer and critic round, each `dory-pass`, and Bruce's Step 9 review and re-review. They run on a strong model at high reasoning effort, never the maximum unless the charter sets it. Every other rule in "Choose where each reviewer runs" still applies to the gates.
-- **Helper tier:** every other sub-agent or child session: exploring, running tasks, building, running tests, monitoring, Bailey's spikes and experiments, Ray's acceptance tests, drafting, summarising, and Hank's checks, including any whole-document check run alongside a batch. They run on a model much cheaper per call than the strong tier, at medium effort. A helper's work is checked by the tests, Hank, or a review gate, never trusted on its own.
+- **Helper tier:** every other sub-agent or child session: exploring, running tasks, building, running tests, monitoring, Bailey's spikes and experiments, Ray's acceptance tests, Jacques's stream checks, drafting, summarising, and Hank's checks, including any whole-document check run alongside a batch. They run on a model much cheaper per call than the strong tier, at medium effort. A helper's work is checked by the tests, Hank, or a review gate, never trusted on its own.
 
 Crush's own conversation decides grants, so it runs on the strong tier unless its house rules name another, and its own helpers have their own cap of three, apart from every voyage's.
 

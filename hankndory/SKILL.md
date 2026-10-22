@@ -3,12 +3,12 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.11"
+  version: "2.12"
 ---
 
-# HankNDory 2.11: The Hank & Dory Method
+# HankNDory 2.12: The Hank & Dory Method
 
-Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, and **Bailey** runs spikes and experiments and measures the results, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
+Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report, posted every hour, quiet or not. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, **Bailey** runs spikes and experiments and measures the results, and **Jacques** the cleaner shrimp checks every running stream, and stops a stall before it eats hours, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
 ## Core rules
 
@@ -37,6 +37,7 @@ Choose one mode from the user's request and current repository state:
 - **implementation**: implement from a validated and approved design document, or build a two-way-door leg first, as `reference/map-and-legs.md` describes.
 - **acceptance-tests**: as Ray, write a leg's acceptance tests from the design alone, following `reference/crew.md`.
 - **mean-review**: as Bruce, perform a severe but actionable code review against the approved design or a one-off operation's checklist.
+- **stream-check**: as Jacques, check every running stream and sub-agent against observable evidence, following the Jacques section of `reference/crew.md`; it reports no phase or gate.
 - **bootstrap-context**: create a hierarchy of repository README files through bottom-up recursive summarization, following `reference/bootstrap-context.md`.
 - **crush**: act as the user's Crush, following `reference/crush.md`; it reports no phase or gate, and runs under house rules, not a charter.
 - **full-voyage**: orchestrate all applicable phases in order, with Marlin keeping the voyage moving, running the Dory gates in batches as described in "Dispatch Dory reviews."
@@ -81,6 +82,7 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role
 - Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
 - Ask through one digest at a time, in a way that does not stop work, and meanwhile start everything allowed at once, in parallel, as `reference/marlin.md` describes. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
 - Send or post Dory's update, a table with a Status row (LGTM, Blocked, or Issues), what was just done, what is happening now in each stream, what comes next, and the share done with the forecast finish, only when there is new progress; an hourly wake-up checks, and waiting is not progress. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, send a demo at every milestone, and write a retro when the voyage ends, as `reference/marlin.md` describes. At kickoff, make sure the user's one Crush exists, creating it if not. Crush gathers every voyage's updates into one report for the user, and heavy work on a shared machine is booked through it, as `reference/crush.md` describes.
+- Start Jacques at each hourly wake-up to check every running stream, and act on his report, as `reference/crew.md` describes.
 
 ## Pick the pace
 
@@ -490,3 +492,4 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait; holding back allowed work for a gate, digest, or answer it does not depend on; or running independent work one stream at a time when the tooling, the charter, and the budget allow more.
 - Asking questions one at a time, or in a prompt that stops work, when a digest would do; asking without plain context; or using internal labels, such as document, review, or step numbers, with the user.
 - Running work under "Always standard" faster than careful pace without the charter naming it, or heavy work on a shared machine without its Crush's grant.
+- Letting a stream run unwatched past its stall time, restarting a stopped stream from what its old conversation remembers, trusting "it says it is done" as progress, or typing a script into a remote shell instead of authoring it where the stream runs and transferring it whole.

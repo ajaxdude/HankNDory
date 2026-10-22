@@ -1,6 +1,6 @@
-# The crew: Ray, Bruce, and Bailey
+# The crew: Ray, Bruce, Bailey, and Jacques
 
-`SKILL.md` names three more roles besides Hank, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Ray and Bailey run on the helper tier of `reference/cost.md`, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees the builder's conversation.
+`SKILL.md` names four more roles besides Hank, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Ray, Bailey, and Jacques run on the helper tier of `reference/cost.md`, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees the builder's conversation.
 
 ## Ray tests the promises
 
@@ -28,3 +28,24 @@ For each spike, experiment, model, or dataset the voyage produces, Bailey writes
 - what it decides for the design.
 
 The design lists each card it cites in Referenced files, and cites it as evidence instead of restating it. Bailey's latest measures go into each demo.
+
+## Jacques checks the streams
+
+On the reef, the cleaner shrimp sets up a station, bigger fish line up to be picked over, and nobody eats the cleaner. Jacques is the crew's check on work in flight: what a stream is doing is only working if someone can see it working. Marlin starts him at each hourly wake-up, within the limits of "Check at most once an hour" in `reference/cost.md`, and every stream he checks follows the restart discipline below.
+
+For each running stream and sub-agent, Jacques reports one line back to the conversation acting as Marlin, saying **progressing**, **quiet**, or **stalled**, with the evidence:
+
+- progress that happened: a new commit, file, artifact, progress-file line, or test result since the last check. A stream that only says it is busy is quiet;
+- work that works: Jacques opens the artifact, runs the stream's own check, or repeats its command, and sees it succeed, in the environment the stream claims to work in. "Done" with nothing to point at is not done;
+- scope: the stream's changes stay in the areas its task named, and it reports rather than reaches into another stream's files.
+
+Jacques changes and stops nothing; Marlin acts on his report. A stream that showed no observable progress across its whole stall window is **stalled**: Marlin stops it, restarts it under the restart discipline, and the stall and the action go in the next digest and Dory's update, under Issues.
+
+### The restart discipline
+
+Every stream starts under this, and a restarted stream keeps it, so a stream that dies mid-work loses its conversation and nothing else:
+
+- a progress file, kept with its branch, to which the stream appends one line for each step it completes;
+- work in small increments, each ending in a lasting artifact: a commit, a file, a result;
+- remote work run in a named, non-interactive shell with the full command line, never relying on an interactive login shell's aliases, prompt, startup files, or completion; scripts and files are authored where the stream itself runs, then transferred whole, not typed into a remote shell;
+- on a restart, the stream reads its progress file, the charter's history record, and its task, and continues from the last completed step. It never resumes from what an earlier conversation remembers.

@@ -1,8 +1,8 @@
 # HankNDory
 
-**A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, and Mr. Ray, from *Finding Nemo*, and Hank and Bailey, from its sequel, *Finding Dory*.**
+**A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, and Jacques from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
 
-This is version 2.11. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.12. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -35,6 +35,7 @@ Agile avoids big up-front design because requirements change once people see wor
 | Bruce | Red team | Security and the mean code review, reviewing as an attacker would. |
 | Bailey | Data science | Runs spikes, experiments, and measures, and writes a one-page card for each. |
 | Ray | Quality assurance | Writes acceptance tests from the design's promises before seeing any of the code. |
+| Jacques | Continuous integration | Checks every running stream for visible progress, working artifacts, and scope, and flags a stall before it costs hours. |
 
 ### How it compares
 
@@ -111,7 +112,7 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, M
 Crush is the sea turtle who rides the current. In the method, Crush is one long-running conversation for all your projects, not part of any one of them. The skill creates it the first time a voyage starts, as its own top-level conversation detached from every voyage, and every later voyage finds and uses the same one. It asks you to approve its house rules, and until you do it only queues heavy work one job at a time and gathers updates. It does two jobs:
 
 - **It routes heavy work onto the machines you share across projects.** Sessions ask Crush for machine time before loading a model, running a GPU job, or running a big memory, disk, or CPU job; light work like git and small tests doesn't. Crush runs as much side by side as fits, so the machines stay busy without collisions. You set its house rules: the limits it keeps, what it may do alone (such as pausing and restoring shared services, or moving files between drives), what stays yours (such as installing software, stopping a running job, or deleting anything), and a freeze switch for model loading and GPU work when you need a machine yourself. A grant gives machine time only, never permission.
-- **It gathers every project's updates into one report.** Dory is the voice of each project's update table, which a project writes only when it has new progress; waiting is not progress. By default each project sends its update to Crush instead of posting its own table. Once an hour, at a time you set in its house rules (about five past by default), and only when something is new, Crush posts one report, never in between: everything still waiting on you first, across all projects, new items marked, each listed once with plain context, how long it has waited, and a link to where you act on it; then a row for each project with news, including its status and about how much is done and when it should finish; then a line for each machine where something changed. So Crush's report is the one place you read updates. Items that are only still waiting don't trigger a report, but you can ask Crush for the current list at any time. A project that is only waiting gets no reminder. One with work running and no update for 3 hours gets one, answers it in a line, and is marked as possibly stalled if it doesn't answer within an hour.
+- **It gathers every project's updates into one report.** Dory is the voice of each project's update table, which a project writes only when it has new progress; waiting is not progress. By default each project sends its update to Crush instead of posting its own table. Once an hour, at a time you set in its house rules (about five past by default), Crush posts one report, quiet or not, and never in between: everything still waiting on you first, across all projects, new items marked, each listed once with plain context, how long it has waited, and a link to where you act on it; then a row for every project, its cells from its newest update, marked as quiet when nothing is new, with its status and about how much is done and when it should finish; then a line for every shared machine, changed or not. So Crush's report is the one place you read updates, once an hour, the whole board at a glance. Items that are only still waiting don't make a project's row show news, and you can ask Crush for the current list at any time. A project that is only waiting gets no reminder. One with work running and no update for 3 hours gets one, answers it in a line, and is marked as possibly stalled if it doesn't answer within an hour.
 
 The charter also sets the **pace**:
 
@@ -241,7 +242,7 @@ HankNDory/
 - **`hankndory/agents/ui_metadata.yaml`**: display metadata (name, one-line description) used by tooling that surfaces installed skills in a UI.
 - **`hankndory/reference/bootstrap-context.md`**: the steps the `bootstrap-context` mode follows, kept out of `SKILL.md` to keep it short.
 - **`hankndory/reference/cost.md`**: the default cost policy: a strong model only for Hank and the review gates, a much cheaper one for every helper, at most three running at once, no polling, and handing off a long conversation.
-- **`hankndory/reference/crew.md`**: Ray's acceptance tests, Bruce's mean code review, and Bailey's spikes, measures, and cards.
+- **`hankndory/reference/crew.md`**: Ray's acceptance tests, Bruce's mean code review, Bailey's spikes, measures, and cards, Jacques's stream checks, and the restart discipline every stream follows.
 - **`hankndory/reference/crush.md`**: Crush's house rules, how sessions ask for and give back machine time, and the combined report.
 - **`hankndory/reference/design-doc-template.md`**: the canonical starting template for every design document the Hank phase produces, with per-section guidance comments.
 - **`hankndory/reference/hank-checks.md`**: the mechanical scan and the diff check Hank runs once on each new version before Dory reviews it.
@@ -254,7 +255,7 @@ HankNDory/
 
 ## Why this matters in practice
 
-The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Hank brings the context and the caution. Dory brings the amnesia that keeps everyone honest. Marlin keeps everyone swimming toward Nemo. Crush keeps the shared lanes clear. Ray, Bruce, and Bailey test, attack, and measure what gets built.
+The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Hank brings the context and the caution. Dory brings the amnesia that keeps everyone honest. Marlin keeps everyone swimming toward Nemo. Crush keeps the shared lanes clear and the whole board in view. Ray, Bruce, Bailey, and Jacques test, attack, measure, and watch what gets built.
 
 ## License
 

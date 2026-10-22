@@ -2,6 +2,14 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.12 (2026-10-22)
+
+Crush's report showed nothing on a quiet day, and a stream that produced nothing could run for hours unnoticed.
+
+- Crush's report posts at every hourly slot, quiet or not. The table carries a row for every workstream, marked as quiet when nothing is new, and a line for every shared machine, changed or not. A quiet report is short, not absent.
+- Jacques the cleaner shrimp joins the crew in `reference/crew.md`: a helper stream Marlin starts at each hourly wake-up, checking every running stream and sub-agent on evidence: progress that happened, work that works when Jacques checks it, and scope. New mode `stream-check`.
+- Crew streams now follow the restart discipline: a progress file, small increments that each leave a lasting artifact, remote work in a named non-interactive shell with authored files transferred whole, and restarts read from the progress file, never from a dead conversation's memory. A stream with nothing observable across its whole stall window is stopped and restarted under that discipline, and the stall goes in the next digest and Dory's update.
+
 ## 2.11 (2026-10-01)
 
 - Hard spend cap in `reference/cost.md`: the user may set one, such as an amount over any rolling 28 days. Crush estimates the spend hourly, and when the cap is reached everything stops, Crush's own hourly run included, until the user says resume.
