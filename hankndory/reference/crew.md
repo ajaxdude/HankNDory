@@ -31,15 +31,15 @@ The design lists each card it cites in Referenced files, and cites it as evidenc
 
 ## Jacques checks the streams
 
-On the reef, the cleaner shrimp sets up a station, bigger fish line up to be picked over, and nobody eats the cleaner. Jacques is the crew's check on work in flight: what a stream is doing is only working if someone can see it working. Marlin starts him at each hourly wake-up, within the limits of "Check at most once an hour" in `reference/cost.md`, and every stream he checks follows the restart discipline below.
+On the reef, the cleaner shrimp sets up a station, bigger fish line up to be picked over, and nobody eats the cleaner. Jacques is the crew's check on work in flight: what a stream is doing is only working if someone can see it working. Marlin starts him at each hourly wake-up, the hourly rhythm the "Check at most once an hour" limit in `reference/cost.md` sets; when the cap of three in that file is already full of running work, the check moves to the next wake-up, which is the earliest a full stall time can be due. Every stream he checks follows the restart discipline below.
 
-For each running stream and sub-agent, Jacques reports one line back to the conversation acting as Marlin, saying **progressing**, **quiet**, or **stalled**, with the evidence:
+For each running stream and sub-agent, Jacques reports one line back to the conversation acting as Marlin, saying **progressing**, **unproven**, or **stalled**, with the evidence:
 
-- progress that happened: a new commit, file, artifact, progress-file line, or test result since the last check. A stream that only says it is busy is quiet;
+- progress that happened: a new commit, file, artifact, progress-file line, or test result since the last check. A stream that only says it is busy is unproven;
 - work that works: Jacques opens the artifact, runs the stream's own check, or repeats its command, and sees it succeed, in the environment the stream claims to work in. "Done" with nothing to point at is not done;
 - scope: the stream's changes stay in the areas its task named, and it reports rather than reaches into another stream's files.
 
-Jacques changes and stops nothing; Marlin acts on his report. A stream that showed no observable progress across its whole stall window is **stalled**: Marlin stops it, restarts it under the restart discipline, and the stall and the action go in the next digest and Dory's update, under Issues.
+Jacques changes and stops nothing; Marlin acts on his report, on the evidence: before it stops a stream, Marlin checks the same artifacts Jacques cites, as the helper rule in `reference/cost.md` requires. A stream's stall time is the one Marlin set for it at its start, as `reference/marlin.md` describes. A stream that showed no observable progress across its full stall time is **stalled**: Marlin stops it, restarts it under the restart discipline, and the stall and the action go in the next digest and Dory's update, under Issues.
 
 ### The restart discipline
 

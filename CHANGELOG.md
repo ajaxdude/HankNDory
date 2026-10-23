@@ -6,9 +6,9 @@ HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKI
 
 Crush's report showed nothing on a quiet day, and a stream that produced nothing could run for hours unnoticed.
 
-- Crush's report posts at every hourly slot, quiet or not. The table carries a row for every workstream, marked as quiet when nothing is new, and a line for every shared machine, changed or not. A quiet report is short, not absent.
+- Crush's report posts at every hourly slot, quiet or not: the table carries a row for every workstream, its Just done cell saying there is nothing new when that is so, and a line for every shared machine, changed or not. The report is event-driven too: urgent news, a machine change, and a workstream event post at once and count as that hour's report, so no news waits for the next slot. A quiet report is short, not absent.
 - Jacques the cleaner shrimp joins the crew in `reference/crew.md`: a helper stream Marlin starts at each hourly wake-up, checking every running stream and sub-agent on evidence: progress that happened, work that works when Jacques checks it, and scope. New mode `stream-check`.
-- Crew streams now follow the restart discipline: a progress file, small increments that each leave a lasting artifact, remote work in a named non-interactive shell with authored files transferred whole, and restarts read from the progress file, never from a dead conversation's memory. A stream with nothing observable across its whole stall window is stopped and restarted under that discipline, and the stall goes in the next digest and Dory's update.
+- Crew streams now follow the restart discipline: a progress file, small increments that each leave a lasting artifact, remote work in a named non-interactive shell with authored files transferred whole, and restarts read from the progress file, never from a dead conversation's memory. A stream with nothing observable across its full stall time, the window Marlin sets for it, is stopped and restarted under that discipline, and the stall goes in the next digest and Dory's update.
 
 ## 2.11 (2026-10-01)
 
