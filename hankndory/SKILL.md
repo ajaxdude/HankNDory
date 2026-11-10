@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.12"
+  version: "2.13"
 ---
 
-# HankNDory 2.12: The Hank & Dory Method
+# HankNDory 2.13: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Hank phase** to co-design a feature and create its source-of-truth design document. Hank has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Hank conversation and must trust only what is written down. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report, posted every hour, quiet or not. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, **Bailey** runs spikes and experiments and measures the results, and **Jacques** the cleaner shrimp checks every running stream, and catches a stall before it eats hours, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
@@ -24,6 +24,8 @@ Named for the fish who forgets everything yet still finds her way by trusting wh
 10. Building does not restart the design. Handle each implementation discovery as Step 8 describes, and revise only the part of the design whose promises it breaks.
 11. Size every request before choosing a mode, as "Size the change before choosing a gate set" describes, and use the lightest method that fits.
 12. Keep moving toward the final objective. At every pace, start at once all work the charter and current approvals allow, and run independent work in parallel. Never leave work waiting on the user for a decision the charter delegates or that has a reversible default, as "Marlin keeps the voyage moving" describes.
+13. Numbers from evidence: every number in a design document carries a bound or range with its source, or an `(exact)` mark; a number from memory is a guess. Keep each calculation as a runnable file in the repository and cite the file, so the number recomputes when an input changes.
+14. One word, one meaning: add each word the design invents or specializes to the document's Glossary before first use, give it one meaning there, and use that name in requirements, contracts, and test names.
 
 ## Determine the requested operating mode
 
@@ -72,7 +74,7 @@ Do not infer approval. It must be explicit, or given by the charter as Step 7 de
 
 Human approval gates only the move from `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict, for the design or a later one-way-door leg, and the merge of work built first, as `reference/map-and-legs.md` describes. At light or fast pace, the charter can give that approval, as Step 7 describes. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Hank, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions. Anything that needs the user goes in the digest, and only work that depends on a reserved answer waits.
 
-This version applies in full to new design documents. A design started under an earlier version keeps its document as written. From its next step it follows this version's review and building rules, counting the critic rounds it has already used, and it runs at careful pace until the user sets a charter for it. Adopting this version never by itself reopens a gate, invalidates a verdict, or voids an approval.
+This version applies in full to new design documents. A design started under an earlier version keeps its document as written. From its next step it follows this version's review and building rules, counting the critic rounds it has already used, and it runs at careful pace until the user sets a charter for it. The requirement format binds a requirements section from the moment it is written in that format; a section written under an earlier version keeps its text until Hank next rewrites it, and every requirement Hank adds or rewrites then follows the format. Adopting this version never by itself reopens a gate, invalidates a verdict, or voids an approval.
 
 # Marlin keeps the voyage moving
 
@@ -185,7 +187,7 @@ Create or update one markdown design document in the repository. Build it sectio
 
 ## Required document structure
 
-Start every new design document from `reference/design-doc-template.md` in this skill, unless repository conventions require a stricter template. The template lists the required sections, with guidance for each.
+Start every new design document from `reference/design-doc-template.md` in this skill, unless repository conventions require a stricter template. The template lists the required sections, with guidance for each. Write requirements in the requirement format the template defines; `tools/design-lint.py` in this skill checks it, and the pre-flight scan in `reference/hank-checks.md` runs it.
 
 ### Length limit
 
@@ -360,6 +362,7 @@ Assume the role of an expert technical reviewer. Search for:
 - contradictions between the proposal and referenced files;
 - omitted alternatives or decisions likely to be relitigated;
 - vague or inflated prose masking a missing mechanism (see `reference/plain-speech-checklist.md`);
+- a number without a bound or range and a source or an `(exact)` mark, a calculation not kept as a runnable file, or a word used against the Glossary (the "Numbers from evidence" and "One word, one meaning" core rules);
 - a leg marked as a two-way door that reverting its commits would not fully undo.
 
 Classify each finding as `blocking`, `important`, or `nit`. A finding is blocking only if, left as it is, the design would lead an implementer to build the wrong thing, break a requirement or contract, or create a security, privacy, or data-loss risk. Include evidence, impact, and a concrete document fix. Do not inflate severity.
@@ -376,13 +379,13 @@ Evaluate whether an experienced engineer, with only the design and referenced fi
 
 Check that:
 
-- every requirement maps to a design element and test;
+- every requirement maps to a design element and has at least one Verify block;
 - every component states its contracts and the areas expected to change;
 - interfaces, schemas, invariants, and error behavior are precise;
 - dependencies and the build order are clear;
 - rollout, migration, rollback, and observability are actionable;
 - no material question requires private context from the Hank phase;
-- acceptance criteria are objectively testable;
+- every Verify ID names an acceptance test, per the requirement format in `reference/design-doc-template.md`;
 - the document is within the "Length limit".
 
 Return one verdict:
@@ -425,6 +428,7 @@ Inspect:
 - performance and capacity regressions;
 - compatibility and migration risks;
 - brittle or inadequate tests;
+- a Verify ID with no acceptance test, or a test that asserts the `shall` sentence instead of observing the `Expect` it names;
 - broken contracts, and changes outside the areas the design expected that no implementation-log line explains;
 - comments where intent, invariant, tradeoff, or non-obvious logic is not self-evident.
 
@@ -476,6 +480,7 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Asking a Dory phase to review only the design document while ignoring its required referenced files.
 - Accepting vague statements such as “handle errors,” “add tests,” or “update the service.”
 - Inventing file names, current behavior, metrics, interfaces, or approval.
+- Typing a number into the design from memory, or copying a computed result without the runnable file that computes it.
 - One-shotting a large design document without iterative review.
 - Reopening rejected alternatives without new evidence.
 - Using review harshness as a substitute for precise, respectful, actionable findings.

@@ -13,6 +13,7 @@ A mechanical pass over the design document at the candidate commit. Hank runs it
 - Duplicate sentences: the same sentence in two places, ignoring case, spacing, and punctuation. Keep one and refer to it by name.
 - Unsourced quotations: every quoted passage names its source, such as a file, a decision, or who said it and when.
 - Stale version references: any version of the design document other than the current one, outside Status, the Decision log, the Dory validation record, and Human approval.
+- Requirement-format findings from `tools/design-lint.py` in this skill: run it on the document at the candidate commit, for example `git show <commit>:<path> | python3 tools/design-lint.py -`. It checks each requirement's one `shall`, EARS pattern and tag, `Because` sentence, Verify blocks and clause order, duplicate and reused IDs, vague words, sentence length, and the bounds and sources of numbers in `Expect` clauses; fix real hits and report the false ones. A pre-format document, whose section has no `Requirement R<n>:` lines, draws only warnings; they point at its next rewrite, not at a gate failure.
 - Length: the document is within the "Length limit" in `SKILL.md`.
 
 ## Diff check

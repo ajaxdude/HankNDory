@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, and Jacques from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
 
-This is version 2.12. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.13. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -20,6 +20,7 @@ Agile avoids big up-front design because requirements change once people see wor
 
 - **Two-way doors are built first.** A change that reverting its commits fully undoes, such as user-interface work, internal code, or an experiment behind a switch, is built first and written up as built. A change that is hard to undo, such as a public API, a data migration, a deletion, sign-in, or money, is designed and approved first.
 - **The Map, then the legs.** Before building, the design is a Map: the problem, the goals, the promises that hold across the whole build, and the legs in order, each one line long, with only the first leg in full. Each later leg is detailed when it starts, using what the last leg taught. The Map is not the charter. The charter says how the voyage is run; the Map says what is being built.
+- **Requirements are checkable prose.** Each requirement states one obligation in a fixed sentence shape, with the reason beside it; each verification clause names one observable outcome; Ray's tests, Bruce's review, and a linter read the same IDs. Every number in a design carries its evidence, or it does not go in.
 - **A demo at every milestone.** You see working software, not only documents: what works now, how to try it, the checks that pass, the choices made, and what comes next. The next leg starts without waiting for you, unless the charter says that demo should wait for your reaction.
 - **A retro when the voyage ends.** Three to six plain lines on what went well, what slowed it down, and what to change next time, including in the method itself.
 
@@ -150,7 +151,7 @@ flowchart TD
 ```
 
 1. **Phase 1: Hank surveys the tank.** Load and verify real repository context, enforce a strict no-production-code rule during discovery, apply an explicit "sycophant challenge" (state the strongest counter-argument, find the weakest evidence), test the riskiest assumption with a short throwaway spike when a cheap test can settle it, then propose a first technical approach before asking the user for one.
-2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, architecture, alternatives considered, detailed implementation, risks, rollout, and a one-line-per-review `Dory validation record`. The design states the promises the code must keep, such as contracts, invariants, and the build order, not the code itself, and it has a length limit. Each rule is written once and referred to by name everywhere else, and the revision and review history lives in a separate history file, while decisions and rejected alternatives stay in the design. Before handing off to Dory, Hank runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
+2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, a glossary, requirements written in a fixed, lint-checked format with stable IDs, architecture, alternatives considered, detailed implementation, risks, rollout, and a one-line-per-review `Dory validation record`. The design states the promises the code must keep, such as contracts, invariants, and the build order, not the code itself, and it has a length limit. Each rule is written once and referred to by name everywhere else, and the revision and review history lives in a separate history file, while decisions and rejected alternatives stay in the design. Before handing off to Dory, Hank runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
 3. **Phase 3: Ask Dory.** At careful pace, run the comprehension and critic checks at the same time, each in its own fresh conversation, both reading the same commit of the document, after one pass of Hank's own checks (`reference/hank-checks.md`), and run readiness once both pass. At balanced and fast pace, one fresh reviewer runs the gates in one pass, and fast pace skips Hank's diff check. Any failure sends the work back to Hank with a specific, actionable gap list, and Hank fixes everything from one batch in a single revision, written in a new conversation that picks up from a handoff entry in the history file, so Hank's conversation stays short through the review loop. A critic round with no blocking findings passes, and a design gets two or three critic rounds in its whole life, by pace. Every reviewer runs on a model at least as capable as Hank's. Any reviewer that runs the critic or readiness review runs at Hank's reasoning effort. A reviewer that runs only the comprehension test may run lower, but not below high or the tooling's nearest equivalent, or at Hank's effort if Hank runs below high. Hank's own checks run on the cheaper helper model.
 4. **Phase 4: Implement with guardrails.** Only after approval, at light or fast pace on parts no blocking finding touches, or at once for a two-way-door leg, implement the smallest coherent units from the approved plan, with tests alongside every change. A discovery that keeps the design's promises is the implementer's call, logged in one line. One that breaks a promise revises only that part of the design, which gets Hank's checks and one scoped critic round, or a scoped pass at fast pace, instead of restarting the whole review. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
 
@@ -223,18 +224,20 @@ HankNDory/
     ├── SKILL.md
     ├── agents/
     │   └── ui_metadata.yaml
-    └── reference/
-        ├── bootstrap-context.md
-        ├── cost.md
-        ├── crew.md
-        ├── crush.md
-        ├── design-doc-template.md
-        ├── hank-checks.md
-        ├── hank-handoff.md
-        ├── map-and-legs.md
-        ├── marlin.md
-        ├── one-off-checklist.md
-        └── plain-speech-checklist.md
+    ├── reference/
+    │   ├── bootstrap-context.md
+    │   ├── cost.md
+    │   ├── crew.md
+    │   ├── crush.md
+    │   ├── design-doc-template.md
+    │   ├── hank-checks.md
+    │   ├── hank-handoff.md
+    │   ├── map-and-legs.md
+    │   ├── marlin.md
+    │   ├── one-off-checklist.md
+    │   └── plain-speech-checklist.md
+    └── tools/
+        └── design-lint.py
 ```
 
 - **`CHANGELOG.md`**: what changed in each version, newest first.
@@ -251,6 +254,7 @@ HankNDory/
 - **`hankndory/reference/marlin.md`**: the charter, how Marlin sorts decisions, the digest that replaces one-at-a-time questions, the plain-words rule with good and bad examples, Dory's update, demos, the retro, and starting all allowed work at once, in parallel.
 - **`hankndory/reference/one-off-checklist.md`**: the one-page checklist used instead of the design method for a one-off operation, such as a download or a one-time cleanup.
 - **`hankndory/reference/plain-speech-checklist.md`**: the checklist Hank applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
+- **`hankndory/tools/design-lint.py`**: a standard-library checker for a design document's `Requirements and acceptance criteria` section: one `shall` per requirement in an EARS-shaped sentence with a `Because` reason, stable requirement and Verify IDs, `Verify` blocks whose `Expect` clauses each name one observation, and vague words, sentence length, and numbers with bounds and sources inside `Expect` clauses. Hank's pre-flight scan runs it on every candidate commit; false findings are reported, never satisfied by renaming a thing. `python3 tools/design-lint.py --self-test` checks the checker itself.
 - **`hankndory/`** is deliberately nested one level below the repository root (rather than living at the root itself) because `gh skill` and several other skill-discovery tools only scan for `*/SKILL.md`, not a `SKILL.md` at the very top of a repository.
 
 ## Why this matters in practice

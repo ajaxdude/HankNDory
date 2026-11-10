@@ -2,6 +2,15 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.13 (2026-11-09)
+
+Acceptance criteria were often prose nobody could test, numbers arrived from memory, and the pre-flight scan was all hand work. 2.13 adopts the requirement-grammar ideas of [BluePrint](https://github.com/bigattichouse/BluePrint) (GPL; only its ideas cross, this code and wording are this project's) as a requirements-writing layer for Phase 2.
+
+- Requirements are written in the requirement format (`reference/design-doc-template.md`): one obligation per requirement in an EARS-shaped `shall` sentence, a `Because` reason beside it, stable `R` and `V` IDs, and `Verify` blocks whose `Given`, `When`, and `Expect` clauses each name one observable outcome. Ray names each acceptance test by its Verify ID, and Bruce checks that every ID has a test. Core rule, Step 7, Step 9, the crew, and the Step 6 finding list point at the format.
+- New core rule, "Numbers from evidence": every number in a design carries a bound or range with its source, or an `(exact)` mark, because a number from memory is a guess. Each calculation is a runnable file in the repository that the design cites, so it runs again when an input changes.
+- New core rule, "One word, one meaning", and a Glossary section in the template: a word goes into the glossary before first use, and the requirements, contracts, and test names use it. The plain-speech checklist takes its names from the glossary.
+- New `tools/design-lint.py`: a standard-library checker for the requirements section, with text and `--json` reports, a `--strict` mode, and `--self-test`, part of the pre-flight scan in `reference/hank-checks.md`. It reads the frozen copy through standard input, so it runs on the commit a batch reviews.
+
 ## 2.12 (2026-10-22)
 
 Crush's report showed nothing on a quiet day, and a stream that produced nothing could run for hours unnoticed.

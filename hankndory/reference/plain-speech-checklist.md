@@ -19,7 +19,7 @@ Not Detailed implementation's component entries, Referenced files, the Decision 
 - Replace inflated words with plain ones: crucial, delve, enduring, fostering, garner, interplay, intricate, landscape, pivotal, robust, seamless, showcase, tapestry, testament, underscore, vibrant, leverage, utilize, facilitate, numerous.
 - Say "is" or "has" instead of "serves as", "stands as", "boasts", "features".
 - Replace vague metaphor nouns with the concrete mechanism: substrate, vector (when it means "way", not an actual vector), nexus, locus, vantage, bedrock, north star, flywheel, paradigm, modality, ratchet (as metaphor), evacuate (for moving code), endgame. Established engineering terms stay as is: primitive, API surface, test harness, scaffolding (generated code), gold-plating.
-- Name the same component, file, or concept the same way every time it appears. Synonym cycling ("the service", "the layer", "the module" for one thing) reads fine in an essay; here it breaks Dory's ability to trace a claim back to one referenced file.
+- Name the same component, file, or concept the same way every time it appears; once the design has a Glossary, take the name from it. Synonym cycling ("the service", "the layer", "the module" for one thing) reads fine in an essay; here it breaks Dory's ability to trace a claim back to one referenced file.
 
 ## Filler and hedging
 

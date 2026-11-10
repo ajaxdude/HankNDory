@@ -39,12 +39,64 @@
      constraints, invariants, and failure behavior; tests and operational
      concerns. Cite a repository path for every material claim. -->
 
+## Glossary
+
+<!-- One meaning per word. List the names, verbs, and states the design
+     and its requirements use: the system name that every "shall" sentence
+     names, the domain objects, and the state names the requirements test.
+     Add a word here before using it; when two words mean one thing, keep
+     one. Words the code already defines and the design keeps unchanged
+     need no entry. State "Not applicable" with a reason when the design
+     adds no domain vocabulary. -->
+
 ## Requirements and acceptance criteria
 
-<!-- Each requirement must map to a design element in "Technical plan" or
-     "Detailed implementation" and a test in "Testing and evaluation."
-     Acceptance criteria must be objectively testable, because Ray writes
-     the acceptance tests from them before seeing any code. -->
+<!-- Write every requirement in the requirement format. Each requirement
+     maps to a design element in "Technical plan" or "Detailed
+     implementation", and each Verify ID names an acceptance test that Ray
+     writes and names with it. tools/design-lint.py in this skill checks
+     this section, and Hank's pre-flight scan runs it.
+
+         Requirement R<n> (<pattern>): <one obligation sentence>.
+         Because <the reason a reviewer needs>.
+
+         Verify V<n>.<m> (<name>):
+           Given <start state>.
+           When <trigger>.
+           Expect <one observable result>.
+           Expect no <result that must not occur>.
+
+     <pattern> is the EARS shape the sentence uses:
+       plain:    The <system> shall <response>.
+       event:    When <trigger>, the <system> shall <response>.
+       state:    While <state>, the <system> shall <response>.
+       unwanted: If <condition>, then the <system> shall <response>.
+       optional: Where <feature>, the <system> shall <response>.
+
+     One requirement, one obligation: exactly one shall, in one sentence;
+     two responses joined by "and" are two requirements. Name the acting
+     system, never "it". The response must be observable: reject, lock,
+     write, not "be secure" or "be fast". Each Verify block has one When,
+     even for a plain or state requirement; the trigger may be the check
+     running or the state being entered. Keep every sentence and clause to
+     25 words. Write each numeric source as (source: ...), naming the
+     measurement, the calculation file, the model, or a Bailey card.
+     Order Verify clauses Given, When, Expect; the accepted clause words
+     are Given, While, When, and Expect, and Expect no. Each Expect holds
+     one check and names the observation that proves the shall sentence,
+     never a restated copy of it. Prefer the Glossary's names, and use
+     numbers with a bound or range and a source, or an (exact) mark, per
+     the "Numbers from evidence" core rule in `SKILL.md`, instead of vague
+     words such as "fast" or "as needed".
+
+     IDs are stable. Once a review, test, or digest cites an ID, never
+     renumber it: retire an obsolete requirement with a struck line that
+     keeps its ID, and never reuse a retired ID.
+
+     Ray names each acceptance test with the Verify ID it implements, for
+     example "V1.2 lockout after three failures", so coverage of the
+     promises is checkable without reading the design. Each test asserts
+     the Expect, not the shall sentence. -->
 
 ## Technical plan
 
@@ -83,8 +135,9 @@
 
 ## Testing and evaluation
 
-<!-- How each acceptance criterion will be exercised: unit, integration,
-     manual, or evaluation-harness coverage. State what proves the feature
+<!-- How each Verify ID will be exercised: unit, integration, manual, or
+     evaluation-harness coverage, with Ray's named test for each Expect or a
+     stated reason it can't be automated. State what proves the feature
      works, not just that it runs. Cite Bailey's cards for spikes,
      experiments, models, and datasets instead of restating them. -->
 
