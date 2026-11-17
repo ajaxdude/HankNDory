@@ -55,7 +55,7 @@
      maps to a design element in "Technical plan" or "Detailed
      implementation", and each Verify ID names an acceptance test that Ray
      writes and names with it. tools/design-lint.py in this skill checks
-     this section, and Hank's pre-flight scan runs it.
+     this section, and Gill's pre-flight scan runs it.
 
          Requirement R<n> (<pattern>): <one obligation sentence>.
          Because <the reason a reviewer needs>.

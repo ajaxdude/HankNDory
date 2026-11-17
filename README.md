@@ -1,8 +1,8 @@
 # HankNDory
 
-**A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, and Jacques from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
+**A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, Jacques, and Gill from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
 
-This is version 2.13. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.14. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -29,7 +29,8 @@ Agile avoids big up-front design because requirements change once people see wor
 | Character | Role | What they do |
 |---|---|---|
 | You | Product manager | Also the executive sponsor. You own the reserved decisions and the budget. |
-| Hank | Architect and engineer | The tech lead who designs and builds. |
+| Gill | Architect | The tech lead who designs: the Map, the promises, the build order, and the verdict when the build and the tests disagree. |
+| Hank | Engineer | The builder: implements the approved design, runs Ray's tests, keeps the implementation log, and sends a broken promise back to Gill. |
 | Dory | Reviewer and demo voice | Reviews the design cold, like a new hire reading the spec on day one, acting as both the fresh-eyes reader and the architecture review board. She is also the voice of every update and demo, in plain words, because keeping it simple keeps everyone aligned, and she explains the choices behind each demo. |
 | Marlin | Scrum master | Keeps one project moving: pace, budget, the digest, unblocking work, and the retro. |
 | Crush | Program manager and operations | Two jobs: platform operations (who gets the shared machines, and when) and the portfolio office (one view across all projects). |
@@ -61,13 +62,13 @@ Agile avoids big up-front design because requirements change once people see wor
 | Demo | Sprint review | Demo at the end of the cycle | User acceptance | At every milestone, and the next leg doesn't wait for it by default. |
 | Retro | Retrospective | None (no set retro) | Lessons learned | It proposes changes to the method itself. |
 
-## The four main characters
+## The main characters
 
-Dory, who debuted in *Finding Nemo*, and Hank, the septopus who appears in its sequel, *Finding Dory*, each lend their defining trait to one half of the method. Marlin, Nemo's dad, keeps the whole trip moving, and Crush, the sea turtle, keeps the shared lanes clear:
+Gill, the tank's mastermind, plans, and Dory, the fish who forgets everything, judges the plan cold: each lends a defining trait to one half of the method. Hank, the septopus from *Finding Dory*, builds what Gill designed, and Bailey, the beluga, measures what the voyage needs to know. Marlin, Nemo's dad, keeps the whole trip moving, and Crush, the sea turtle, keeps the shared lanes clear:
 
-### Hank, the design phase
+### Gill, the design phase
 
-Hank is the wary, context-rich phase where a feature is actually designed. In this phase, the agent:
+Gill is the wary, context-rich phase where a feature is actually designed. In this phase, the agent:
 
 - inspects the real repository (existing code, architecture, tests, conventions) before proposing anything;
 - proposes an initial technical approach itself, rather than waiting to be told one, to test its own understanding and avoid anchoring on the user's first idea;
@@ -76,11 +77,11 @@ Hank is the wary, context-rich phase where a feature is actually designed. In th
 - refuses to let production code for anything hard to undo be written until the plan is validated, and builds what is easy to undo first;
 - writes everything down into one durable design document: problem, goals, current system, architecture, alternatives considered and rejected, the contracts each component must keep and the build order, risks, rollout.
 
-Hank plans like his freedom depends on it: nothing proceeds until the plan accounts for failure modes, edge cases, and the messy reality of the existing system.
+Gill plans the escape before anyone swims: nothing proceeds until the plan accounts for failure modes, edge cases, and the messy reality of the existing tank.
 
 ### Dory, the validation phase(s)
 
-Dory is the opposite of Hank by design: she has **no memory of the Hank conversation at all**. Every Dory phase must run in a fresh conversation with no history (never a continuation of the design conversation) because a single ongoing conversation cannot honestly certify its own amnesia. A sub-agent or a new chat in the same checkout is enough, as long as it starts with nothing from the design session. She needs a blank memory. She does not need a new copy of the repository. A Dory phase is handed nothing but the design document and the files it explicitly references, and must succeed or fail using only that.
+Dory is the opposite of Gill by design: she has **no memory of the Gill conversation at all**. Every Dory phase must run in a fresh conversation with no history (never a continuation of the design conversation) because a single ongoing conversation cannot honestly certify its own amnesia. A sub-agent or a new chat in the same checkout is enough, as long as it starts with nothing from the design session. She needs a blank memory. She does not need a new copy of the repository. A Dory phase is handed nothing but the design document and the files it explicitly references, and must succeed or fail using only that.
 
 There are three independent Dory checks, each a hard gate:
 
@@ -90,11 +91,15 @@ There are three independent Dory checks, each a hard gate:
 | **Critic** | Does the design have faulty assumptions, missing edge cases, contract or lifecycle gaps, or unresolved risks, reviewed adversarially? |
 | **Readiness** | Does the document contain everything an implementer needs to build it correctly on the first pass, with no outstanding material questions? |
 
-At careful pace, comprehension and critic run at the same time, both reading the same commit of the document, because neither needs the other's result, and readiness runs last, once both have passed. At faster paces one reviewer runs them in one pass, as the pace table below shows. Before a batch reviews a new version, Hank runs his own checks on it once: a mechanical scan and, once there is an earlier reviewed commit to compare with, a diff check that asks whether the revision fixed what it was meant to fix, brought back an old defect, contradicted unchanged text, or quietly changed an obligation. He fixes what they find, then starts the batch, to keep mistakes a fix just added away from reviewers.
+At careful pace, comprehension and critic run at the same time, both reading the same commit of the document, because neither needs the other's result, and readiness runs last, once both have passed. At faster paces one reviewer runs them in one pass, as the pace table below shows. Before a batch reviews a new version, Gill runs his own checks on it once: a mechanical scan and, once there is an earlier reviewed commit to compare with, a diff check that asks whether the revision fixed what it was meant to fix, brought back an old defect, contradicted unchanged text, or quietly changed an obligation. He fixes what they find, then starts the batch, to keep mistakes a fix just added away from reviewers.
 
 A critic round with no blocking findings passes, and its important findings are fixed once, without another round. A design gets two or three critic rounds in its whole life, by pace, including any after building starts, plus one for each later leg that is hard to undo (two at careful pace), and more need the user's OK.
 
-If any Dory phase fails, work returns to Hank to fix the document, never to patch understanding verbally and move on. Building anything hard to undo begins only after the gates pass, and you approve, or the charter does at light or fast pace.
+If any Dory phase fails, work returns to Gill to fix the document, never to patch understanding verbally and move on. Building anything hard to undo begins only after the gates pass, and you approve, or the charter does at light or fast pace.
+
+### Hank, the build phase
+
+Hank is the septopus who does the work with his own hands. In the method, Hank is the build phase: after approval he implements the design in the smallest coherent units, tests alongside every change, runs Ray's acceptance tests without changing them, and keeps an implementation log outside the design document. He works from the document alone, because he never saw the design conversation, and a discovery that breaks one of the design's promises goes back to Gill instead of being settled in the code. A leg is done when Ray's tests pass and Bruce's review is clean; Marlin then sends the demo.
 
 ### Marlin, the one who keeps swimming
 
@@ -103,7 +108,7 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, M
 - decides what the charter hands over, and records it;
 - sends you one **digest** at a time, holding every question and every piece of news. Each question leads with a recommendation, then two to four plain sentences on what it is, why it needs deciding now, and what each option costs you in time, money, or risk, and, where it can be undone, a default and when it takes effect;
 - sends or posts **Dory's update**, a table of the status (LGTM, meaning looks good to me, Blocked, or Issues), what was just done, what is happening now in each piece of work, what comes next, and about how much is done with when it should finish, only when there is new progress; it checks every hour. It names anything waiting on you, and why. It is written for someone who remembers nothing: plain words, no document numbers, review numbers, step codes, or hashes;
-- at every pace, starts at once everything the charter and your approvals already allow. Independent work runs side by side in several sub-agents or sessions: research, drafts, tests, reviews, and building inside approved designs. Only the work that depends on one of your answers waits for it. By default, at most three helpers or reviewers run at once, every helper runs on a much cheaper model than Hank and the review gates, nothing checks on running work more than once an hour, a conversation that grows past about 300,000 tokens hands off to a fresh one, and everything stops if the spend cap you set is reached (`reference/cost.md`). At each check-in, Marlin makes sure nothing allowed sits idle beyond the cap below;
+- at every pace, starts at once everything the charter and your approvals already allow. Independent work runs side by side in several sub-agents or sessions: research, drafts, tests, reviews, and building inside approved designs. Only the work that depends on one of your answers waits for it. By default, at most three helpers or reviewers run at once, every helper runs on a much cheaper model than Gill, Hank, and the review gates, nothing checks on running work more than once an hour, a conversation that grows past about 300,000 tokens hands off to a fresh one, and everything stops if the spend cap you set is reached (`reference/cost.md`). At each check-in, Marlin makes sure nothing allowed sits idle beyond the cap below;
 - sends you a demo at every milestone, and a retro when the voyage ends;
 - tells you early when the deadline or budget is at risk, and never recommends another review round when nothing is blocking;
 - pushes the designs, the charter, their history files, and the working branches to a backup remote at every gate, so losing a machine loses nothing. If the project's repository is public or isn't yours, use a private one.
@@ -119,12 +124,12 @@ The charter also sets the **pace**:
 
 | Pace | Dory review | Approval before building |
 |---|---|---|
-| **Light** | for a point release or a design written after the code: one fresh reviewer runs every gate in one pass, Hank fixes everything it found once, design and code, and checks the fix; a second pass runs only if the first had a blocking finding, a failed comprehension test, or a not-ready verdict; one code review plus one re-review; needs a design-review budget cap | the charter approves the fixed version once the last pass had none of those |
+| **Light** | for a point release or a design written after the code: one fresh reviewer runs every gate in one pass, Gill fixes the design and Hank fixes the code, and Gill checks the fix; a second pass runs only if the first had a blocking finding, a failed comprehension test, or a not-ready verdict; one code review plus one re-review; needs a design-review budget cap | the charter approves the fixed version once the last pass had none of those |
 | **Fast** | one fresh reviewer runs every gate in one pass; two critic rounds in the design's life; building overlaps review | the charter approves a `READY` design that stays inside it |
 | **Balanced** | one fresh reviewer runs comprehension, clarity, and critic, then a separate readiness check; two critic rounds | you approve, possibly through the digest |
 | **Careful** | separate reviewers for each gate, as above; three critic rounds | you approve |
 
-Anything on the skill's "Always standard" list (public APIs or schemas, auth, migrations or deletions of user or production data, billing, security boundaries, cross-team contracts) runs at careful pace unless the charter names it. Without a charter, everything runs at careful pace. At light and fast pace, reviewers run at Hank's reasoning effort unless the charter asks for more.
+Anything on the skill's "Always standard" list (public APIs or schemas, auth, migrations or deletions of user or production data, billing, security boundaries, cross-team contracts) runs at careful pace unless the charter names it. Without a charter, everything runs at careful pace. At light and fast pace, reviewers run at Gill's and Hank's reasoning effort unless the charter asks for more.
 
 **Tooling note for the GitHub Copilot app:** task sub-agents there see the parent session's checkpoint titles and file list, so they can't be certified as fresh for a Dory review. Run each Dory reviewer as a new top-level session that doesn't pause for plan approval, and archive it once it returns. A sub-agent is fine for the mean code review, which doesn't need a blank memory.
 
@@ -132,7 +137,7 @@ Anything on the skill's "Always standard" list (public APIs or schemas, auth, mi
 
 ```mermaid
 flowchart TD
-    K[Marlin: charter<br/>objective, pace, what Marlin decides] --> A[Phase 1: Hank surveys the tank<br/>load context, challenge assumptions,<br/>test the riskiest one, propose first approach] --> B[Phase 2: Write the tank chart<br/>one durable design document]
+    K[Marlin: charter<br/>objective, pace, what Marlin decides] --> A[Phase 1: Gill surveys the tank<br/>load context, challenge assumptions,<br/>test the riskiest one, propose first approach] --> B[Phase 2: Write the tank chart<br/>one durable design document]
     B --> C{Phase 3: Ask Dory<br/>one pass or separate gates,<br/>by pace}
     C -->|comprehension FAIL| A
     C -->|critic: blocking findings| A
@@ -142,7 +147,7 @@ flowchart TD
     D --> E[Phase 4: Implement with guardrails<br/>smallest coherent changes,<br/>tests alongside every change]
     B -->|two-way-door leg: build first| E
     E --> F[Ray's acceptance tests and<br/>Bruce's mean code review]
-    E -->|discovery breaks a promise| P[Revise only that part<br/>Hank checks + one scoped critic round]
+    E -->|discovery breaks a promise| P[Revise only that part<br/>Gill checks + one scoped critic round]
     P --> E
     F -->|defects found| E
     F -->|clean| H[Demo to you<br/>the next leg starts at once]
@@ -150,12 +155,12 @@ flowchart TD
     H -->|last leg| G[Done, then a retro]
 ```
 
-1. **Phase 1: Hank surveys the tank.** Load and verify real repository context, enforce a strict no-production-code rule during discovery, apply an explicit "sycophant challenge" (state the strongest counter-argument, find the weakest evidence), test the riskiest assumption with a short throwaway spike when a cheap test can settle it, then propose a first technical approach before asking the user for one.
-2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, a glossary, requirements written in a fixed, lint-checked format with stable IDs, architecture, alternatives considered, detailed implementation, risks, rollout, and a one-line-per-review `Dory validation record`. The design states the promises the code must keep, such as contracts, invariants, and the build order, not the code itself, and it has a length limit. Each rule is written once and referred to by name everywhere else, and the revision and review history lives in a separate history file, while decisions and rejected alternatives stay in the design. Before handing off to Dory, Hank runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
-3. **Phase 3: Ask Dory.** At careful pace, run the comprehension and critic checks at the same time, each in its own fresh conversation, both reading the same commit of the document, after one pass of Hank's own checks (`reference/hank-checks.md`), and run readiness once both pass. At balanced and fast pace, one fresh reviewer runs the gates in one pass, and fast pace skips Hank's diff check. Any failure sends the work back to Hank with a specific, actionable gap list, and Hank fixes everything from one batch in a single revision, written in a new conversation that picks up from a handoff entry in the history file, so Hank's conversation stays short through the review loop. A critic round with no blocking findings passes, and a design gets two or three critic rounds in its whole life, by pace. Every reviewer runs on a model at least as capable as Hank's. Any reviewer that runs the critic or readiness review runs at Hank's reasoning effort. A reviewer that runs only the comprehension test may run lower, but not below high or the tooling's nearest equivalent, or at Hank's effort if Hank runs below high. Hank's own checks run on the cheaper helper model.
-4. **Phase 4: Implement with guardrails.** Only after approval, at light or fast pace on parts no blocking finding touches, or at once for a two-way-door leg, implement the smallest coherent units from the approved plan, with tests alongside every change. A discovery that keeps the design's promises is the implementer's call, logged in one line. One that breaks a promise revises only that part of the design, which gets Hank's checks and one scoped critic round, or a scoped pass at fast pace, instead of restarting the whole review. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
+1. **Phase 1: Gill surveys the tank.** Load and verify real repository context, enforce a strict no-production-code rule during discovery, apply an explicit "sycophant challenge" (state the strongest counter-argument, find the weakest evidence), test the riskiest assumption with a short throwaway spike when a cheap test can settle it, then propose a first technical approach before asking the user for one.
+2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, a glossary, requirements written in a fixed, lint-checked format with stable IDs, architecture, alternatives considered, detailed implementation, risks, rollout, and a one-line-per-review `Dory validation record`. The design states the promises the code must keep, such as contracts, invariants, and the build order, not the code itself, and it has a length limit. Each rule is written once and referred to by name everywhere else, and the revision and review history lives in a separate history file, while decisions and rejected alternatives stay in the design. Before handing off to Dory, Gill runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
+3. **Phase 3: Ask Dory.** At careful pace, run the comprehension and critic checks at the same time, each in its own fresh conversation, both reading the same commit of the document, after one pass of Gill's own checks (`reference/gill-checks.md`), and run readiness once both pass. At balanced and fast pace, one fresh reviewer runs the gates in one pass, and fast pace skips Gill's diff check. Any failure sends the work back to Gill with a specific, actionable gap list, and Gill fixes everything from one batch in a single revision, written in a new conversation that picks up from a handoff entry in the history file, so Gill's conversation stays short through the review loop. A critic round with no blocking findings passes, and a design gets two or three critic rounds in its whole life, by pace. Every reviewer runs on a model at least as capable as Gill's. Any reviewer that runs the critic or readiness review runs at Gill's reasoning effort. A reviewer that runs only the comprehension test may run lower, but not below high or the tooling's nearest equivalent, or at Gill's effort if Gill runs below high. Gill's own checks run on the cheaper helper model.
+4. **Phase 4: Hank builds with guardrails.** Only after approval, at light or fast pace on parts no blocking finding touches, or at once for a two-way-door leg, Hank implements the smallest coherent units from the approved plan, with tests alongside every change. A discovery that keeps the design's promises is Hank's call, logged in one line. One that breaks a promise revises only that part of the design, which gets Gill's checks and one scoped critic round, or a scoped pass at fast pace, instead of restarting the whole review. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
 
-A **bootstrap-context** mode is also available for onboarding an existing, under-documented codebase: it recursively generates and rolls up `README.md` files from the leaves of the source tree upward, so a later Hank phase has real material to load instead of starting cold.
+A **bootstrap-context** mode is also available for onboarding an existing, under-documented codebase: it recursively generates and rolls up `README.md` files from the leaves of the source tree upward, so a later Gill phase has real material to load instead of starting cold.
 
 ## Operating modes
 
@@ -188,7 +193,7 @@ gh skill install ajaxdude/HankNDory
 
 Pass `--agent <host> --scope <user|project>` to target a specific agent/location instead of the interactive prompt, e.g. `gh skill install ajaxdude/HankNDory --agent claude-code --scope user`.
 
-Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.11`, or pass `--pin v2.11`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
+Without a version, `gh skill install` installs the latest tagged release. To pin one, name it: `gh skill install ajaxdude/HankNDory hankndory@v2.14`, or pass `--pin v2.14`. `gh skill update hankndory` moves an unpinned install to the newest release and skips pinned installs unless you add `--unpin`.
 
 ### Manual install, by agent
 
@@ -230,8 +235,8 @@ HankNDory/
     │   ├── crew.md
     │   ├── crush.md
     │   ├── design-doc-template.md
-    │   ├── hank-checks.md
-    │   ├── hank-handoff.md
+    │   ├── gill-checks.md
+    │   ├── gill-handoff.md
     │   ├── map-and-legs.md
     │   ├── marlin.md
     │   ├── one-off-checklist.md
@@ -244,22 +249,22 @@ HankNDory/
 - **`hankndory/SKILL.md`**: the method itself, covering rules, modes, the charter and pace, the four-phase lifecycle, the design document structure, and the failure-recovery guidance the agent follows.
 - **`hankndory/agents/ui_metadata.yaml`**: display metadata (name, one-line description) used by tooling that surfaces installed skills in a UI.
 - **`hankndory/reference/bootstrap-context.md`**: the steps the `bootstrap-context` mode follows, kept out of `SKILL.md` to keep it short.
-- **`hankndory/reference/cost.md`**: the default cost policy: a strong model only for Hank and the review gates, a much cheaper one for every helper, at most three running at once, no polling, and handing off a long conversation.
-- **`hankndory/reference/crew.md`**: Ray's acceptance tests, Bruce's mean code review, Bailey's spikes, measures, and cards, Jacques's stream checks, and the restart discipline every stream follows.
+- **`hankndory/reference/cost.md`**: the default cost policy: a strong model only for Gill, Hank, and the review gates, a much cheaper one for every helper, at most three running at once, no polling, and handing off a long conversation.
+- **`hankndory/reference/crew.md`**: Hank's build rules, Ray's acceptance tests, Bruce's mean code review, Bailey's spikes, measures, and cards, Jacques's stream checks, and the restart discipline every stream follows.
 - **`hankndory/reference/crush.md`**: Crush's house rules, how sessions ask for and give back machine time, and the combined report.
-- **`hankndory/reference/design-doc-template.md`**: the canonical starting template for every design document the Hank phase produces, with per-section guidance comments.
-- **`hankndory/reference/hank-checks.md`**: the mechanical scan and the diff check Hank runs once on each new version before Dory reviews it.
-- **`hankndory/reference/hank-handoff.md`**: how Hank hands the review loop to a new conversation after each batch, so its conversation stays short.
+- **`hankndory/reference/design-doc-template.md`**: the canonical starting template for every design document the Gill phase produces, with per-section guidance comments.
+- **`hankndory/reference/gill-checks.md`**: the mechanical scan and the diff check Gill runs once on each new version before Dory reviews it.
+- **`hankndory/reference/gill-handoff.md`**: how Gill hands the review loop to a new conversation after each batch, so its conversation stays short.
 - **`hankndory/reference/map-and-legs.md`**: two-way and one-way doors, the Map, and how each leg is designed, built, and reviewed.
 - **`hankndory/reference/marlin.md`**: the charter, how Marlin sorts decisions, the digest that replaces one-at-a-time questions, the plain-words rule with good and bad examples, Dory's update, demos, the retro, and starting all allowed work at once, in parallel.
 - **`hankndory/reference/one-off-checklist.md`**: the one-page checklist used instead of the design method for a one-off operation, such as a download or a one-time cleanup.
-- **`hankndory/reference/plain-speech-checklist.md`**: the checklist Hank applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
-- **`hankndory/tools/design-lint.py`**: a standard-library checker for a design document's `Requirements and acceptance criteria` section: one `shall` per requirement in an EARS-shaped sentence with a `Because` reason, stable requirement and Verify IDs, `Verify` blocks whose `Expect` clauses each name one observation, and vague words, sentence length, and numbers with bounds and sources inside `Expect` clauses. Hank's pre-flight scan runs it on every candidate commit; false findings are reported, never satisfied by renaming a thing. `python3 tools/design-lint.py --self-test` checks the checker itself.
+- **`hankndory/reference/plain-speech-checklist.md`**: the checklist Gill applies to prose sections at the end of Phase 2, adapted from the [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) skill for design-document writing.
+- **`hankndory/tools/design-lint.py`**: a standard-library checker for a design document's `Requirements and acceptance criteria` section: one `shall` per requirement in an EARS-shaped sentence with a `Because` reason, stable requirement and Verify IDs, `Verify` blocks whose `Expect` clauses each name one observation, and vague words, sentence length, and numbers with bounds and sources inside `Expect` clauses. Gill's pre-flight scan runs it on every candidate commit; false findings are reported, never satisfied by renaming a thing. `python3 tools/design-lint.py --self-test` checks the checker itself.
 - **`hankndory/`** is deliberately nested one level below the repository root (rather than living at the root itself) because `gh skill` and several other skill-discovery tools only scan for `*/SKILL.md`, not a `SKILL.md` at the very top of a repository.
 
 ## Why this matters in practice
 
-The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Hank brings the context and the caution. Dory brings the amnesia that keeps everyone honest. Marlin keeps everyone swimming toward Nemo. Crush keeps the shared lanes clear and the whole board in view. Ray, Bruce, Bailey, and Jacques test, attack, measure, and watch what gets built.
+The method's core discipline is simple to state and easy to skip under time pressure: **a design is not done because the room agrees on it; it is done because a stranger with no memory of the room can read it and build the right thing.** Gill brings the context and the caution. Dory brings the amnesia that keeps everyone honest. Marlin keeps everyone swimming toward Nemo. Crush keeps the shared lanes clear and the whole board in view. Ray, Bruce, Bailey, and Jacques test, attack, measure, and watch what gets built.
 
 ## License
 

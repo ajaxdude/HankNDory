@@ -1,6 +1,6 @@
 # Plain-speech checklist
 
-Adapted from [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) for design-document prose. Hank applies it actively during the "Plain-speech pass" at the end of Phase 2, and again to any prose section revised afterward. Dory's Step 6 critic review references it passively, to flag any slop that survived Hank's pass.
+Adapted from [unslop](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) for design-document prose. Gill applies it actively during the "Plain-speech pass" at the end of Phase 2, and again to any prose section revised afterward. Dory's Step 6 critic review references it passively, to flag any slop that survived Gill's pass.
 
 ## Where this applies
 

@@ -79,7 +79,7 @@ QUOTED_RE = re.compile(
     r"(?<!\w)\"[^\"]*\"|(?<!\w)'[^']*'"
     r"|\u201c[^\u201d]*\u201d|\u2018[^\u2019]*\u2019"
 )
-# Note: [RV]\\d tokens double as version tokens (v2.13), so a numeric
+# Note: [RV]\\d tokens double as version tokens (v2.14), so a numeric
 # Expect citing a version has its digits masked; an accepted trade.
 MASKED_RE = re.compile(
     r"\b(?:Requirement|Verify)?\s*[RV]\d[A-Za-z0-9_.:-]*"

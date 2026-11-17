@@ -2,6 +2,16 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.14 (2026-11-17)
+
+One name covered two jobs: the design phase and the engineer who builds. The marquee name never wrote code, and the builder had no name of its own.
+
+- The design phase is **Gill**, the tank's mastermind: the context-rich phase that maps the tank and refuses to move until the plan is sound. Every "Hank phase", "Hank's checks", and "Hank handoff" belongs to Gill now, and the files are `reference/gill-checks.md` and `reference/gill-handoff.md`.
+- **Hank** is the builder: the septopus who does the work with his own hands. Step 8 says Hank implements from the design document and its referenced files, never from the design conversation; he is the only role that writes production code, and a discovery that breaks a promise goes back to Gill.
+- `reference/crew.md` gains a "Hank builds" section; the rules that the builder runs Ray's tests and never changes them move there from Ray's section, and Ray's and Bruce's findings that belong to the design go to Gill.
+- `reference/cost.md` moves building out of the helper tier: Gill and Hank run on the strong tier because they decide and build. Helpers are Ray, Bailey, Jacques, checks, drafting, and sub-agents.
+- At light pace the repair paragraph splits: Gill fixes the design in one revision, Hank fixes code on a building branch.
+
 ## 2.13 (2026-11-09)
 
 Acceptance criteria were often prose nobody could test, numbers arrived from memory, and the pre-flight scan was all hand work. 2.13 adopts the requirement-grammar ideas of [BluePrint](https://github.com/bigattichouse/BluePrint) (GPL; only its ideas cross, this code and wording are this project's) as a requirements-writing layer for Phase 2.

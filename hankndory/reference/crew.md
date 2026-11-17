@@ -1,19 +1,24 @@
-# The crew: Ray, Bruce, Bailey, and Jacques
+# The crew: Hank, Ray, Bruce, Bailey, and Jacques
 
-`SKILL.md` names four more roles besides Hank, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Ray, Bailey, and Jacques run on the helper tier of `reference/cost.md`, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees the builder's conversation.
+`SKILL.md` names Hank and four more roles besides Gill, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Hank and Gill run on the strong tier of `reference/cost.md`, because they decide and build; Ray, Bailey, and Jacques run on the helper tier, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees Gill's design conversation or Hank's build conversation.
+
+## Hank builds
+
+Hank is the septopus who does the work with his own hands, one arm at a time. In HankNDory, Hank implements Step 8 from the approved design: the build order, the contracts, the smallest coherent change, and tests alongside each change. He works from the design document and its referenced files, never from the design conversation. A discovery that keeps the design's promises is his call, logged in one line in the implementation log; one that breaks a promise pauses the work that depends on it and goes back to Gill, who revises only that part of the design.
+
+Hank runs Ray's tests and never changes them. A test Hank thinks is wrong goes back to Ray once, with the reason. If they still disagree, Gill decides from the design, unless it changes what a promise means, which follows Step 8's rule for a broken promise. A leg is done only when Ray's tests pass and its Step 9 review is clean.
 
 ## Ray tests the promises
 
 Mr. Ray is the teacher who quizzes the class. In HankNDory, Ray writes the acceptance tests for each leg from its acceptance criteria and the Map's contracts, as `reference/map-and-legs.md` describes, before seeing any of the leg's code. Building may start at the same time, so Ray costs no waiting.
 
 - Ray gets only the design document at a named base commit, its referenced files, and the leg to test, and never reads a building branch. For a two-way-door leg, which has no written contracts yet, Ray tests through what the user can see and do, or binds to the as-built contracts before reading the implementation.
-- Ray writes the tests in the project's own test tools, on a branch that is not shared or default, and names each test with the Verify ID it implements and the behavior, for example "V1.2 lockout after three failures", so anyone can check that every Expect has a test without reading the design. Ray asserts the `Expect`, never a restated `shall` sentence, and reports any criterion that can't be tested as written, which goes back to Hank.
-- The builder runs Ray's tests and never changes them. A test the builder thinks is wrong goes back to Ray once, with the reason. If they still disagree, Hank decides from the design, unless it changes what a promise means, which follows Step 8's rule for a broken promise.
-- A leg is done only when Ray's tests pass and its Step 9 review is clean. The tests then join the project's tests.
+- Ray writes the tests in the project's own test tools, on a branch that is not shared or default, and names each test with the Verify ID it implements and the behavior, for example "V1.2 lockout after three failures", so anyone can check that every Expect has a test without reading the design. Ray asserts the `Expect`, never a restated `shall` sentence, and reports any criterion that can't be tested as written, which goes back to Gill.
+- The tests then join the project's tests once a leg is done.
 
 ## Bruce tries to break it
 
-Bruce is the shark who promises to be nice. In HankNDory, Bruce runs Step 9, the mean code review, in a fresh conversation or a sub-agent that gets the design document and its referenced files, the diff, the implementation log, Ray's tests, and read access to the repository at the reviewed commit, but never the builder's conversation. Bruce reviews as an attacker would: abuse, broken trust boundaries, leaked data, and inputs nobody planned for, as well as everything else Step 9 lists. Bruce also checks that no acceptance test was weakened or skipped, and that every Verify ID has a test. Findings go to Hank, and Step 9's rules on re-review apply.
+Bruce is the shark who promises to be nice. In HankNDory, Bruce runs Step 9, the mean code review, in a fresh conversation or a sub-agent that gets the design document and its referenced files, the diff, the implementation log, Ray's tests, and read access to the repository at the reviewed commit, but never Hank's conversation. Bruce reviews as an attacker would: abuse, broken trust boundaries, leaked data, and inputs nobody planned for, as well as everything else Step 9 lists. Bruce also checks that no acceptance test was weakened or skipped, and that every Verify ID has a test. Findings go to Gill, and Step 9's rules on re-review apply.
 
 ## Bailey measures
 
