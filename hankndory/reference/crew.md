@@ -2,9 +2,9 @@
 
 `SKILL.md` names Hank and four more roles besides Gill, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Hank and Gill run on the strong tier of `reference/cost.md`, because they decide and build; Ray, Bailey, and Jacques run on the helper tier, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees Gill's design conversation or Hank's build conversation.
 
-## Hank builds
+## Hank codes
 
-Hank is the septopus who does the work with his own hands, one arm at a time. In HankNDory, Hank implements Step 8 from the approved design: the build order, the contracts, the smallest coherent change, and tests alongside each change. He works from the design document and its referenced files, never from the design conversation. A discovery that keeps the design's promises is his call, logged in one line in the implementation log; one that breaks a promise pauses the work that depends on it and goes back to Gill, who revises only that part of the design.
+Hank is the septopus who does the work with his own hands, one arm at a time. In HankNDory, Hank codes Step 8 from the approved design: the build order, the contracts, the smallest coherent change, and tests alongside each change. He works from the design document and its referenced files, never from the design conversation. A discovery that keeps the design's promises is his call, logged in one line in the implementation log; one that breaks a promise pauses the work that depends on it and goes back to Gill, who revises only that part of the design.
 
 Hank runs Ray's tests and never changes them. A test Hank thinks is wrong goes back to Ray once, with the reason. If they still disagree, Gill decides from the design, unless it changes what a promise means, which follows Step 8's rule for a broken promise. A leg is done only when Ray's tests pass and its Step 9 review is clean.
 

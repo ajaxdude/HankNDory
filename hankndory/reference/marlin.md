@@ -8,7 +8,7 @@ Write it with the user once, at kickoff, in its own file, such as `docs/charter.
 
 - **Final objective (Nemo):** what done looks like, stated as a test someone can check.
 - **Milestones:** the few stops on the way, each with a result the user can see.
-- **Deadline and budget:** a target date, and a limit in agent-hours or cost, for the whole voyage and for design review. Agent-hours add up the time of every agent: Marlin and Gill, builders, reviewers, and checks, counting agents that run at the same time separately. Time a session spends waiting for a grant with its turn ended doesn't count.
+- **Deadline and budget:** a target date, and a limit in agent-hours or cost, for the whole voyage and for design review. Agent-hours add up the time of every agent: Marlin, Gill, and Hank, coders, reviewers, and checks, counting agents that run at the same time separately. Time a session spends waiting for a grant with its turn ended doesn't count.
 - **Pace:** light, fast, balanced, or careful, as "Pick the pace" in `SKILL.md` describes, and any part of the work that runs at a different pace.
 - **Delegated decisions:** what Marlin decides without asking. Unless the user narrows it, this covers:
   - reversible technical choices inside the design's contracts;

@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, Jacques, and Gill from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
 
-This is version 2.14. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.15. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -30,7 +30,7 @@ Agile avoids big up-front design because requirements change once people see wor
 |---|---|---|
 | You | Product manager | Also the executive sponsor. You own the reserved decisions and the budget. |
 | Gill | Architect | The tech lead who designs: the Map, the promises, the build order, and the verdict when the build and the tests disagree. |
-| Hank | Engineer | The builder: implements the approved design, runs Ray's tests, keeps the implementation log, and sends a broken promise back to Gill. |
+| Hank | Coder | Implements the approved design, runs Ray's tests, keeps the implementation log, and sends a broken promise back to Gill. |
 | Dory | Reviewer and demo voice | Reviews the design cold, like a new hire reading the spec on day one, acting as both the fresh-eyes reader and the architecture review board. She is also the voice of every update and demo, in plain words, because keeping it simple keeps everyone aligned, and she explains the choices behind each demo. |
 | Marlin | Scrum master | Keeps one project moving: pace, budget, the digest, unblocking work, and the retro. |
 | Crush | Program manager and operations | Two jobs: platform operations (who gets the shared machines, and when) and the portfolio office (one view across all projects). |
@@ -89,7 +89,7 @@ There are three independent Dory checks, each a hard gate:
 |---|---|
 | **Comprehension** | Can a reader with zero prior context explain the problem, the current system, the proposed solution, and the parts that will change, using only the document? Does that explanation still hold up once rewritten in the plainest possible language, with nothing invented or lost? |
 | **Critic** | Does the design have faulty assumptions, missing edge cases, contract or lifecycle gaps, or unresolved risks, reviewed adversarially? |
-| **Readiness** | Does the document contain everything an implementer needs to build it correctly on the first pass, with no outstanding material questions? |
+| **Readiness** | Does the document contain everything a coder needs to build it correctly on the first pass, with no outstanding material questions? |
 
 At careful pace, comprehension and critic run at the same time, both reading the same commit of the document, because neither needs the other's result, and readiness runs last, once both have passed. At faster paces one reviewer runs them in one pass, as the pace table below shows. Before a batch reviews a new version, Gill runs his own checks on it once: a mechanical scan and, once there is an earlier reviewed commit to compare with, a diff check that asks whether the revision fixed what it was meant to fix, brought back an old defect, contradicted unchanged text, or quietly changed an obligation. He fixes what they find, then starts the batch, to keep mistakes a fix just added away from reviewers.
 
@@ -97,9 +97,9 @@ A critic round with no blocking findings passes, and its important findings are 
 
 If any Dory phase fails, work returns to Gill to fix the document, never to patch understanding verbally and move on. Building anything hard to undo begins only after the gates pass, and you approve, or the charter does at light or fast pace.
 
-### Hank, the build phase
+### Hank, the coding phase
 
-Hank is the septopus who does the work with his own hands. In the method, Hank is the build phase: after approval he implements the design in the smallest coherent units, tests alongside every change, runs Ray's acceptance tests without changing them, and keeps an implementation log outside the design document. He works from the document alone, because he never saw the design conversation, and a discovery that breaks one of the design's promises goes back to Gill instead of being settled in the code. A leg is done when Ray's tests pass and Bruce's review is clean; Marlin then sends the demo.
+Hank is the septopus who does the work with his own hands. In the method, Hank is the coding phase: after approval he implements the design in the smallest coherent units, tests alongside every change, runs Ray's acceptance tests without changing them, and keeps an implementation log outside the design document. He works from the document alone, because he never saw the design conversation, and a discovery that breaks one of the design's promises goes back to Gill instead of being settled in the code. A leg is done when Ray's tests pass and Bruce's review is clean; Marlin then sends the demo.
 
 ### Marlin, the one who keeps swimming
 

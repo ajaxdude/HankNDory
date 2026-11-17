@@ -2,6 +2,13 @@
 
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
+## 2.15 (2026-11-17)
+
+One seat had two nouns, "builder" and "implementer". The crew now says coder.
+
+- Hank is the **coder**: Step 8, the crew section, the README role table and the demo descriptions say coder, and "the builder" and "implementer" are gone from the prose. "Build", "builds" and "implementation" stay as the verbs and the process.
+- The 2.14 changelog keeps its own wording, because it records what that version said.
+
 ## 2.14 (2026-11-17)
 
 One name covered two jobs: the design phase and the engineer who builds. The marquee name never wrote code, and the builder had no name of its own.

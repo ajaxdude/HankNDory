@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.14"
+  version: "2.15"
 ---
 
-# HankNDory 2.14: The Hank & Dory Method
+# HankNDory 2.15: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Gill phase** to co-design a feature and create its source-of-truth design document. Gill has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Gill conversation and must trust only what is written down. A **Hank** role builds what the design promises: the septopus who carries the plan out with his own hands, from the document alone, because he never saw the design conversation. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report, posted every hour, quiet or not. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, **Bailey** runs spikes and experiments and measures the results, and **Jacques** the cleaner shrimp checks every running stream, and catches a stall before it eats hours, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
@@ -365,7 +365,7 @@ Assume the role of an expert technical reviewer. Search for:
 - a number without a bound or range and a source or an `(exact)` mark, a calculation not kept as a runnable file, or a word used against the Glossary (the "Numbers from evidence" and "One word, one meaning" core rules);
 - a leg marked as a two-way door that reverting its commits would not fully undo.
 
-Classify each finding as `blocking`, `important`, or `nit`. A finding is blocking only if, left as it is, the design would lead an implementer to build the wrong thing, break a requirement or contract, or create a security, privacy, or data-loss risk. Include evidence, impact, and a concrete document fix. Do not inflate severity.
+Classify each finding as `blocking`, `important`, or `nit`. A finding is blocking only if, left as it is, the design would lead a coder to build the wrong thing, break a requirement or contract, or create a security, privacy, or data-loss risk. Include evidence, impact, and a concrete document fix. Do not inflate severity.
 
 A critic round with no blocking findings closes Step 6, even if Step 5/5b failed in the same batch. Gill fixes its important findings once, in the next revision, and a diff check verifies them where the pace calls for one; they start no new critic round. Nits are optional. During design, only a round with blocking findings leads to another critic round, which may be scoped to the fix.
 
@@ -399,7 +399,7 @@ After `READY`, get approval as "Pick the pace" says, and record in the document 
 
 ## Step 8: Implement the approved design
 
-Hank is the builder: he starts from the design document and its referenced files, never from the design conversation, and he is the only role that writes production code. Proceed only when the design is marked `approved-for-implementation`, on work that "Pick the pace" lets overlap review, or on a two-way-door leg, as `reference/map-and-legs.md` describes.
+Hank is the coder: he starts from the design document and its referenced files, never from the design conversation, and he is the only role that writes production code. Proceed only when the design is marked `approved-for-implementation`, on work that "Pick the pace" lets overlap review, or on a two-way-door leg, as `reference/map-and-legs.md` describes.
 
 1. Read the full design and all referenced files relevant to the next implementation unit.
 2. Follow the build order and keep every contract.
