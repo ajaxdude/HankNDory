@@ -125,10 +125,10 @@ The charter also sets the **pace**:
 
 | Pace | Dory review | Approval before building |
 |---|---|---|
-| **Yolo** | no human in the loop: one fresh reviewer runs comprehension and critic (readiness too unless the design says `risk: two-way`); a critic failure revises and reruns with no cap; Step 9 and the acceptance tests still gate the work; a one-time home-scoped sudo guard handles privileged repairs, never package installs or services | the charter approves once the pass closes |
-| **Fast** | one fresh reviewer runs comprehension and critic, plus readiness unless the design says `risk: two-way`; two critic rounds in the design's life; building overlaps review | the charter approves a `READY` design that stays inside it |
-| **Balanced** | one fresh reviewer runs comprehension and critic, then a separate readiness check every time; two critic rounds | you approve, possibly through the digest |
-| **Careful** | separate reviewers for each gate, as above, clarity included; three critic rounds | you approve |
+| **Yolo** | no human in the loop: a design whose legs are all two-way doors skips the pre-build pass and is reviewed as built; otherwise one fresh reviewer runs comprehension and critic, and readiness unless the design says `risk: two-way`; a critic failure revises and reruns with no cap; Step 9 and the acceptance tests still gate the work | the charter approves once the pass closes, or at submit for a two-way design |
+| **Fast** | a design whose legs are all two-way doors skips the pre-build pass and is reviewed as built; otherwise one fresh reviewer runs comprehension and critic, plus readiness unless the design says `risk: two-way`; two critic rounds in the design's life | the charter approves a `READY` design that stays inside it, or a two-way design at submit |
+| **Balanced** | a two-way design skips the pre-build pass; otherwise one fresh reviewer runs comprehension and critic, then a separate readiness check; two critic rounds | you approve, possibly through the digest |
+| **Careful** | a two-way design skips the pre-build pass; otherwise separate reviewers for each gate, clarity included; three critic rounds | you approve |
 
 Anything on the skill's "Always standard" list (public APIs or schemas, auth, migrations or deletions of user or production data, billing, security boundaries, cross-team contracts) runs at careful pace unless the charter names it. Without a charter, everything runs at careful pace. At fast and yolo pace, reviewers run at Gill's and Hank's reasoning effort unless the charter asks for more.
 
