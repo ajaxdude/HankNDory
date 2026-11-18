@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.16 (2026-11-17)
+
+The pace table was measured against a real voyage, and one pace was doing nothing a second pace did not already do.
+
+- **Light is retired.** It was byte-for-byte fast. A design whose Status still says `light` runs as fast, not careful.
+- **Yolo is new.** No human decision: the pass runs comprehension and critic, the charter approves when it closes, and a critic `FAIL` revises and reruns with no round cap, reported in the digest. Step 9 and the acceptance tests remain, so yolo shortens the design loop and never the safety net.
+- **Fast drops clarity and readiness.** Comprehension and critic are the gates that found real design faults in the measured voyage; clarity mostly bought revisions, and readiness re-checked what the other two found. Fast keeps the two that pay, caps failed waves at two, and escalates the third.
+- **Balanced drops clarity too.** It keeps comprehension and critic in one pass, readiness every time, and your approval. Careful keeps clarity, the isolated critic wave, the diff check and three rounds.
+- **Readiness is a blast-radius gate.** At yolo and fast, Step 7 runs unless Status says `risk: two-way`; an absent line counts as one-way. Balanced and careful always run it.
+- **The yolo sudo guard is home-scoped.** A one-time arm installs a root-owned helper and a rule that allows only that helper. It repairs ownership, mode and directories under `$HOME`, refuses package installs and system services, and removes itself at expiry or at the voyage's end. No password is stored.
 HankNDory versions use `MAJOR.MINOR`. The number appears twice in `hankndory/SKILL.md`, in the `metadata.version` frontmatter field and in the title line. Bump both together. Each version from 1.3 on has a git tag, `vMAJOR.MINOR`, so any of them can be reinstalled or restored later.
 
 ## 2.15 (2026-11-17)

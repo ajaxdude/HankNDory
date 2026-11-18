@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.15"
+  version: "2.16"
 ---
 
-# HankNDory 2.15: The Hank & Dory Method
+# HankNDory 2.16: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Gill phase** to co-design a feature and create its source-of-truth design document. Gill has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Gill conversation and must trust only what is written down. A **Hank** role builds what the design promises: the septopus who carries the plan out with his own hands, from the document alone, because he never saw the design conversation. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report, posted every hour, quiet or not. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, **Bailey** runs spikes and experiments and measures the results, and **Jacques** the cleaner shrimp checks every running stream, and catches a stall before it eats hours, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
@@ -18,7 +18,7 @@ Named for the fish who forgets everything yet still finds her way by trusting wh
 4. Ask hard questions, challenge assumptions, and explain reasoning. Do not merely agree.
 5. Separate facts verified from repository files from assumptions, proposals, and open questions.
 6. Never claim a gate passed if blocking findings, missing context, unresolved decisions, or unverified file references remain.
-7. Get human approval before building a one-way door, and before merging a two-way door, either explicitly or, at light or fast pace, through the charter, as Step 7 describes. Never infer approval any other way.
+7. Get human approval before building a one-way door, and before merging a two-way door, either explicitly or, at fast or yolo pace, through the charter, as Step 7 describes. Never infer approval any other way.
 8. Preserve decisions and rejected alternatives in the design document so later sessions do not reopen settled questions without new evidence.
 9. Inspect referenced files before making claims about the current system. Do not invent paths, APIs, schemas, dependencies, or behavior.
 10. Hank's building does not restart the design. Handle each implementation discovery as Step 8 describes, and revise only the part of the design whose promises it breaks.
@@ -35,7 +35,7 @@ Choose one mode from the user's request and current repository state:
 - **dory-comprehension**: test whether a fresh engineer can understand the feature and relevant current system, and whether that understanding survives a plain-language rewrite with nothing lost.
 - **dory-critic**: adversarially review the design for omissions, faulty assumptions, edge cases, risks, and ambiguity.
 - **dory-readiness**: decide whether the design contains everything needed for a first-pass implementation.
-- **dory-pass**: at balanced, light, or fast pace, run the Dory steps that "Pick the pace" names, in one fresh conversation.
+- **dory-pass**: at balanced, fast, or yolo pace, run the Dory steps that "Pick the pace" names, in one fresh conversation.
 - **implementation**: as Hank, implement from a validated and approved design document, or build a two-way-door leg first, as `reference/map-and-legs.md` describes.
 - **acceptance-tests**: as Ray, write a leg's acceptance tests from the design alone, following `reference/crew.md`.
 - **mean-review**: as Bruce, perform a severe but actionable code review against the approved design or a one-off operation's checklist.
@@ -72,7 +72,7 @@ When one batch fails more than one gate, record the earlier gate's state: `compr
 
 Do not infer approval. It must be explicit, or given by the charter as Step 7 describes.
 
-Human approval gates only the move from `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict, for the design or a later one-way-door leg, and the merge of work built first, as `reference/map-and-legs.md` describes. At light or fast pace, the charter can give that approval, as Step 7 describes. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Gill, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions. Anything that needs the user goes in the digest, and only work that depends on a reserved answer waits.
+Human approval gates only the move from `ready-for-human-review` to `approved-for-implementation`, triggered by Step 7's `READY` verdict, for the design or a later one-way-door leg, and the merge of work built first, as `reference/map-and-legs.md` describes. At fast or yolo pace, the charter can give that approval, as Step 7 describes. Every other transition proceeds automatically once the relevant reviewers return their results. That includes a Dory phase reporting its verdict back to Gill, starting the next batch of Dory reviews, successive critic rounds, and moving on to Step 7. Do not pause for user confirmation at these internal transitions. Anything that needs the user goes in the digest, and only work that depends on a reserved answer waits.
 
 This version applies in full to new design documents. A design started under an earlier version keeps its document as written. From its next step it follows this version's review and building rules, counting the critic rounds it has already used, and it runs at careful pace until the user sets a charter for it. The requirement format binds a requirements section from the moment it is written in that format; a section written under an earlier version keeps its text until Gill next rewrites it, and every requirement Gill adds or rewrites then follows the format. Adopting this version never by itself reopens a gate, invalidates a verdict, or voids an approval.
 
@@ -90,17 +90,17 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role
 
 The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work, allowed work still starts at once and in parallel, and Dory's update still goes to the chat the user reads.
 
-| | Light | Fast | Balanced | Careful |
+| | Yolo | Fast | Balanced | Careful |
 |---|---|---|---|---|
-| Dory reviewers per batch | one `dory-pass`: Steps 5, 5b, 6, and 7 | one `dory-pass`: Steps 5, 5b, 6, and 7 | one `dory-pass`: Steps 5, 5b, and 6; then Step 7 | Step 5/5b and Step 6 in separate reviewers; then Step 7 |
-| Critic rounds in the document's whole life | one, and at most two, as the light-pace rule says | two | two | three |
-| Gill's diff check | on the fix revision | no | yes | yes |
-| Approval before building | the charter, as Step 7 describes | the charter, as Step 7 describes | explicit | explicit |
+| Dory reviewers per batch | one `dory-pass`: Steps 5 and 6; Step 7 too unless Status says `risk: two-way` | one `dory-pass`: Steps 5 and 6; Step 7 too unless Status says `risk: two-way` | one `dory-pass`: Steps 5 and 6; then Step 7 | Step 5/5b and Step 6 in separate reviewers; then Step 7 |
+| Critic rounds in the document's whole life | no cap: a `FAIL` revises and reruns unattended | two | two | three |
+| Gill's diff check | no | no | yes | yes |
+| Approval before building | the charter, once the pass closes | the charter, as Step 7 describes | explicit | explicit |
 | Building overlaps review | yes | yes | no | no |
 
 When building overlaps review, and while the design stays inside the charter, building may start as soon as a `dory-pass` returns, on its own branch, on any component that no blocking finding, Step 5/5b gap, or Step 7 item touches, while Gill revises and the next pass runs. Nothing built this way merges into a shared branch or deploys until the design is approved and Step 9 is clean. If a revision then changes that component's contracts, rework it as Step 8 describes. At every pace, a two-way-door leg is built before approval, as `reference/map-and-legs.md` describes.
 
-Light pace suits a point release or a design written after the code. It follows every fast-pace rule except where this paragraph differs; without a design-review budget cap in the charter, use fast pace instead. Gill fixes the design in one revision, and Hank fixes any code the pass shows to be wrong on a building branch. Run Gill's checks, the diff check included, on that revision. If the pass had a blocking finding, a Step 5/5b `FAIL`, or a Step 7 `NOT READY`, a second pass runs on the fixed revision if the design-review budget allows, followed by one more fix under the same rules; this second pass and any Step 8 scoped round share a lifetime limit of two critic rounds. The charter approves only when the last pass had none of those three. It then approves that pass's fix revision, or the pass's own version if it found nothing, in place of a `READY` that no revision followed, within the limits Step 7 sets for fast pace. Otherwise the open findings go to the user. Step 9 runs one review and one re-review, which follows Step 9's rule on scope; any finding still open goes in the digest, and while a non-trivial one is open, merging and deploying stay reserved whatever the charter delegates.
+Yolo is the pace for a voyage nobody will supervise: the charter approves once the pass closes, the pass runs Steps 5 and 6, Step 7 joins it for any design that may contain a one-way door, and a critic `FAIL` revises and reruns with no round cap and no escalation, its rounds reported in the digest. Step 9 and the acceptance tests still gate the work, so yolo shortens the design loop, never the safety net. Readiness is a blast-radius gate: Status `risk: two-way` skips Step 7 at yolo and fast, because a pure two-way-door design is cheap to undo; an absent line counts as one-way. Privileged blockers at yolo use a home-scoped guard the user arms once (in pimp, `pimp sudo arm --for 8h`): it allows only path repair inside the user's home (`check-path`, `fix-ownership`, `fix-mode`, `mkdir`), never package installs or system services, and it removes itself at expiry or at the voyage's end. Without that guard, a root blocker is reported, never attempted. Fast follows yolo's gates and delegation but stops after two failed waves and puts the findings in front of the user; balanced adds readiness every time and the user's approval; careful keeps the separate critics, the clarity rewrite, and three rounds.
 
 # Phase 1: Gill Surveys the Tank
 
@@ -195,7 +195,7 @@ Keep the design document under 3,000 words, not counting the Referenced files li
 
 ### Status
 
-State the current workflow state from "Maintain workflow state", the change classification from "Size the change before choosing a gate set", and the pace and the charter's path and version the design runs under. Record a target date for approval and a review budget in hours or cost, taken from the charter, or set with the user when there is none. Keep a running count of the time spent and the critic rounds used, and escalate to the user as soon as review passes the target date or uses up the budget. Add one line per substantive revision since the document was last reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older lines to the history file. Bump the version whenever a Dory phase or human reviewer needs to know what changed; do not bump it for typo fixes. Each entry in the "Dory validation record" must state which version it reviewed.
+State the current workflow state from "Maintain workflow state", the change classification from "Size the change before choosing a gate set", and the pace and the charter's path and version the design runs under. Record a target date for approval and a review budget in hours or cost, taken from the charter, or set with the user when there is none. Record `risk: one-way` or `risk: two-way` for the design's legs as `reference/map-and-legs.md` defines them: fast and yolo run Step 7 unless every leg is a two-way door, and an absent line counts as one-way. Keep a running count of the time spent and the critic rounds used, and escalate to the user as soon as review passes the target date or uses up the budget. Add one line per substantive revision since the document was last reviewed, formatted `vN — YYYY-MM-DD — <what changed>`, and move older lines to the history file. Bump the version whenever a Dory phase or human reviewer needs to know what changed; do not bump it for typo fixes. Each entry in the "Dory validation record" must state which version it reviewed.
 
 ### Problem
 
@@ -302,7 +302,7 @@ If the reviewer cannot load this skill, paste Phase 3's opening paragraphs and t
 
 ### Run the gates in batches
 
-Numbered step 1 below is for careful pace. At balanced, light, or fast pace, one reviewer in mode `dory-pass` runs the steps "Pick the pace" names, in order, on one frozen version, and reports a verdict for each. It takes the place of the separate reviewers in steps 2 to 4, and each step closes as it would at careful pace. A later pass runs only the steps still open, plus Step 7 at fast pace; run Step 7 alone only when it is the only step still open. At fast pace, a `READY` counts only if, on that same version, Steps 5 and 5b passed, Step 6 closed, every gate was certified isolated, every check in the batch returned, and no revision followed. That pass's important findings then go to the history file as notes for Gill, instead of into a revision. Step 7's version limit counts only versions it reviewed after Steps 5, 5b, and 6 closed.
+Numbered step 1 below is for careful pace. At balanced, fast, or yolo pace, one reviewer in mode `dory-pass` runs the steps "Pick the pace" names, in order, on one frozen version, and reports a verdict for each. It takes the place of the separate reviewers in steps 2 to 4, and each step closes as it would at careful pace. A later pass runs only the steps still open, plus Step 7 when the design may contain a one-way door; run Step 7 alone only when it is the only step still open. At fast or yolo pace, a `READY` counts only if, on that same version, Step 5 passed, Step 6 closed, Step 5b passed when that pace runs it, every gate was certified isolated, every check in the batch returned, and no revision followed. That pass's important findings then go to the history file as notes for Gill, instead of into a revision. Step 7's version limit counts only versions it reviewed after Steps 5, 5b, and 6 closed.
 
 Steps 5 and 5b run in one reviewer, because Step 5b rewrites Step 5's explanation. Step 6 reads the same frozen version and does not need Step 5's result, so the two reviewers can run at the same time.
 
@@ -373,7 +373,7 @@ A design document gets the critic rounds "Pick the pace" allows in its whole lif
 
 ## Step 7: Implementation-readiness test
 
-Start this step only once Steps 5, 5b, and 6 have closed (see "Run the gates in batches"), or, at light or fast pace, in the same `dory-pass` as them. Review the current version: for the Map, the contracts that cross legs, the legs, and the first leg in full unless it is a two-way door; for a later leg's scoped pass, that leg.
+Start this step only once Steps 5 and 6 have closed, and Step 5b where the pace runs it (see "Run the gates in batches"), or, at fast or yolo pace, in the same `dory-pass` as them. Review the current version: for the Map, the contracts that cross legs, the legs, and the first leg in full unless it is a two-way door; for a later leg's scoped pass, that leg.
 
 Evaluate whether an experienced engineer, with only the design and referenced files, can implement the leg under review correctly on the first pass, keeping the Map's contracts.
 
@@ -393,7 +393,7 @@ Return one verdict:
 - **READY**: no material implementation question remains.
 - **NOT READY**: list the minimum questions or edits required.
 
-After `READY`, get approval as "Pick the pace" says, and record in the document who gave it, when, and the version and commit it covers. At light or fast pace, Step 7 also lists every "Always standard" item and every step that can't be undone that the design touches, and the charter approves only a `READY` that counts under "Run the gates in batches", or at light pace the version "Pick the pace" names, whose list holds nothing the charter does not name, and that stays inside the charter's objective, budget, and delegation. Record it as approved by the charter and its version, report it in the next digest, and start building. Anything outside the charter goes to the user as a reserved decision.
+After `READY`, get approval as "Pick the pace" says, and record in the document who gave it, when, and the version and commit it covers. At fast or yolo pace, Step 7 also lists every "Always standard" item and every step that can't be undone that the design touches, and the charter approves only a `READY` that counts under "Run the gates in batches", whose list holds nothing the charter does not name and that stays inside the charter's objective, budget, and delegation. Record it as approved by the charter and its version, report it in the next digest, and start building. Anything outside the charter goes to the user as a reserved decision.
 
 # Phase 4: Hank Builds with guardrails
 
@@ -410,7 +410,7 @@ Hank is the coder: he starts from the design document and its referenced files, 
 7. Keep a concise implementation log outside the design document, mapping each change to the files it touched and the design section it serves.
 8. Sort each discovery by whether it keeps the design's promises: its contracts, invariants, security and privacy rules, user-visible behavior, and scope.
    - If it keeps them, decide, add one line to the implementation log, and continue. The code review covers it.
-   - If it breaks one, pause the work that depends on it and revise only that part of the design. Run Gill's checks on the revision and one critic round scoped to it, a scoped `dory-pass` at light or fast pace, and resume once a critic round on it has no blocking findings. Rerun Steps 5, 5b, and 7 only if the revision changes the Problem, the Goals, or the overall approach; at fast pace, those steps join the same pass. Approval carries over unless the revision leaves the charter. The charter may grant extra critic rounds for this step; otherwise the lifetime limit applies.
+   - If it breaks one, pause the work that depends on it and revise only that part of the design. Run Gill's checks on the revision and one critic round scoped to it, a scoped `dory-pass` at fast or yolo pace, and resume once a critic round on it has no blocking findings. Rerun Steps 5, 5b, and 7 only if the revision changes the Problem, the Goals, or the overall approach; at fast pace, those steps join the same pass. Approval carries over unless the revision leaves the charter. The charter may grant extra critic rounds for this step; otherwise the lifetime limit applies.
    - Ask the user only when the revision changes the scope, an approved contract, or the risk beyond what the charter delegates. Treat it as a reserved decision, and wait for the answer before building on it.
 
 ## Step 9: Perform the mean code review

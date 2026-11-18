@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, Jacques, and Gill from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
 
-This is version 2.15. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.16. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -16,7 +16,7 @@ HankNDory forces a hard separation between **designing with full context** and *
 
 ## A hybrid for the age of AI
 
-Agile avoids big up-front design because requirements change once people see working software. With AI agents the costs flip. Code is cheap, but keeping a project coherent is expensive, because agents forget everything between conversations. The design document is their memory. So HankNDory is neither waterfall nor Agile. It runs spikes before designing, overlaps building with review at fast pace, writes designs after the code at light pace, and has designs state promises instead of restating code. On top of that:
+Agile avoids big up-front design because requirements change once people see working software. With AI agents the costs flip. Code is cheap, but keeping a project coherent is expensive, because agents forget everything between conversations. The design document is their memory. So HankNDory is neither waterfall nor Agile. It runs spikes before designing, overlaps building with review at fast and yolo pace, writes designs after the code at fast pace, and has designs state promises instead of restating code. On top of that:
 
 - **Two-way doors are built first.** A change that reverting its commits fully undoes, such as user-interface work, internal code, or an experiment behind a switch, is built first and written up as built. A change that is hard to undo, such as a public API, a data migration, a deletion, sign-in, or money, is designed and approved first.
 - **The Map, then the legs.** Before building, the design is a Map: the problem, the goals, the promises that hold across the whole build, and the legs in order, each one line long, with only the first leg in full. Each later leg is detailed when it starts, using what the last leg taught. The Map is not the charter. The charter says how the voyage is run; the Map says what is being built.
@@ -95,7 +95,7 @@ At careful pace, comprehension and critic run at the same time, both reading the
 
 A critic round with no blocking findings passes, and its important findings are fixed once, without another round. A design gets two or three critic rounds in its whole life, by pace, including any after building starts, plus one for each later leg that is hard to undo (two at careful pace), and more need the user's OK.
 
-If any Dory phase fails, work returns to Gill to fix the document, never to patch understanding verbally and move on. Building anything hard to undo begins only after the gates pass, and you approve, or the charter does at light or fast pace.
+If any Dory phase fails, work returns to Gill to fix the document, never to patch understanding verbally and move on. Building anything hard to undo begins only after the gates pass, and you approve, or the charter does at fast or yolo pace.
 
 ### Hank, the coding phase
 
@@ -124,12 +124,12 @@ The charter also sets the **pace**:
 
 | Pace | Dory review | Approval before building |
 |---|---|---|
-| **Light** | for a point release or a design written after the code: one fresh reviewer runs every gate in one pass, Gill fixes the design and Hank fixes the code, and Gill checks the fix; a second pass runs only if the first had a blocking finding, a failed comprehension test, or a not-ready verdict; one code review plus one re-review; needs a design-review budget cap | the charter approves the fixed version once the last pass had none of those |
-| **Fast** | one fresh reviewer runs every gate in one pass; two critic rounds in the design's life; building overlaps review | the charter approves a `READY` design that stays inside it |
-| **Balanced** | one fresh reviewer runs comprehension, clarity, and critic, then a separate readiness check; two critic rounds | you approve, possibly through the digest |
-| **Careful** | separate reviewers for each gate, as above; three critic rounds | you approve |
+| **Yolo** | no human in the loop: one fresh reviewer runs comprehension and critic (readiness too unless the design says `risk: two-way`); a critic failure revises and reruns with no cap; Step 9 and the acceptance tests still gate the work; a one-time home-scoped sudo guard handles privileged repairs, never package installs or services | the charter approves once the pass closes |
+| **Fast** | one fresh reviewer runs comprehension and critic, plus readiness unless the design says `risk: two-way`; two critic rounds in the design's life; building overlaps review | the charter approves a `READY` design that stays inside it |
+| **Balanced** | one fresh reviewer runs comprehension and critic, then a separate readiness check every time; two critic rounds | you approve, possibly through the digest |
+| **Careful** | separate reviewers for each gate, as above, clarity included; three critic rounds | you approve |
 
-Anything on the skill's "Always standard" list (public APIs or schemas, auth, migrations or deletions of user or production data, billing, security boundaries, cross-team contracts) runs at careful pace unless the charter names it. Without a charter, everything runs at careful pace. At light and fast pace, reviewers run at Gill's and Hank's reasoning effort unless the charter asks for more.
+Anything on the skill's "Always standard" list (public APIs or schemas, auth, migrations or deletions of user or production data, billing, security boundaries, cross-team contracts) runs at careful pace unless the charter names it. Without a charter, everything runs at careful pace. At fast and yolo pace, reviewers run at Gill's and Hank's reasoning effort unless the charter asks for more.
 
 **Tooling note for the GitHub Copilot app:** task sub-agents there see the parent session's checkpoint titles and file list, so they can't be certified as fresh for a Dory review. Run each Dory reviewer as a new top-level session that doesn't pause for plan approval, and archive it once it returns. A sub-agent is fine for the mean code review, which doesn't need a blank memory.
 
@@ -143,7 +143,7 @@ flowchart TD
     C -->|critic: blocking findings| A
     C -->|both pass| R{Readiness}
     R -->|NOT READY| A
-    R -->|READY, no later revision| D[Approval<br/>by you, or by the charter at light or fast pace]
+    R -->|READY, no later revision| D[Approval<br/>by you, or by the charter at fast or yolo pace]
     D --> E[Phase 4: Implement with guardrails<br/>smallest coherent changes,<br/>tests alongside every change]
     B -->|two-way-door leg: build first| E
     E --> F[Ray's acceptance tests and<br/>Bruce's mean code review]
@@ -158,7 +158,7 @@ flowchart TD
 1. **Phase 1: Gill surveys the tank.** Load and verify real repository context, enforce a strict no-production-code rule during discovery, apply an explicit "sycophant challenge" (state the strongest counter-argument, find the weakest evidence), test the riskiest assumption with a short throwaway spike when a cheap test can settle it, then propose a first technical approach before asking the user for one.
 2. **Phase 2: Write the tank chart.** Turn the discussion into one markdown design document, built section by section from a fixed template (`reference/design-doc-template.md`) covering problem, goals, current system, a glossary, requirements written in a fixed, lint-checked format with stable IDs, architecture, alternatives considered, detailed implementation, risks, rollout, and a one-line-per-review `Dory validation record`. The design states the promises the code must keep, such as contracts, invariants, and the build order, not the code itself, and it has a length limit. Each rule is written once and referred to by name everywhere else, and the revision and review history lives in a separate history file, while decisions and rejected alternatives stay in the design. Before handing off to Dory, Gill runs a plain-speech pass over the prose sections against `reference/plain-speech-checklist.md`.
 3. **Phase 3: Ask Dory.** At careful pace, run the comprehension and critic checks at the same time, each in its own fresh conversation, both reading the same commit of the document, after one pass of Gill's own checks (`reference/gill-checks.md`), and run readiness once both pass. At balanced and fast pace, one fresh reviewer runs the gates in one pass, and fast pace skips Gill's diff check. Any failure sends the work back to Gill with a specific, actionable gap list, and Gill fixes everything from one batch in a single revision, written in a new conversation that picks up from a handoff entry in the history file, so Gill's conversation stays short through the review loop. A critic round with no blocking findings passes, and a design gets two or three critic rounds in its whole life, by pace. Every reviewer runs on a model at least as capable as Gill's. Any reviewer that runs the critic or readiness review runs at Gill's reasoning effort. A reviewer that runs only the comprehension test may run lower, but not below high or the tooling's nearest equivalent, or at Gill's effort if Gill runs below high. Gill's own checks run on the cheaper helper model.
-4. **Phase 4: Hank builds with guardrails.** Only after approval, at light or fast pace on parts no blocking finding touches, or at once for a two-way-door leg, Hank implements the smallest coherent units from the approved plan, with tests alongside every change. A discovery that keeps the design's promises is Hank's call, logged in one line. One that breaks a promise revises only that part of the design, which gets Gill's checks and one scoped critic round, or a scoped pass at fast pace, instead of restarting the whole review. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
+4. **Phase 4: Hank builds with guardrails.** Only after approval, at fast or yolo pace on parts no blocking finding touches, or at once for a two-way-door leg, Hank implements the smallest coherent units from the approved plan, with tests alongside every change. A discovery that keeps the design's promises is Hank's call, logged in one line. One that breaks a promise revises only that part of the design, which gets Gill's checks and one scoped critic round, or a scoped pass at fast pace, instead of restarting the whole review. Finish with a severe but constructive "mean" code review against the approved design. After the first round, re-reviews read the fix diff, unless a fix touched a shared contract.
 
 A **bootstrap-context** mode is also available for onboarding an existing, under-documented codebase: it recursively generates and rolls up `README.md` files from the leaves of the source tree upward, so a later Gill phase has real material to load instead of starting cold.
 
@@ -170,7 +170,7 @@ A **bootstrap-context** mode is also available for onboarding an existing, under
 | `dory-comprehension` | Test whether a fresh reader can understand the feature from the document alone, including a plain-language rewrite check. |
 | `dory-critic` | Adversarially review the design for omissions, faulty assumptions, and risk. |
 | `dory-readiness` | Decide whether the document is sufficient for a correct first-pass implementation. |
-| `dory-pass` | At balanced, light, or fast pace, run the Dory gates the pace names in one fresh conversation. |
+| `dory-pass` | At balanced, fast, or yolo pace, run the Dory gates the pace names in one fresh conversation. |
 | `implementation` | Implement strictly from an approved, validated design document. |
 | `acceptance-tests` | As Ray, write a leg's acceptance tests from the design alone. |
 | `mean-review` | As Bruce, perform a severe, actionable code review against the approved design. |

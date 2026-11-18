@@ -14,6 +14,9 @@
      change classification from "Size the change before choosing a gate set,"
      with the reason for it, and the pace and the charter's path and version
      from "Pick the pace" and "Marlin keeps the voyage moving" in SKILL.md.
+     Add `risk: one-way` or `risk: two-way` for the legs; fast and yolo run
+     Step 7 unless every leg is a two-way door, and an absent line counts as
+     one-way.
      Target date for approval, review budget, time spent so far, and
      critic rounds used, as "Status" in SKILL.md describes.
      Add one line per substantive revision since the document was last
