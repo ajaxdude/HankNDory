@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, Jacques, and Gill from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
 
-This is version 2.16. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.17. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -31,10 +31,10 @@ Agile avoids big up-front design because requirements change once people see wor
 | You | Product manager | Also the executive sponsor. You own the reserved decisions and the budget. |
 | Gill | Architect | The tech lead who designs: the Map, the promises, the build order, and the verdict when the build and the tests disagree. |
 | Hank | Coder | Implements the approved design, runs Ray's tests, keeps the implementation log, and sends a broken promise back to Gill. |
-| Dory | Reviewer and demo voice | Reviews the design cold, like a new hire reading the spec on day one, acting as both the fresh-eyes reader and the architecture review board. She is also the voice of every update and demo, in plain words, because keeping it simple keeps everyone aligned, and she explains the choices behind each demo. |
+| Dory | Design reviewer and demo voice | Reviews the design cold, like a new hire reading the spec on day one, acting as both the fresh-eyes reader and the architecture review board. She is also the voice of every update and demo, in plain words, because keeping it simple keeps everyone aligned, and she explains the choices behind each demo. |
 | Marlin | Scrum master | Keeps one project moving: pace, budget, the digest, unblocking work, and the retro. |
 | Crush | Program manager and operations | Two jobs: platform operations (who gets the shared machines, and when) and the portfolio office (one view across all projects). |
-| Bruce | Red team | Security and the mean code review, reviewing as an attacker would. |
+| Bruce | Code reviewer and red team | Security and the mean code review, reviewing as an attacker would. |
 | Bailey | Data science | Runs spikes, experiments, and measures, and writes a one-page card for each. |
 | Ray | Quality assurance | Writes acceptance tests from the design's promises before seeing any of the code. |
 | Jacques | Watchdog | Checks every running stream for visible progress, working artifacts, and scope, and flags a stall before it costs hours. |
@@ -103,7 +103,7 @@ Hank is the septopus who does the work with his own hands. In the method, Hank i
 
 ### Marlin, the one who keeps swimming
 
-Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, Marlin is a role the main conversation plays, and Nemo is the final objective. At kickoff, you and Marlin write a short **charter**: the final objective, milestones, deadline, budget (in agent-hours, counting every agent that runs, or in cost), pace, which decisions Marlin makes alone, which ones stay with you, any wording or small extension you accept as built, where Marlin backs up the work, where Dory's update goes, and how long a reversible question waits before Marlin takes its default (10 minutes unless you set another). After that, Marlin:
+Marlin crossed an ocean to find Nemo and never stopped to wait. In the method, Marlin is a role. A deployment may play it from the main conversation or bind it to a dedicated per-voyage seat, and Nemo is the final objective. At kickoff, you and Marlin write a short **charter**: the final objective, milestones, deadline, budget (in agent-hours, counting every agent that runs, or in cost), pace, which decisions Marlin makes alone, which ones stay with you, any wording or small extension you accept as built, where Marlin backs up the work, where Dory's update goes, and how long a reversible question waits before Marlin takes its default (10 minutes unless you set another). After that, Marlin:
 
 - decides what the charter hands over, and records it;
 - sends you one **digest** at a time, holding every question and every piece of news. Each question leads with a recommendation, then two to four plain sentences on what it is, why it needs deciding now, and what each option costs you in time, money, or risk, and, where it can be undone, a default and when it takes effect;

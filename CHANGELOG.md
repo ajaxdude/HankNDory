@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.17 (2026-11-18)
+
+The method now states where a role ends and a deployment seat begins, and where one engine ends and independent review begins.
+
+- **Marlin may be a dedicated seat.** The method still treats Marlin as a role. A deployment can bind it to a per-voyage seat that proposes roster changes and writes the digest, while deterministic checks remain authority.
+- **Dory has a design-review seat option.** A deployment that requires a Dory seat pauses a gate and re-hires Dory when the seat is absent; it never substitutes the designer. Dory phases still start fresh.
+- **Every seated character needs a role prompt.** A name is not a role; a missing prompt is a deployment error.
+- **One engine can serve the whole crew.** A single-model deployment runs roles sequentially. Independence is weaker when reviewers share a model, and the charter must say so.
+- **Dory and Bruce are labeled by job.** Dory is the design reviewer; Bruce is the code reviewer.
+
 ## 2.16 (2026-11-17)
 
 The pace table was measured against a real voyage, and one pace was doing nothing a second pace did not already do.

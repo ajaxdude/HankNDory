@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.16"
+  version: "2.17"
 ---
 
-# HankNDory 2.16: The Hank & Dory Method
+# HankNDory 2.17: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Gill phase** to co-design a feature and create its source-of-truth design document. Gill has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Gill conversation and must trust only what is written down. A **Hank** role builds what the design promises: the septopus who carries the plan out with his own hands, from the document alone, because he never saw the design conversation. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report, posted every hour, quiet or not. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, **Bailey** runs spikes and experiments and measures the results, and **Jacques** the cleaner shrimp checks every running stream, and catches a stall before it eats hours, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
@@ -26,6 +26,7 @@ Named for the fish who forgets everything yet still finds her way by trusting wh
 12. Keep moving toward the final objective. At every pace, start at once all work the charter and current approvals allow, and run independent work in parallel. Never leave work waiting on the user for a decision the charter delegates or that has a reversible default, as "Marlin keeps the voyage moving" describes.
 13. Numbers from evidence: every number in a design document carries a bound or range with its source, or an `(exact)` mark; a number from memory is a guess. Keep each calculation as a runnable file in the repository and cite the file, so the number recomputes when an input changes.
 14. One word, one meaning: add each word the design invents or specializes to the document's Glossary before first use, give it one meaning there, and use that name in requirements, contracts, and test names.
+15. A deployment may bind a role to a dedicated seat. A seat carries its role prompt and no other role's authority; the charter and deterministic checks remain the authority.
 
 ## Determine the requested operating mode
 
@@ -78,13 +79,23 @@ This version applies in full to new design documents. A design started under an 
 
 # Marlin keeps the voyage moving
 
-Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role, not a separate conversation: the conversation acting as Gill plays it, and a Gill handoff passes it on. Marlin keeps the work moving toward the final objective, following `reference/marlin.md` in this skill:
+Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role. A deployment may play it from the conversation acting as Gill, or bind it to a dedicated per-voyage seat. A dedicated Marlin seat is a coordination surface: it reads the charter, board and capacity, proposes roster changes, writes the digest and leaves deterministic checks to the harness. It never designs, builds, approves a design, grants a lease or merges. Marlin keeps the work moving toward the final objective, following `reference/marlin.md` in this skill:
 
 - Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, any limit on parallel streams, the cost policy, the shared machines, the backup remote, and where Dory's update goes. Only the user changes it.
 - Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
 - Ask through one digest at a time, in a way that does not stop work, and meanwhile start everything allowed at once, in parallel, as `reference/marlin.md` describes. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
 - Send or post Dory's update, a table with a Status row (LGTM, Blocked, or Issues), what was just done, what is happening now in each stream, what comes next, and the share done with the forecast finish, only when there is new progress; an hourly wake-up checks, and waiting is not progress. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, send a demo at every milestone, and write a retro when the voyage ends, as `reference/marlin.md` describes. At kickoff, make sure the user's one Crush exists, creating it if not. Crush gathers every voyage's updates into one report for the user, and heavy work on a shared machine is booked through it, as `reference/crush.md` describes.
 - Start Jacques at each hourly wake-up to check every running stream, and act on his report, as `reference/crew.md` describes.
+
+## Deployment seats and prompts
+
+A deployment may bind crew roles to persistent seats. A seat is a conversation plus a role prompt, not a new authority. Every character that can be addressed as a seat needs its own role prompt, including its responsibilities, exclusions, and the HankNDory version it follows. A missing role prompt is a deployment error, not permission to infer the role from a name.
+
+Marlin may hold a dedicated per-voyage seat. Dory may hold a dedicated design-review seat. A deployment that requires a Dory seat pauses the gate and re-hires Dory when the seat is absent; it does not substitute the designer. The Dory phases still start in fresh contexts, so a Dory seat must not reuse one gate's conversation for another.
+
+An engine is capacity, not a seat. Several characters may share one engine or one model. A single-model deployment runs roles one at a time, but each role still has its own conversation and prompt. Reviewers on the same model are less independent, and the charter must say so.
+
+A yolo deployment keeps every required seat standing: a missing seat is repaired, and the charter approves the roster repair without putting an approval question to the user.
 
 ## Pick the pace
 
