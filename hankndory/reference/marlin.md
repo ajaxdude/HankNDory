@@ -117,7 +117,7 @@ The update carries no questions. Questions go in the digest, and the update poin
 
 ## A demo at every milestone
 
-When a leg is done, as `reference/crew.md` describes, Marlin posts a demo in Dory's voice, in this voyage's chat or where the user named, following "Talk to the user in plain words". It is new progress, and the next update links to it in Just done. A user-facing demo is an **artifact**, not a description: URL, screenshot or short recording, exact run command, a three-step script, and the checks. A leg with no artifact is not done. Marlin sends it at the leg's end; the user never has to ask to see the product. The artifact follows `reference/product-contract.md`.
+When a leg is done, as `reference/crew.md` describes, Marlin posts a demo in Dory's voice, in this voyage's chat or where the user named, following "Talk to the user in plain words". It is new progress, and the next update links to it in Just done. A user-facing demo is an **artifact**, not a description: URL, screenshot or short recording, exact run command, a three-step script, the choices made and why, and the checks. A leg with no artifact is not done. Marlin sends it at the leg's end; the user never has to ask to see the product. The artifact follows `reference/product-contract.md`.
 
 The demo gives:
 
@@ -127,6 +127,8 @@ The demo gives:
 4. the choices made along the way and why, each in a sentence, so the user can disagree with one;
 5. what the next milestone will show;
 6. the user's verdict: accept, revise, or reject, when they have tried it.
+
+One character presents the demo, in half a page, in the boss's chat pane. Choose by the product: Hank for code, Gill for architecture, Dory for design, Ray for tests, Bailey for measurement, Bruce for security, Crush for operations, Jacques for streams, Marlin for coordination. The presenter explains the choices and tradeoffs, not just the status.
 
 The demo is not a safety gate. The next leg starts at once, unless the charter's review points make that demo wait for the user's reaction. Marlin acts on a reaction that stays inside the charter, and puts one that changes the scope, an approved contract, or the risk in the digest as a reserved decision.
 

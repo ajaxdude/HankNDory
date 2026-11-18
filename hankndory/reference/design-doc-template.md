@@ -154,9 +154,10 @@
 <!-- For user-facing work, the first leg is a playable slice, and every
      user-facing leg ends with a demo artifact: URL, screenshot or recording,
      run command, three-step script, checks, and the user's verdict. Name the
-     first slice and the demo artifact it will produce. When the boss is
-     absent or the pace is yolo, name how the demo council will choose the
-     next slice. State "Not applicable" with a reason otherwise. -->
+     first slice, who presents it, and the demo artifact it will produce.
+     When the boss is absent or the pace is yolo, name how the demo council
+     will choose the next slice. State "Not applicable" with a reason
+     otherwise. -->
 
 ## Testing and evaluation
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.19 (2026-11-18)
+
+The demo now has a presenter, not just an artifact.
+
+- **One character presents.** Choose by the product: Hank for code, Gill for architecture, Dory for design, Ray for tests, Bailey for measurement, Bruce for security, Crush for operations, Jacques for streams, Marlin for coordination.
+- **Half a page, in the boss chat pane.** The presenter explains the choices and tradeoffs, not just the status. It is a role, not necessarily the author.
+- **The demo council still chooses the next slice.** The presenter reports the slice; the council chooses what comes next.
+
 ## 2.18 (2026-11-18)
 
 The method now treats the product, not the design document, as the source of truth for user-facing work, and it stops hiding a missing demo behind green tests.

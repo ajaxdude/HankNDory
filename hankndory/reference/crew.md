@@ -20,6 +20,24 @@ Mr. Ray is the teacher who quizzes the class. In HankNDory, Ray writes the accep
 - Ray writes the tests in the project's own test tools, on a branch that is not shared or default, and names each test with the Verify ID it implements and the behavior, for example "V1.2 lockout after three failures", so anyone can check that every Expect has a test without reading the design. Ray asserts the `Expect`, never a restated `shall` sentence, and reports any criterion that can't be tested as written, which goes back to Gill.
 - The tests then join the project's tests once a leg is done.
 
+## Who presents the demo
+
+One character presents each demo, in half a page, in the boss's chat pane. Choose by what the product is:
+
+| Product question | Presenter |
+|---|---|
+| How does the code work, and what tradeoff did we make? | Hank |
+| How is the system shaped, and why this boundary? | Gill |
+| Does this fit the product contract and the user's eye? | Dory |
+| What is tested, and what is still unproven? | Ray |
+| What did we measure, and what do the numbers mean? | Bailey |
+| What is the security or abuse surface? | Bruce |
+| What does operations cost, and what can break? | Crush |
+| Are the streams moving, and where is the stall? | Jacques |
+| Why this next slice, and what does the boss decide? | Marlin |
+
+The presenter is a role, not the author. It explains the choices and tradeoffs; it does not read the diff aloud.
+
 ## Every seat joins the demo council
 
 When the boss is absent or the pace is yolo, Marlin opens a demo council before the next leg, as `reference/product-contract.md` describes. Every configured seat joins, whatever its role.

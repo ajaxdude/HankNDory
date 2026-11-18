@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.18"
+  version: "2.19"
 ---
 
-# HankNDory 2.18: The Hank & Dory Method
+# HankNDory 2.19: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Gill phase** to co-design a feature and create its source-of-truth design document. Gill has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Gill conversation and must trust only what is written down. A **Hank** role builds what the design promises: the septopus who carries the plan out with his own hands, from the document alone, because he never saw the design conversation. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report, posted every hour, quiet or not. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, **Bailey** runs spikes and experiments and measures the results, and **Jacques** the cleaner shrimp checks every running stream, and catches a stall before it eats hours, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
@@ -29,6 +29,7 @@ Named for the fish who forgets everything yet still finds her way by trusting wh
 15. A deployment may bind a role to a dedicated seat. A seat carries its role prompt and no other role's authority; the charter and deterministic checks remain the authority.
 16. For user-facing work, the product is the source of truth. Write a product contract with the user, build a playable slice first, and treat a leg as done only when its demo artifact exists; see "User-facing work: show the product".
 17. When the boss is absent or the pace is yolo, every seat joins a demo council before the next leg. Each seat proposes one user-visible outcome; Marlin records the consensus and the next demo. No seat may opt out by role.
+18. One character presents each demo, in half a page, speaking in the boss's chat pane. Choose the presenter by the product, not by who posted the demo: Hank for code, Gill for architecture, Dory for design, Ray for tests, Bailey for measurement, Bruce for security, Crush for operations, Jacques for streams, Marlin for coordination.
 
 ## Determine the requested operating mode
 
@@ -92,7 +93,9 @@ Then build a **playable slice** before the document grows past one page of inter
 
 A playable slice is a two-way door unless it touches an "Always standard" item. Build it first, at every pace, and write its design as built. Do not run Dory over a reversible visual choice before the user has seen it.
 
-A **demo artifact** is required for every user-facing leg: a URL, a screenshot or recording, the exact run command, a three-step script, the checks that passed, and the user's verdict. A leg with no artifact is not done. Marlin sends the demo at the leg's end; the user never has to ask to see the product.
+A **demo artifact** is required for every user-facing leg: a URL, a screenshot or recording, the exact run command, a three-step script, the choices made and why, the checks that passed, and the user's verdict. A leg with no artifact is not done. Marlin sends the demo at the leg's end; the user never has to ask to see the product.
+
+One character presents it, in half a page, speaking in the boss's chat pane. Choose by what the product is: Hank for code, Gill for architecture, Dory for design, Ray for tests, Bailey for measurement, Bruce for security, Crush for operations, Jacques for streams, Marlin for coordination. The presenter explains the choices and tradeoffs; it is not a second status report.
 
 Acceptance has two layers:
 

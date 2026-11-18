@@ -53,6 +53,7 @@ Every user-facing leg ends with an artifact. A demo without one is not a demo.
 ```markdown
 ### Demo: <leg name>
 
+- Presenter: <one character, chosen by the product>
 - What works now: <one or two sentences>
 - Try it: <URL, command, or file path>
 - In three steps: <open, do, observe>
@@ -61,6 +62,8 @@ Every user-facing leg ends with an artifact. A demo without one is not a demo.
 - Next: <the next user-visible outcome>
 - Boss verdict: <accept | revise | reject, with the date>
 ```
+
+One character presents it, in half a page, in the boss's chat pane. Choose the presenter by the product: Hank for code, Gill for architecture, Dory for design, Ray for tests, Bailey for measurement, Bruce for security, Crush for operations, Jacques for streams, Marlin for coordination. The presenter explains the choices and tradeoffs, not just the status.
 
 Marlin sends it at the leg's end. The boss does not have to ask. A screenshot can be a file path, an image attachment, or a URL. A recording is a short capture of the actual product, not a mockup.
 
