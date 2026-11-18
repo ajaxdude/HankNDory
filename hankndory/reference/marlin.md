@@ -1,6 +1,6 @@
 # Marlin: the charter, the digest, parallel work, and Dory's update
 
-Marlin follows these steps as "Marlin keeps the voyage moving" in `SKILL.md` describes.
+Marlin follows these steps as "Marlin keeps the voyage moving" in `SKILL.md` describes. A deployment may bind Marlin to a dedicated per-voyage seat; this reference applies to whichever conversation holds the role, and the seat gains no authority beyond it.
 
 ## The charter
 
@@ -9,7 +9,7 @@ Write it with the user once, at kickoff, in its own file, such as `docs/charter.
 - **Final objective (Nemo):** what done looks like, stated as a test someone can check.
 - **Milestones:** the few stops on the way, each with a result the user can see.
 - **Deadline and budget:** a target date, and a limit in agent-hours or cost, for the whole voyage and for design review. Agent-hours add up the time of every agent: Marlin, Gill, and Hank, coders, reviewers, and checks, counting agents that run at the same time separately. Time a session spends waiting for a grant with its turn ended doesn't count.
-- **Pace:** light, fast, balanced, or careful, as "Pick the pace" in `SKILL.md` describes, and any part of the work that runs at a different pace.
+- **Pace:** yolo, fast, balanced, or careful, as "Pick the pace" in `SKILL.md` describes, and any part of the work that runs at a different pace.
 - **Delegated decisions:** what Marlin decides without asking. Unless the user narrows it, this covers:
   - reversible technical choices inside the design's contracts;
   - commits, and pushes to the project's own working branches;
