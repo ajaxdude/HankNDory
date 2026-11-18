@@ -11,6 +11,10 @@ Crush's own conversation decides grants, so it runs on the strong tier unless it
 
 For the strong tier, prefer the model family with the lowest cost per unit of work that meets the bar, as the user's spend report shows, for example GPT-5.5 at high effort over Claude Opus; use another family only where the charter names it. For helpers, use a small, cheap model, for example GPT-6 Luna at medium effort. At kickoff, name the actual model and effort for each tier in the charter's Cost line. A helper task that fails its own checks twice goes back to Gill, who decides the next step; record that in the charter's history file.
 
+## Engines and models
+
+An engine is capacity, not a seat. Several characters may share one engine, and a single-model deployment may run every role through one model, one request at a time. Each role still gets its own conversation and role prompt, and every Dory review still starts fresh. Sharing a model weakens the independence of roles that must check each other, so the charter must name that limit. A helper and a reviewer on the same model still cost two calls and two contexts; the saving is in weights, not in review isolation.
+
 ## Hard spend cap
 
 The user may set a hard spend cap, such as an amount over any rolling 28 days, measured by the report the user names, in Crush's house rules or the charter's Cost line. Crush estimates the spend every hour. When the cap is reached, Crush tells every voyage to stop, and everything stops: every voyage, helper, automation, and Crush's own hourly run. Running work finishes only its current step. Nothing restarts until the user says resume. Without a Crush, Marlin checks the cap at each hourly wake-up.

@@ -1,6 +1,10 @@
 # The crew: Hank, Ray, Bruce, Bailey, and Jacques
 
-`SKILL.md` names Hank and four more roles besides Gill, Dory, Marlin, and Crush. Each is a role, not a standing conversation. Marlin starts one as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Hank and Gill run on the strong tier of `reference/cost.md`, because they decide and build; Ray, Bailey, and Jacques run on the helper tier, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees Gill's design conversation or Hank's build conversation.
+`SKILL.md` names Hank and four more roles besides Gill, Dory, Marlin, and Crush. Each is a role. A deployment may bind a role to a standing seat with its own prompt, as "Deployment seats and prompts" in `SKILL.md` describes; a seat does not gain another role's authority. Marlin starts a role as a stream when there is work for it, as "Start everything allowed, in parallel" in `reference/marlin.md` describes. Hank and Gill run on the strong tier of `reference/cost.md`, because they decide and build; Ray, Bailey, and Jacques run on the helper tier, and Bruce, whose review decides go or no-go, on the strong tier. None of them sees Gill's design conversation or Hank's build conversation.
+
+## Dory reviews the design
+
+Dory is the design reviewer: the fresh-eyes reader and architecture review board. A deployment may give Dory a permanent design-review seat. The Dory phases still start with no history, so the seat is a place to address the role, never a conversation reused between gates. A deployment that requires a Dory seat pauses the gate and re-hires Dory when the seat is absent; it does not run the gate as the designer. A deployment that binds a role to a seat supplies that seat's role prompt; a missing prompt is a deployment error. Bruce remains the code reviewer and never substitutes for Dory's design review.
 
 ## Hank codes
 
