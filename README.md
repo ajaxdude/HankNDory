@@ -2,7 +2,7 @@
 
 **A structured design-validate-implement method for building software with AI coding agents, named for Pixar characters: Dory, Marlin, Crush, Bruce, Mr. Ray, Jacques, and Gill from *Finding Nemo*, and Hank and Bailey from its sequel, *Finding Dory*.**
 
-This is version 2.17. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
+This is version 2.18. [CHANGELOG.md](./CHANGELOG.md) lists what changed in each version.
 
 HankNDory is an **[Agent Skill](https://agentskills.io/specification)**: a `SKILL.md` file (plus supporting reference material) that an AI coding agent loads and follows as an explicit workflow, instead of designing and coding a feature in one continuous, memory-biased conversation. It exists to stop a common failure mode of AI-assisted development: an agent (and the human driving it) becoming anchored to unstated assumptions that only ever lived in one long chat, producing a design that looks solid in the room but falls apart the moment someone (or something) reads it cold.
 
@@ -21,7 +21,8 @@ Agile avoids big up-front design because requirements change once people see wor
 - **Two-way doors are built first.** A change that reverting its commits fully undoes, such as user-interface work, internal code, or an experiment behind a switch, is built first and written up as built. A change that is hard to undo, such as a public API, a data migration, a deletion, sign-in, or money, is designed and approved first.
 - **The Map, then the legs.** Before building, the design is a Map: the problem, the goals, the promises that hold across the whole build, and the legs in order, each one line long, with only the first leg in full. Each later leg is detailed when it starts, using what the last leg taught. The Map is not the charter. The charter says how the voyage is run; the Map says what is being built.
 - **Requirements are checkable prose.** Each requirement states one obligation in a fixed sentence shape, with the reason beside it; each verification clause names one observable outcome; Ray's tests, Bruce's review, and a linter read the same IDs. Every number in a design carries its evidence, or it does not go in.
-- **A demo at every milestone.** You see working software, not only documents: what works now, how to try it, the checks that pass, the choices made, and what comes next. The next leg starts without waiting for you, unless the charter says that demo should wait for your reaction.
+- **A demo at every milestone.** You see working software, not only documents: a URL, screenshot, or recording, what works now, how to try it, the checks that pass, the choices made, and what comes next. A demo without an artifact is not a demo. The next leg starts without waiting for you, unless the charter says that demo should wait for your reaction.
+- **The product contract comes before the document.** For anything a person will see or use, you agree on the reference and the reject conditions first, then the crew builds a playable slice before detailing internals. When you are absent or the pace is yolo, every seat joins a demo council that chooses the next user-visible outcome.
 - **A retro when the voyage ends.** Three to six plain lines on what went well, what slowed it down, and what to change next time, including in the method itself.
 
 ### The crew

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.18 (2026-11-18)
+
+The method now treats the product, not the design document, as the source of truth for user-facing work, and it stops hiding a missing demo behind green tests.
+
+- **Product contract first.** A user-facing design starts with the user, the moment of use, the quality bar, a reference, and an observable reject list. The brief is input, not accepted output. A test may not pin an implementation detail that forbids an obvious user-facing improvement.
+- **Playable slice before internals.** The first user-facing leg is a runnable slice with the final visual frame. It is a two-way door, built first at every pace, and written up as built.
+- **Demo artifacts are a definition of done.** Every user-facing leg ends with a URL, screenshot or recording, run command, three-step script, checks, and the user's verdict. A leg with no artifact is not done, and Marlin sends it without being asked.
+- **Every seat joins the demo council.** When the boss is absent or the pace is yolo, every configured seat proposes the next user-visible outcome. Marlin records the consensus and the next demo; no seat opts out by role.
+- **Ceremony has a budget.** Reversible user-facing work may not spend more time in design and review than in building without a playable artifact.
+
 ## 2.17 (2026-11-18)
 
 The method now states where a role ends and a deployment seat begins, and where one engine ends and independent review begins.

@@ -31,4 +31,17 @@ When a leg is done, shrink its section to what later legs rely on, and move the 
 
 ## A change that is all two-way doors
 
-When every leg is a two-way door, the Map is short: Problem, Goals and non-goals, Requirements and acceptance criteria, and the contracts others rely on, with every other section "Not applicable yet". No Dory pass runs before building. Building and Ray's acceptance tests start at once. Once built, Gill completes the document as built, and one `dory-pass` under light-pace rules reviews it while Bruce reviews the code, at the same time. Approval then comes after building and approves merging, given by the user, or by the charter at light or fast pace.
+When every leg is a two-way door, the Map is short: Product contract for user-facing work, Problem, Goals and non-goals, Requirements and acceptance criteria, and the contracts others rely on, with every other section "Not applicable yet". No Dory pass runs before building. Building and Ray's acceptance tests start at once. Once built, Gill completes the document as built, and one `dory-pass` under light-pace rules reviews it while Bruce reviews the code, at the same time. Approval then comes after building and approves merging, given by the user, or by the charter at light or fast pace.
+
+This is the default for a greenfield user-facing product whose first leg is a playable slice. Running a full document gate before that slice exists is a method violation, not rigor.
+
+## The user-facing leg zero
+
+For user-facing work, the first leg is a playable slice built from the product contract, as `reference/product-contract.md` describes. It is a two-way door unless the slice touches an "Always standard" item.
+
+- Build it before the full Map is detailed.
+- Show it to the user with a demo artifact.
+- Write its design as built after it exists.
+- Only after the slice is accepted does the Map detail the internals.
+
+A demo is part of the leg's definition of done. A leg without a URL, screenshot, recording, or runnable file is not done, even when every test is green.

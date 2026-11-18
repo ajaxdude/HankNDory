@@ -117,15 +117,22 @@ The update carries no questions. Questions go in the digest, and the update poin
 
 ## A demo at every milestone
 
-When a leg is done, as `reference/crew.md` describes, Marlin posts a demo in Dory's voice, in this voyage's chat or where the user named, following "Talk to the user in plain words". It is new progress, and the next update links to it in Just done. It gives:
+When a leg is done, as `reference/crew.md` describes, Marlin posts a demo in Dory's voice, in this voyage's chat or where the user named, following "Talk to the user in plain words". It is new progress, and the next update links to it in Just done. A user-facing demo is an **artifact**, not a description: URL, screenshot or short recording, exact run command, a three-step script, and the checks. A leg with no artifact is not done. Marlin sends it at the leg's end; the user never has to ask to see the product. The artifact follows `reference/product-contract.md`.
+
+The demo gives:
 
 1. what works now, in one or two sentences;
 2. how to try it: a command, a link, or screenshots or a short recording when the user can't run it;
 3. the checks, in plain words, such as "all 14 checks that the weekly email goes only to people who signed up pass", and Bailey's latest measures;
 4. the choices made along the way and why, each in a sentence, so the user can disagree with one;
-5. what the next milestone will show.
+5. what the next milestone will show;
+6. the user's verdict: accept, revise, or reject, when they have tried it.
 
-The demo is not a gate. The next leg starts at once, unless the charter's review points make that demo wait for the user's reaction. Marlin acts on a reaction that stays inside the charter, and puts one that changes the scope, an approved contract, or the risk in the digest as a reserved decision.
+The demo is not a safety gate. The next leg starts at once, unless the charter's review points make that demo wait for the user's reaction. Marlin acts on a reaction that stays inside the charter, and puts one that changes the scope, an approved contract, or the risk in the digest as a reserved decision.
+
+When the boss is absent or the pace is yolo, Marlin opens a demo council before the next leg, as `reference/product-contract.md` describes. Every configured seat proposes one next user-visible outcome, whatever its role; Marlin records the consensus and the next demo. A missing seat is repaired or named in the digest. The council decides what to show next, not whether a safety gate passed.
+
+Dory's update says what the user could last see and whether the user accepted it. "Tests pass" is not progress toward a product when no one has played, opened, or read the result. If no demo exists, say "not shown to the user yet", not a completion percentage that hides it.
 
 ## A retro when the voyage ends
 

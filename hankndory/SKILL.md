@@ -3,10 +3,10 @@ name: hankndory
 description: apply the hank-and-dory method to design, validate, implement, and review software features with ai. use when starting or changing a feature, creating a design document before coding, testing whether a design is self-contained in a fresh session, reviewing implementation readiness, implementing from an approved design, performing an adversarial code review, or bootstrapping hierarchical readme context for an existing codebase. design and approve hard-to-undo changes before building them, and treat the validated design document as the source of truth.
 license: MIT
 metadata:
-  version: "2.17"
+  version: "2.18"
 ---
 
-# HankNDory 2.17: The Hank & Dory Method
+# HankNDory 2.18: The Hank & Dory Method
 
 Named for the fish who forgets everything yet still finds her way by trusting what is written down. Use a context-rich **Gill phase** to co-design a feature and create its source-of-truth design document. Gill has the whole tank mapped out and refuses to move until the plan is sound. Use independent, context-free **Dory phases** to test whether that document is complete, critical, and implementation-ready on its own. Dory has no memory of the Gill conversation and must trust only what is written down. A **Hank** role builds what the design promises: the septopus who carries the plan out with his own hands, from the document alone, because he never saw the design conversation. A **Marlin** role keeps the whole voyage moving toward Nemo, the final objective the user sets. It starts all allowed work at once, in parallel, up to three at a time by default, and never waits on the user for anything the user has delegated. A **Crush** role routes heavy work onto the machines the user shares across projects, and gathers every voyage's updates into one report, posted every hour, quiet or not. **Ray** writes acceptance tests from the design's promises, **Bruce** runs the mean code review as an attacker would, **Bailey** runs spikes and experiments and measures the results, and **Jacques** the cleaner shrimp checks every running stream, and catches a stall before it eats hours, as `reference/crew.md` describes. Design first what is hard to undo, and build first what is easy to undo, as `reference/map-and-legs.md` describes.
 
@@ -27,6 +27,8 @@ Named for the fish who forgets everything yet still finds her way by trusting wh
 13. Numbers from evidence: every number in a design document carries a bound or range with its source, or an `(exact)` mark; a number from memory is a guess. Keep each calculation as a runnable file in the repository and cite the file, so the number recomputes when an input changes.
 14. One word, one meaning: add each word the design invents or specializes to the document's Glossary before first use, give it one meaning there, and use that name in requirements, contracts, and test names.
 15. A deployment may bind a role to a dedicated seat. A seat carries its role prompt and no other role's authority; the charter and deterministic checks remain the authority.
+16. For user-facing work, the product is the source of truth. Write a product contract with the user, build a playable slice first, and treat a leg as done only when its demo artifact exists; see "User-facing work: show the product".
+17. When the boss is absent or the pace is yolo, every seat joins a demo council before the next leg. Each seat proposes one user-visible outcome; Marlin records the consensus and the next demo. No seat may opt out by role.
 
 ## Determine the requested operating mode
 
@@ -65,6 +67,44 @@ For a standard change, run the full method starting at `new-feature-hank`.
 
 When the size is uncertain, treat the work as standard, or ask the user before choosing a lighter tier. Record the classification and its reason in the design document's `Status` section, in the implementation log for a trivial change, or in the checklist for a one-off operation.
 
+## User-facing work: show the product
+
+A user-facing change is judged by what the user can see and do, not by how completely the document describes it. This applies to a screen, a game, a command-line surface, an extension, a menu, an email, a report, or any other artifact a person will experience.
+
+Before requirements, write a **product contract** with the user, following `reference/product-contract.md`:
+
+- the user and the moment of use;
+- what the user must see or do, in observable terms;
+- the quality attributes that decide acceptance, such as legibility, responsiveness, density, tone, latency, platform fit, and accessibility;
+- a reference: a screenshot, a URL, a recording, or an existing product;
+- the **reject conditions**, the things that make the user say "this is wrong" even when every mechanical requirement passes;
+- what is explicitly not part of the product, not merely what is out of scope technically.
+
+The brief is input, not accepted output. Gill must read the product contract back to the user in plain words before designing internals. If the user supplies only mechanics, ask what would make them reject the result, and show a reference rather than guessing. A taste call is reserved unless the charter names it.
+
+Then build a **playable slice** before the document grows past one page of internals:
+
+- one real user path, end to end;
+- the final visual frame, not a placeholder;
+- the platform's real controls and constraints;
+- a URL, a command, or a file the user can try;
+- the user's verdict: accept, revise, or reject.
+
+A playable slice is a two-way door unless it touches an "Always standard" item. Build it first, at every pace, and write its design as built. Do not run Dory over a reversible visual choice before the user has seen it.
+
+A **demo artifact** is required for every user-facing leg: a URL, a screenshot or recording, the exact run command, a three-step script, the checks that passed, and the user's verdict. A leg with no artifact is not done. Marlin sends the demo at the leg's end; the user never has to ask to see the product.
+
+Acceptance has two layers:
+
+- rule checks, which prove behavior the design promises;
+- experience checks, which prove the user can see, read, reach, and use the result.
+
+A test may not pin an implementation detail unless that detail is the user-visible requirement. "Exactly one draw call per cell" is not a product requirement. "Every occupied cell is visible and distinguishable" is.
+
+The demo council is how the next leg is chosen when the boss is absent or the pace is yolo. Marlin opens one council, every configured seat proposes one user-visible outcome with a reason and a cost, and Marlin records the consensus and the next demo. A missing seat is repaired or named; it is not silently skipped. The council decides what to show, not whether a safety gate passed.
+
+Ceremony has a budget. For reversible user-facing work, do not spend more time in design and review than in building without a playable artifact. If the artifact is missing at the review budget, stop the loop and show the slice.
+
 ## Maintain workflow state
 
 At the start of each response, determine and report only the current phase, the active gate, and what is needed next. Track these states in the design document when possible: `drafting`, `comprehension-failed`, `critic-revisions-required`, `readiness-blocked`, `ready-for-human-review`, `approved-for-implementation`, `implementing`, `implementation-complete`, `review-revisions-required`, and `complete`.
@@ -84,7 +124,7 @@ Marlin crossed an ocean to find Nemo and never stopped to wait. Marlin is a role
 - Set the charter with the user once, at kickoff: the final objective, milestones, deadline, budget, pace, the decisions Marlin makes alone, the decisions reserved for the user, what the user accepts as built, the default wait, review points, operating limits, any limit on parallel streams, the cost policy, the shared machines, the backup remote, and where Dory's update goes. Only the user changes it.
 - Sort each decision as delegated, reversible, or reserved. Decide a delegated one, take a reversible one's default when its wait runs out, and wait only for a reserved one.
 - Ask through one digest at a time, in a way that does not stop work, and meanwhile start everything allowed at once, in parallel, as `reference/marlin.md` describes. Give every question its recommendation first, then two to four plain sentences of context: what it is, why it needs deciding now, and what each option changes for the user.
-- Send or post Dory's update, a table with a Status row (LGTM, Blocked, or Issues), what was just done, what is happening now in each stream, what comes next, and the share done with the forecast finish, only when there is new progress; an hourly wake-up checks, and waiting is not progress. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, send a demo at every milestone, and write a retro when the voyage ends, as `reference/marlin.md` describes. At kickoff, make sure the user's one Crush exists, creating it if not. Crush gathers every voyage's updates into one report for the user, and heavy work on a shared machine is booked through it, as `reference/crush.md` describes.
+- Send or post Dory's update, a table with a Status row (LGTM, Blocked, or Issues), what was just done, what is happening now in each stream, what comes next, and the share done with the forecast finish, only when there is new progress; an hourly wake-up checks, and waiting is not progress. Write everything addressed to the user in plain words, naming things instead of using internal labels. Open each digest with where the voyage stands, and escalate as soon as the deadline or budget is at risk. Back up at every gate, send a demo artifact at every milestone, and write a retro when the voyage ends, as `reference/marlin.md` describes. A demo without an artifact is not a demo. When the boss is absent or the pace is yolo, open a demo council before the next leg, as `reference/product-contract.md` describes. At kickoff, make sure the user's one Crush exists, creating it if not. Crush gathers every voyage's updates into one report for the user, and heavy work on a shared machine is booked through it, as `reference/crush.md` describes.
 - Start Jacques at each hourly wake-up to check every running stream, and act on his report, as `reference/crew.md` describes.
 
 ## Deployment seats and prompts
@@ -417,7 +457,7 @@ Hank is the coder: he starts from the design document and its referenced files, 
 3. Make the smallest coherent change that satisfies the design.
 4. Add or update tests alongside each change, and run Ray's acceptance tests without changing them.
 5. Run relevant formatters, linters, type checks, unit tests, integration tests, and build checks available in the repository.
-6. Compare the implementation against every acceptance criterion. A leg is done when Ray's tests pass and its Step 9 review is clean; Marlin then sends its demo.
+6. Compare the implementation against every acceptance criterion. A leg is done when Ray's tests pass, its Step 9 review is clean, and a user-facing leg has its demo artifact; Marlin then sends it.
 7. Keep a concise implementation log outside the design document, mapping each change to the files it touched and the design section it serves.
 8. Sort each discovery by whether it keeps the design's promises: its contracts, invariants, security and privacy rules, user-visible behavior, and scope.
    - If it keeps them, decide, add one line to the implementation log, and continue. The code review covers it.
@@ -505,6 +545,9 @@ Specify exactly one next workflow action, then take it immediately in the same t
 - Giving each Dory phase its own worktree, or at careful pace running Step 5/5b and Step 6 one after the other, when the tooling allows a lighter or concurrent run.
 - Recommending another review round when nothing is blocking, using the design method for a one-off operation, or restating code in the design.
 - Designing a two-way door in full before building it, building a one-way door before its design is approved, or letting Hank write or change Ray's acceptance tests.
+- Calling a user-facing leg done without a playable artifact, or asking the boss to discover the product by asking to see it.
+- Letting a test pin an implementation detail that forbids an obvious user-facing improvement.
+- Skipping a seat in the demo council because its role is not normally user-facing.
 - Leaving work waiting on the user for a decision the charter delegates, or past a reversible question's default wait; holding back allowed work for a gate, digest, or answer it does not depend on; or running independent work one stream at a time when the tooling, the charter, and the budget allow more.
 - Asking questions one at a time, or in a prompt that stops work, when a digest would do; asking without plain context; or using internal labels, such as document, review, or step numbers, with the user.
 - Running work under "Always standard" faster than careful pace without the charter naming it, or heavy work on a shared machine without its Crush's grant.

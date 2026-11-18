@@ -25,6 +25,19 @@
      whenever a Dory phase or human reviewer needs to know what is new; do not
      bump it for typo fixes. -->
 
+## Product contract
+
+<!-- Required for user-facing work; write "Not applicable" with a reason
+     otherwise. Follow reference/product-contract.md:
+     - User and moment
+     - First success
+     - Quality bar
+     - Reference
+     - Reject if
+     - Not the product
+     The brief is input, not accepted output. Get the user's agreement before
+     detailing internals. -->
+
 ## Problem
 
 <!-- 3-5 plain-language sentences: affected user, present pain, desired
@@ -135,6 +148,15 @@
      dependencies and checkpoints. File-by-file changes go in the
      implementation log and the code review, not here. Mark any unverified path
      "(proposed, unverified)" until repository inspection confirms it. -->
+
+## Demo plan
+
+<!-- For user-facing work, the first leg is a playable slice, and every
+     user-facing leg ends with a demo artifact: URL, screenshot or recording,
+     run command, three-step script, checks, and the user's verdict. Name the
+     first slice and the demo artifact it will produce. When the boss is
+     absent or the pace is yolo, name how the demo council will choose the
+     next slice. State "Not applicable" with a reason otherwise. -->
 
 ## Testing and evaluation
 

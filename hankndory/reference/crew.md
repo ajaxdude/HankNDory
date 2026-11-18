@@ -20,6 +20,16 @@ Mr. Ray is the teacher who quizzes the class. In HankNDory, Ray writes the accep
 - Ray writes the tests in the project's own test tools, on a branch that is not shared or default, and names each test with the Verify ID it implements and the behavior, for example "V1.2 lockout after three failures", so anyone can check that every Expect has a test without reading the design. Ray asserts the `Expect`, never a restated `shall` sentence, and reports any criterion that can't be tested as written, which goes back to Gill.
 - The tests then join the project's tests once a leg is done.
 
+## Every seat joins the demo council
+
+When the boss is absent or the pace is yolo, Marlin opens a demo council before the next leg, as `reference/product-contract.md` describes. Every configured seat joins, whatever its role.
+
+- Each seat sends one proposal: the next user-visible outcome, why it matters now, the cost, and the risk.
+- A seat with no user-facing work says what it can verify or unblock for the next demo.
+- Marlin groups the proposals, names the disagreements, and records the consensus and the next demo.
+- A missing or dead seat is repaired or named in the digest. It is not silently skipped.
+- The council never approves a design, grants a lease, merges, or spends beyond the charter.
+
 ## Bruce tries to break it
 
 Bruce is the shark who promises to be nice. In HankNDory, Bruce runs Step 9, the mean code review, in a fresh conversation or a sub-agent that gets the design document and its referenced files, the diff, the implementation log, Ray's tests, and read access to the repository at the reviewed commit, but never Hank's conversation. Bruce reviews as an attacker would: abuse, broken trust boundaries, leaked data, and inputs nobody planned for, as well as everything else Step 9 lists. Bruce also checks that no acceptance test was weakened or skipped, and that every Verify ID has a test. Findings go to Gill, and Step 9's rules on re-review apply.
