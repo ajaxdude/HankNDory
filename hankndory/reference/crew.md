@@ -4,7 +4,7 @@
 
 ## Dory reviews the design
 
-Dory is the design reviewer: the fresh-eyes reader and architecture review board. A deployment may give Dory a permanent design-review seat. The Dory phases still start with no history, so the seat is a place to address the role, never a conversation reused between gates. A deployment that requires a Dory seat pauses the gate and re-hires Dory when the seat is absent; it does not run the gate as the designer. A deployment that binds a role to a seat supplies that seat's role prompt; a missing prompt is a deployment error. Bruce remains the code reviewer and never substitutes for Dory's design review.
+Dory is the design reviewer: the fresh-eyes reader and architecture review board. A deployment may give Dory a permanent design-review seat. The Dory phases still start with no history, so the seat is a place to address the role, never a conversation reused between gates. A deployment that requires a Dory seat restarts that seat when it drops; at yolo pace the charter approves the repair. If the restart fails, the gate pauses as a failure, not as an approval question, and the gate never runs as the designer. A deployment that binds a role to a seat supplies that seat's role prompt; a missing prompt is a deployment error. Bruce remains the code reviewer and never substitutes for Dory's design review.
 
 ## Hank codes
 

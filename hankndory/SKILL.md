@@ -95,6 +95,8 @@ Marlin may hold a dedicated per-voyage seat. Dory may hold a dedicated design-re
 
 An engine is capacity, not a seat. Several characters may share one engine or one model. A single-model deployment runs roles one at a time, but each role still has its own conversation and prompt. Reviewers on the same model are less independent, and the charter must say so.
 
+A yolo deployment keeps every required seat standing: a missing seat is repaired, and the charter approves the roster repair without putting an approval question to the user.
+
 ## Pick the pace
 
 The charter sets each design's pace. Set the charter before Step 1 of a standard change, or record in Status that the user declined one. A design that touches any "Always standard" item runs at careful pace as a whole unless the charter names that item and gives it a faster pace; a pace set for all work does not name it. Without a charter, use careful pace, delegate nothing beyond this skill's own rules, and let no question take a default; questions still go in a digest that does not stop other work, allowed work still starts at once and in parallel, and Dory's update still goes to the chat the user reads.
